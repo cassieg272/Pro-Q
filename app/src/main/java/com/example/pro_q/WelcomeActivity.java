@@ -25,6 +25,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        caregiver = findViewById(R.id.caregiverButton);
 
         contact = findViewById(R.id.contactButton);
         contact.setOnClickListener(new View.OnClickListener() {
@@ -34,6 +35,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        contact = findViewById(R.id.contactButton);
 
 
 
