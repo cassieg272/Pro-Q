@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Pro-Q</string>
+    <string name="client_id">Client Id</string>
+    <string name="client_name">Client Name</string>
+    <string name="client_phone_number">Client Phone Number</string>
+    <string name="client_address">Client Address</string>
+    <string name="tasks_for_quot_insert_client_name_quot">Tasks for \"insert client name\":</string>
+    <string name="morning">morning</string>
+    <string name="afternoon">afternoon</string>
+    <string name="evening">evening</string>
+    <string name="click_quot_create_tasks_quot_to_get_started">Click \"Create Tasks\" to get started!</string>
 </resources>
