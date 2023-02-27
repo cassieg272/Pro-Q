@@ -25,7 +25,6 @@ import java.util.Map;
 public class CaregiverMainActivity extends AppCompatActivity {
 
     private static final String TAG = "CaregiverMainActivity";
-    private Button showButton;
     private TextView clientId;
     private TextView clientName;
     private TextView clientPhone;
@@ -72,19 +71,92 @@ public class CaregiverMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_caregiver_main);
         FirebaseApp.initializeApp(this);
 
-        showButton = findViewById(R.id.button);
-
         clientId = findViewById(R.id.clientId);
         clientName = findViewById(R.id.clientName);
         clientPhone = findViewById(R.id.clientPhone);
         clientAddress = findViewById(R.id.clientAddress);
 
+        // CLIENT INFO - Retrieve data from collection
+        clientIdRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            String clId = documentSnapshot.getId();
+                            clientId.setText(clId);
+                        }
+                        else {
+                            Toast.makeText(CaregiverMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
+
+        clientNameRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            String fname = documentSnapshot.getString(KEY_FIRSTNAME);
+                            String lname = documentSnapshot.getString(KEY_LASTNAME);
+                            String name = fname + " " + lname;
+
+                            clientName.setText(name);
+                        }
+                        else {
+                            Toast.makeText(CaregiverMainActivity.this,
+                                            "No data exists",
+                                            Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
+
+        clientPhoneRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            String phone = documentSnapshot.getData().toString();
+                            clientPhone.setText(phone);
+                        }
+                        else {
+                            Toast.makeText(CaregiverMainActivity.this,
+                                            "No data exists",
+                                            Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
+
+        clientAddressRef.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            String st = documentSnapshot.getString(KEY_STREET);
+                            String c = documentSnapshot.getString(KEY_CITY);
+                            String pcode = documentSnapshot.getString(KEY_POSTALCODE);
+                            String address = st + ", " + c + " " + pcode;
+
+                            clientAddress.setText(address);
+                        }
+                        else {
+                            Toast.makeText(CaregiverMainActivity.this,
+                                            "No data exists",
+                                            Toast.LENGTH_LONG)
+                                    .show();
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
+
         // BUTTON BAR
 
         // Navigate to Add Note Page
         addNote = findViewById(R.id.noteButton);
-
-        // On click, change view from Main Caregiver Activity to Add Note Page
         addNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,12 +164,9 @@ public class CaregiverMainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        addNote = findViewById(R.id.noteButton);
 
         // Navigate to Add Task Page
         addTask = findViewById(R.id.taskButton);
-
-        // On click, change view from Main Caregiver Activity to Add Task Page
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,101 +174,15 @@ public class CaregiverMainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        addTask = findViewById(R.id.taskButton);
 
         // Navigate to View Report Page
         viewReport = findViewById(R.id.reportButton);
-
-        // On click, change view from Main Caregiver Activity to View Report Page
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CaregiverMainActivity.this, ViewReportActivity.class);
                 startActivity(intent);
             }
-        });
-        viewReport = findViewById(R.id.reportButton);
-
-        showButton.setOnClickListener(v -> {
-            // Retrieve data from collection
-            clientIdRef.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if (documentSnapshot.exists()) {
-                                String clId = documentSnapshot.getId();
-                                clientId.setText(clId);
-                            }
-                            else {
-                                Toast.makeText(CaregiverMainActivity.this,
-                                        "No data exists",
-                                        Toast.LENGTH_LONG)
-                                        .show();
-                            }
-                        }
-                    })
-                    .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
-
-            clientNameRef.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if (documentSnapshot.exists()) {
-                                String fname = documentSnapshot.getString(KEY_FIRSTNAME);
-                                String lname = documentSnapshot.getString(KEY_LASTNAME);
-                                String name = fname + " " + lname;
-
-                                clientName.setText(name);
-                            }
-                            else {
-                                Toast.makeText(CaregiverMainActivity.this,
-                                                "No data exists",
-                                                Toast.LENGTH_LONG)
-                                        .show();
-                            }
-                        }
-                    })
-                    .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
-
-            clientPhoneRef.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if (documentSnapshot.exists()) {
-                                String phone = documentSnapshot.getData().toString();
-                                clientPhone.setText(phone);
-                            }
-                            else {
-                                Toast.makeText(CaregiverMainActivity.this,
-                                                "No data exists",
-                                                Toast.LENGTH_LONG)
-                                        .show();
-                            }
-                        }
-                    })
-                    .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
-
-            clientAddressRef.get()
-                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if (documentSnapshot.exists()) {
-                                String st = documentSnapshot.getString(KEY_STREET);
-                                String c = documentSnapshot.getString(KEY_CITY);
-                                String pcode = documentSnapshot.getString(KEY_POSTALCODE);
-                                String address = st + ", " + c + " " + pcode;
-
-                                clientAddress.setText(address);
-                            }
-                            else {
-                                Toast.makeText(CaregiverMainActivity.this,
-                                                "No data exists",
-                                                Toast.LENGTH_LONG)
-                                        .show();
-                            }
-                        }
-                    })
-                    .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
         });
     }
 }

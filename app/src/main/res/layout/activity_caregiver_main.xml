@@ -98,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
+                android:drawableTop="@drawable/baseline_note_add_24"
                 android:text="add note"
                 android:textSize="12sp" />
 
@@ -107,6 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
+                android:drawableTop="@drawable/baseline_add_task_24"
                 android:text="create task"
                 android:textSize="12sp" />
 
@@ -115,6 +117,7 @@
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:drawableTop="@drawable/baseline_assignment_24"
                 android:text="view report"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -131,13 +134,6 @@
             android:textAlignment="center"
             android:textSize="20sp"
             android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/show_details" />
 
         <ImageView
             android:id="@+id/imageView"
