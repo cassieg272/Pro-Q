@@ -3,6 +3,8 @@ package com.example.pro_q;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +30,10 @@ public class CaregiverMainActivity extends AppCompatActivity {
     private TextView clientName;
     private TextView clientPhone;
     private TextView clientAddress;
+
+    private Button addNote;
+    private Button addTask;
+    private Button viewReport;
 
     // Keys - Match the keys to the field value in the database
     public static final String KEY_FIRSTNAME = "firstName";
@@ -59,6 +65,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
             .collection("clientAddress")
             .document("address");
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +78,47 @@ public class CaregiverMainActivity extends AppCompatActivity {
         clientName = findViewById(R.id.clientName);
         clientPhone = findViewById(R.id.clientPhone);
         clientAddress = findViewById(R.id.clientAddress);
+
+        // BUTTON BAR
+
+        // Navigate to Add Note Page
+        addNote = findViewById(R.id.noteButton);
+
+        // On click, change view from Main Caregiver Activity to Add Note Page
+        addNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CaregiverMainActivity.this, AddNoteActivity.class);
+                startActivity(intent);
+            }
+        });
+        addNote = findViewById(R.id.noteButton);
+
+        // Navigate to Add Task Page
+        addTask = findViewById(R.id.taskButton);
+
+        // On click, change view from Main Caregiver Activity to Add Task Page
+        addTask.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CaregiverMainActivity.this, AddTaskActivity.class);
+                startActivity(intent);
+            }
+        });
+        addTask = findViewById(R.id.taskButton);
+
+        // Navigate to View Report Page
+        viewReport = findViewById(R.id.reportButton);
+
+        // On click, change view from Main Caregiver Activity to View Report Page
+        viewReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CaregiverMainActivity.this, ViewReportActivity.class);
+                startActivity(intent);
+            }
+        });
+        viewReport = findViewById(R.id.reportButton);
 
         showButton.setOnClickListener(v -> {
             // Retrieve data from collection
