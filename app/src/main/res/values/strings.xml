@@ -18,4 +18,7 @@
     <string name="password_hint">Password</string>
     <string name="email_hint">Email</string>
     <string name="loginbutton">Login</string>
+    <string name="logoDescription">Pro-Q Logo</string>
+    <string name="searchPrompt">Search by client name:</string>
+    <string name="hintSearchBar">Client Name</string>
 </resources>

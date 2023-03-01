@@ -6,4 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".search">
 
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="154dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@string/logoDescription"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo_cropped" />
+
+    <TextView
+        android:id="@+id/searchPrompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/searchPrompt"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
+
+    <AutoCompleteTextView
+        android:id="@+id/searchBar"
+        android:layout_width="190dp"
+        android:layout_height="48dp"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/searchPrompt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/searchPrompt"
+        app:layout_constraintTop_toTopOf="@+id/searchPrompt"
+        app:layout_constraintVertical_bias="0.461" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
