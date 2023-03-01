@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this,ContactMainActivity.class ));
+                startActivity(new Intent(LoginActivity.this,Search.class ));
             }
         });
     }
