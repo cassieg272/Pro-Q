@@ -14,4 +14,8 @@
     <string name="add_task">add task</string>
     <string name="view_report">view report</string>
     <string name="show_details">show details</string>
+    <string name="login_text">Login</string>
+    <string name="password_hint">Password</string>
+    <string name="email_hint">Email</string>
+    <string name="loginbutton">Login</string>
 </resources>
