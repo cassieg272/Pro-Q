@@ -9,6 +9,7 @@ import android.widget.Button;
 
 public class WelcomeActivity extends AppCompatActivity {
 
+    // The Buttons
     private Button caregiver;
     private Button contact;
     @Override
@@ -16,8 +17,10 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        // Navigate to Contact and Caregiver Main Activities
+        // Navigate to Caregiver Login Page
         caregiver = findViewById(R.id.caregiverButton);
+
+        // On click, change view from Welcome Activity to Caregiver Login Activity (and start the activity)
         caregiver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -27,7 +30,10 @@ public class WelcomeActivity extends AppCompatActivity {
         });
         caregiver = findViewById(R.id.caregiverButton);
 
+        // Navigate to Contact Login Page
         contact = findViewById(R.id.contactButton);
+
+        // On click, change view from Welcome Activity to Contact Login Activity (and start the activity)
         contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

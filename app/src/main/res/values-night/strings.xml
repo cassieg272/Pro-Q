@@ -1,5 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Pro-Q</string>
     <string name="client_id">Client Id</string>
     <string name="client_name">Client Name</string>
     <string name="client_phone_number">Client Phone Number</string>
