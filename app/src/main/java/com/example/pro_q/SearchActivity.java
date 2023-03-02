@@ -5,9 +5,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.AutoCompleteTextView;
-import android.widget.TextView;
 
-public class Search extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
 
     private AutoCompleteTextView searchBar;
     private RecyclerView resultList;
