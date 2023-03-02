@@ -13,8 +13,6 @@
         android:orientation="vertical"
         android:padding="16dp"
         tools:context=".Contact_MainActivity">
-
-
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
@@ -22,7 +20,7 @@
             android:orientation="vertical">
 
 
-            <AutoCompleteTextView
+            <EditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -49,9 +47,20 @@
                 android:background="@android:color/transparent"
                 android:text="@string/login_text"
                 android:textColor="@color/blue"
-
-
                 android:textStyle="bold" />
+
+
+
+
+            <ProgressBar
+                android:id="@+id/progress_login"
+                style="?android:attr/progressBarStyleLarge"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </ProgressBar>
 
 
         </LinearLayout>

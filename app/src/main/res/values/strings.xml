@@ -18,4 +18,6 @@
     <string name="password_hint">Password</string>
     <string name="email_hint">Email</string>
     <string name="loginbutton">Login</string>
+    <string name="or_text">Or</string>
+    <string name="createAccount_text">Create Account</string>
 </resources>
