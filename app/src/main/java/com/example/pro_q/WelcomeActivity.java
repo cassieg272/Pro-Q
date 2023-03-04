@@ -24,7 +24,7 @@ public class WelcomeActivity extends AppCompatActivity {
         caregiver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+                Intent intent = new Intent(WelcomeActivity.this, CaregiverMainActivity.class);
                 startActivity(intent);
             }
         });
@@ -37,7 +37,7 @@ public class WelcomeActivity extends AppCompatActivity {
         contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+                Intent intent = new Intent(WelcomeActivity.this, ContactMainActivity.class);
                 startActivity(intent);
             }
         });
