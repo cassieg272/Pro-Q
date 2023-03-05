@@ -12,11 +12,15 @@ public class CreateNoteDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("ProQ")
+
+                // Once user clicks "create", this dialog box will pop up with message:
                 .setMessage("Note created successfully!")
+
+                // Click "OK" to go back to Dashboard
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(getActivity(), ContactMainActivity.class);
+                        Intent intent = new Intent(getActivity(), CaregiverMainActivity.class);
                         startActivity(intent);
                     }
                 });

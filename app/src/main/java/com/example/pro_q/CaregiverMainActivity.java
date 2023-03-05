@@ -46,7 +46,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
     // Connection to Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    // Path to what you want to reference
+    // Path to database reference
     private DocumentReference clientNameRef = db.collection("Client")
             .document("pnX0EcGFTQG24EcNR4P2");
 //            .collection("clientName")

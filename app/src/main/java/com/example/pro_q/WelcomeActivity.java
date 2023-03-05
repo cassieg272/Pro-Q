@@ -28,7 +28,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        caregiver = findViewById(R.id.caregiverButton);
 
         // Navigate to Contact Login Page
         contact = findViewById(R.id.contactButton);
@@ -41,9 +40,5 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        contact = findViewById(R.id.contactButton);
-
-
-
     }
 }

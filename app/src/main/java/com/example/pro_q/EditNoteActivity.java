@@ -40,7 +40,7 @@ public class EditNoteActivity extends AppCompatActivity {
     // Connection to Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    // Path to what you want to reference
+    // Path to database reference
     private DocumentReference noteRef = db.collection("ContactPerson")
             .document("TMBNDIqG23KA6woWXF2L")
             .collection("Notes")
@@ -59,6 +59,7 @@ public class EditNoteActivity extends AppCompatActivity {
         noteTitle = findViewById(R.id.titleInput);
         noteDescription = findViewById(R.id.descriptionInput);
 
+        // Get the document you want to reference
         noteRef.get()
             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override

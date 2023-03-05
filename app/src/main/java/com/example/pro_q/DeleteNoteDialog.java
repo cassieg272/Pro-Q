@@ -20,7 +20,11 @@ public class DeleteNoteDialog extends AppCompatDialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("ProQ")
+
+                // Once user clicks "DELETE", this dialog box pops up to confirm deletion
                 .setMessage("Are you sure you want to delete this note?")
+
+                // When user clicks "OK", will go to delete confirmation page
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -28,6 +32,8 @@ public class DeleteNoteDialog extends AppCompatDialogFragment {
                         startActivity(intent);
                     }
                 })
+
+                // If user clicks "CANCEL", will return to delete note activity
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
