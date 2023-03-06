@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.type.DateTime;
 
@@ -24,12 +25,11 @@ public class AddNoteActivity extends AppCompatActivity {
     private Button discardButton;
     private EditText title;
     private EditText description;
-    private static DateTime createDate;
 
     // Keys
     public static final String KEY_TITLE = "title";
     public static final String KEY_DESCRIPTION = "description";
-    public static final DateTime KEY_DATETIME = createDate;
+    public static final String KEY_DATETIME = "createDate";
 
     // Connection to Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -53,13 +53,12 @@ public class AddNoteActivity extends AppCompatActivity {
                 // Get the text in these fields and set them to these variables
                 String entertitle = title.getText().toString();
                 String enterdescription = description.getText().toString();
-                String today = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
                 // Map the data into these database keys
                 Map<String, Object> note = new HashMap<>();
                 note.put(KEY_TITLE, entertitle);
                 note.put(KEY_DESCRIPTION, enterdescription);
-                note.put(String.valueOf(KEY_DATETIME), today);
+                note.put("createDate", new Timestamp(new Date()));
 
                 // Go to the specific location in the database, create a new document and add the new data (note)
                 db.collection("ContactPerson")
