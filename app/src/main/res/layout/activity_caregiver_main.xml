@@ -1,146 +1,322 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".CaregiverMainActivity">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="18dp"
-        tools:context=".ContactMainActivity">
-
-        <TextView
-            android:id="@+id/dashboardLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/dashboard"
-            android:textAlignment="center"
-            android:textColor="@android:color/holo_blue_dark"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:elevation="12dp"
-            app:cardCornerRadius="8dp"
-            app:cardUseCompatPadding="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/clientId"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:paddingLeft="15dp"
-                    android:paddingTop="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingBottom="15dp"
-                    android:text="@string/client_id"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/clientName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:paddingLeft="15dp"
-                    android:paddingTop="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingBottom="15dp"
-                    android:text="@string/client_name"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/clientPhone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:paddingLeft="15dp"
-                    android:paddingTop="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingBottom="15dp"
-                    android:text="@string/client_phone_number"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/clientAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:paddingLeft="15dp"
-                    android:paddingTop="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingBottom="15dp"
-                    android:text="@string/client_address"
-                    android:textSize="20sp" />
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+        android:layout_height="wrap_content"
+        tools:context=".CaregiverMainActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:padding="18dp"
+            tools:context=".ContactMainActivity">
 
-            <Button
-                android:id="@+id/noteButton"
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/dashboardLabel"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/baseline_note_add_24"
-                android:text="add note"
-                android:textSize="12sp" />
+                android:text="@string/dashboard"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/taskButton"
-                android:layout_width="110dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/baseline_add_task_24"
-                android:text="create task"
-                android:textSize="12sp" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:elevation="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardUseCompatPadding="true">
 
-            <Button
-                android:id="@+id/reportButton"
-                android:layout_width="110dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#2F00BCD4"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/clientId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="15dp"
+                        android:text="@string/client_id"
+                        android:textColor="#00BCD4"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/clientName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="15dp"
+                        android:text="@string/client_name"
+                        android:textColor="#00BCD4"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/clientPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="15dp"
+                        android:text="@string/client_phone_number"
+                        android:textColor="#00BCD4"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/clientAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="15dp"
+                        android:text="@string/client_address"
+                        android:textColor="#00BCD4"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/baseline_assignment_24"
-                android:text="view report"
-                android:textSize="12sp" />
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/noteButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/baseline_note_add_24"
+                    android:text="add note"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/taskButton"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/baseline_add_task_24"
+                    android:text="create task"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/reportButton"
+                    android:layout_width="110dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/baseline_assignment_24"
+                    android:text="view report"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="sans-serif"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:text="@string/click_quot_create_tasks_quot_to_get_started"
+                android:textAlignment="center"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tasksLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tasks of the Day"
+                android:textAlignment="center"
+                android:textColor="@android:color/holo_blue_dark"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#28500096"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/morningLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="15dp"
+                        android:text="Morning (0800 - 1200)"
+                        android:textColor="#9C27B0"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/morningChips"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="6dp">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/bathChip"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="6dp"
+                            android:text="Sponge Bath"
+                            android:textAlignment="center"
+                            android:textColor="#9C27B0"
+                            app:chipBackgroundColor="@color/white" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="6dp"
+                            android:text="Morning Meds"
+                            android:textAlignment="center"
+                            android:textColor="#9C27B0"
+                            app:chipBackgroundColor="@color/white" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/chip5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="6dp"
+                            android:text="Don Compression Stockings"
+                            android:textAlignment="center"
+                            android:textColor="#9C27B0"
+                            app:chipBackgroundColor="@color/white" />
+                    </com.google.android.material.chip.ChipGroup>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#43009688"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/afternoonLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="15dp"
+                        android:text="Afternoon (1200 - 1700)"
+                        android:textColor="#009688"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Afternoon Meds"
+                        android:textColor="#009688"
+                        android:textStyle="bold" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Make lunch"
+                        android:textColor="#009688"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:elevation="12dp"
+                app:cardCornerRadius="8dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#45FF9800"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/eveningLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:gravity="center"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="15dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="15dp"
+                        android:text="Evening (1700 - 2100)"
+                        android:textColor="#FF9800"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <CheckBox
+                        android:id="@+id/checkBox4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Doff stockings"
+                        android:textColor="#FF9800"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:fontFamily="sans-serif"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:text="@string/click_quot_create_tasks_quot_to_get_started"
-            android:textAlignment="center"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/baseline_add_task_24" />
-
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.firestore.DocumentReference;
@@ -33,6 +34,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
     private TextView clientName;
     private TextView clientPhone;
     private TextView clientAddress;
+    private TextView tasks;
 
     private Button addNote;
     private Button addTask;
@@ -42,21 +44,23 @@ public class CaregiverMainActivity extends AppCompatActivity {
     public static final String KEY_FIRSTNAME = "firstName";
     public static final String KEY_LASTNAME = "lastName";
     public static final String KEY_PHONE = "phone";
-    public static final String KEY_STREET = "street";
-    public static final String KEY_CITY = "city";
-    public static final String KEY_POSTALCODE = "postalCode";
 
     // Connection to Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     // Path to database reference
     private DocumentReference clientInfoRef = db.collection("Client")
-            .document("pnX0EcGFTQG24EcNR4P2");
+            .document("9edWzWP8yj1VLyaALbnC");
 
     private DocumentReference clientAddressRef = db.collection("Client")
-            .document("pnX0EcGFTQG24EcNR4P2");
+            .document("9edWzWP8yj1VLyaALbnC");
 
-    @SuppressLint("WrongViewCast")
+    private DocumentReference clientTaskRef = db.collection("Client")
+            .document("9edWzWP8yj1VLyaALbnC")
+            .collection("Monday")
+            .document("morning");
+
+    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +71,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
         clientName = findViewById(R.id.clientName);
         clientPhone = findViewById(R.id.clientPhone);
         clientAddress = findViewById(R.id.clientAddress);
+        tasks = findViewById(R.id.tasksLabel);
 
         // CLIENT INFO - Retrieve data from collection
         clientInfoRef.get()
@@ -146,6 +151,34 @@ public class CaregiverMainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(CaregiverMainActivity.this, EditNoteActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        clientTaskRef.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                Map<String, String> tasksMap = (Map<String, String>) document.get("Shower");
+
+                            }
+                        }
+                    }
+                });
+
+        ChipGroup chipGroup = findViewById(R.id.morningChips);
+        chipGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                taskDetailsDialog();
+            }
+
+            public void taskDetailsDialog()
+            {
+                TaskDetailsDialog taskDetailsDialog = new TaskDetailsDialog();
+                taskDetailsDialog.show(getSupportFragmentManager(), "it worked!");
             }
         });
     }

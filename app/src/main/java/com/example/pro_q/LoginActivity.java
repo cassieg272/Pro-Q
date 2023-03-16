@@ -20,18 +20,14 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.regex.Pattern;
 
-
 public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
-
 
     private FirebaseAuth firebaseAuth;
     //private FirebaseAuth.AuthStateListener authStateListener;
     private EditText email_editText;
     private EditText password_editText;
     private ProgressBar progressBar;
-
-
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -76,14 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
-
-
         }
-
-
     }
 
 
