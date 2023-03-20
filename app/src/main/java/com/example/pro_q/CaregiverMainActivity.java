@@ -65,15 +65,13 @@ public class CaregiverMainActivity extends AppCompatActivity {
             .document("fKvP44KanzN3izfiFfL5")
             .collection("morning");
 
-    private DocumentReference clientAfternoonTaskRef = db.collection("Client")
+    private CollectionReference clientAfternoonTaskRef = db.collection("Client")
             .document("fKvP44KanzN3izfiFfL5")
-            .collection("Monday")
-            .document("afternoon");
+            .collection("afternoon");
 
-    private DocumentReference clientEveningTaskRef = db.collection("Client")
+    private CollectionReference clientEveningTaskRef = db.collection("Client")
             .document("fKvP44KanzN3izfiFfL5")
-            .collection("Monday")
-            .document("evening");
+            .collection("evening");
 
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
