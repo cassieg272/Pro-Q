@@ -189,10 +189,12 @@
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/morningChips"
+                        style="@style/morningChipStyle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="6dp"
                         android:layout_marginRight="6dp">
+
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/bathChip"
@@ -203,7 +205,8 @@
                             android:text="Sponge Bath"
                             android:textAlignment="center"
                             android:textColor="#9C27B0"
-                            app:chipBackgroundColor="@color/white" />
+                            app:chipBackgroundColor="@color/white"
+                            />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip4"
@@ -260,21 +263,6 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <CheckBox
-                        android:id="@+id/checkBox2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Afternoon Meds"
-                        android:textColor="#009688"
-                        android:textStyle="bold" />
-
-                    <CheckBox
-                        android:id="@+id/checkBox3"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Make lunch"
-                        android:textColor="#009688"
-                        android:textStyle="bold" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -306,13 +294,6 @@
                         android:textSize="20sp"
                         android:textStyle="bold" />
 
-                    <CheckBox
-                        android:id="@+id/checkBox4"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Doff stockings"
-                        android:textColor="#FF9800"
-                        android:textStyle="bold" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
