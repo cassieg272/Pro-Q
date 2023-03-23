@@ -6,72 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".WelcomeActivity">
 
-    <TextView
-        android:id="@+id/welcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome to Pro-Q"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="136dp"
+        android:layout_height="141dp"
+        android:layout_marginTop="92dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.134" />
+        app:srcCompat="@drawable/noun_who_4249588" />
 
     <TextView
-        android:id="@+id/role"
+        android:id="@+id/whoTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="I am a ..."
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.089"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/slogan" />
+        android:text="@string/whoAreYou"
+        android:textColor="@color/black"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Button
-        android:id="@+id/caregiverButton"
-        android:layout_width="374dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="24dp"
-        android:text="Caregiver"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/role" />
+        android:id="@+id/caregiverBtn"
+        android:layout_width="203dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/caregiverBtnText"
+        app:layout_constraintEnd_toEndOf="@+id/whoTextView"
+        app:layout_constraintStart_toStartOf="@+id/whoTextView"
+        app:layout_constraintTop_toBottomOf="@+id/whoTextView" />
 
     <Button
-        android:id="@+id/contactButton"
-        android:layout_width="374dp"
-        android:layout_height="56dp"
-        android:layout_marginTop="24dp"
-        android:text="Client Contact"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/caregiverButton" />
-
-    <TextView
-        android:id="@+id/slogan"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="... your cues to do!"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.816"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="120dp"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.479"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        android:id="@+id/contactPersonBtn"
+        android:layout_width="203dp"
+        android:layout_height="59dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/contactPersonBtnText"
+        app:layout_constraintEnd_toEndOf="@+id/caregiverBtn"
+        app:layout_constraintStart_toStartOf="@+id/caregiverBtn"
+        app:layout_constraintTop_toBottomOf="@+id/caregiverBtn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

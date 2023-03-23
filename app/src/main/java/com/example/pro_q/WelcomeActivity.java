@@ -1,49 +1,37 @@
 package com.example.pro_q;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class WelcomeActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
 
-    // The Buttons
-    private Button caregiver;
-    private Button contact;
+public class WelcomeActivity extends AppCompatActivity {
+    private Button caregiverBtn;
+    private Button contactPersonBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        // Navigate to Caregiver Login Page
-        caregiver = findViewById(R.id.caregiverButton);
+        caregiverBtn=findViewById(R.id.caregiverBtn);
+        contactPersonBtn=findViewById(R.id.contactPersonBtn);
 
-        // On click, change view from Welcome Activity to Caregiver Login Activity (and start the activity)
-        caregiver.setOnClickListener(new View.OnClickListener() {
+        caregiverBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+            public void onClick(View v) {
+                Intent intent = new Intent(WelcomeActivity.this, CaregiverLogin.class);
                 startActivity(intent);
             }
         });
-        caregiver = findViewById(R.id.caregiverButton);
 
-        // Navigate to Contact Login Page
-        contact = findViewById(R.id.contactButton);
-
-        // On click, change view from Welcome Activity to Contact Login Activity (and start the activity)
-        contact.setOnClickListener(new View.OnClickListener() {
+        contactPersonBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
+            public void onClick(View v) {
+                Intent intent = new Intent(WelcomeActivity.this, ContactPersonLogin.class);
                 startActivity(intent);
             }
         });
-        contact = findViewById(R.id.contactButton);
-
-
-
     }
 }

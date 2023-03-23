@@ -1,4 +1,12 @@
 <resources>
+    <string name="whoAreYou">Who Are You?</string>
+    <string name="caregiverBtnText">Caregiver</string>
+    <string name="contactPersonBtnText">Contact Person</string>
+    <string name="emailHint">Email: </string>
+    <string name="passwordHint">Password: </string>
+    <string name="loginBtn">Login</string>
+    <string name="searchHint">Search by last name...</string>
+    <string name="logoContentDescription">Pro-Q Logo</string>
     <string name="app_name">Pro-Q</string>
     <string name="client_id">Client Id</string>
     <string name="client_name">Client Name</string>
@@ -14,11 +22,7 @@
     <string name="add_task">add task</string>
     <string name="view_report">view report</string>
     <string name="show_details">show details</string>
-    <string name="login_text">Login</string>
-    <string name="password_hint">Password</string>
-    <string name="email_hint">Email</string>
-    <string name="loginbutton">Login</string>
     <string name="logoDescription">Pro-Q Logo</string>
-    <string name="searchPrompt">Search by client name:</string>
+    <string name="searchPrompt">Search by last name:</string>
     <string name="search_bar">Search Bar</string>
 </resources>
