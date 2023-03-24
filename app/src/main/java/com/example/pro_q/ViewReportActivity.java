@@ -20,6 +20,7 @@ public class ViewReportActivity extends AppCompatActivity {
     // Connection to Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+    private String test;
     private CollectionReference morning = db.collection("Client").document("fKvP44KanzN3izfiFfL5").collection("morning");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
