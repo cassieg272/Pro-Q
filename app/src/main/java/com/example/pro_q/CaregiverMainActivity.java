@@ -5,32 +5,27 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.nfc.tech.TagTechnology;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Source;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -161,141 +156,34 @@ public class CaregiverMainActivity extends AppCompatActivity {
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(CaregiverMainActivity.this, EditNoteActivity.class);
+                Intent intent = new Intent(CaregiverMainActivity.this, ViewReportActivity.class);
                 startActivity(intent);
             }
         });
-//TODO - Style all buttons the same... change to buttons? add afternoon and evening
+
         clientMorningTaskRef.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-
-                            List<String> doclist = new ArrayList<>();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                doclist.add(document.getId());
-                            }
-
-                            for (int i=0; i<doclist.size(); i++) {
-                                Log.d(TAG, "testing");
-                                Log.d(TAG, String.valueOf(i));
-                                Log.d(TAG, String.valueOf(doclist));
-                                String v = doclist.get(i);
-                                Log.d(TAG, v);
-                                if (doclist.get(i).equals("Bathing"))
-                                {
-                                    Log.d(TAG, "bathing");
-                                    DocumentReference bath = clientMorningTaskRef.document("Bathing");
-                                    bath.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                            if (documentSnapshot.exists()) {
-                                                String tTitle = documentSnapshot.getString(KEY_TASKTITLE);
-                                                Chip chip = new Chip(CaregiverMainActivity.this, null, R.style.morningChipStyle);
-                                                chip.setText(tTitle);
-                                                ChipGroup chipGroup = findViewById(R.id.morningChips);
-                                                chipGroup.addView(chip);
-                                            }
-                                        }
-                                    });
-                                }
-                                else if (doclist.get(i).equals("Compression Stockings"))
-                                {
-                                    DocumentReference stockings = clientMorningTaskRef.document("Compression Stockings");
-                                    stockings.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                            if (documentSnapshot.exists()) {
-                                                String tTitle = documentSnapshot.getString(KEY_TASKTITLE);
-                                                Chip chip = new Chip(CaregiverMainActivity.this, null, R.style.morningChipStyle);
-                                                chip.setText(tTitle);
-                                                ChipGroup chipGroup = findViewById(R.id.morningChips);
-                                                chipGroup.addView(chip);
-                                            }
-                                        }
-                                    });
-                                }
-                                else if (doclist.get(i).equals("Dress Assist"))
-                                {
-                                    DocumentReference dress = clientMorningTaskRef.document("Dress Assist");
-                                    dress.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                            if (documentSnapshot.exists()) {
-                                                String tTitle = documentSnapshot.getString(KEY_TASKTITLE);
-                                                Chip chip = new Chip(CaregiverMainActivity.this, null, R.style.morningChipStyle);
-                                                chip.setText(tTitle);
-                                                ChipGroup chipGroup = findViewById(R.id.morningChips);
-                                                chipGroup.addView(chip);
-                                            }
-                                        }
-                                    });
-                                }
-                                else if (doclist.get(i).equals("Housekeeping"))
-                                {
-                                    DocumentReference house = clientMorningTaskRef.document("Housekeeping");
-                                    house.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                            if (documentSnapshot.exists()) {
-                                                String tTitle = documentSnapshot.getString(KEY_TASKTITLE);
-                                                Chip chip = new Chip(CaregiverMainActivity.this, null, R.style.morningChipStyle);
-                                                chip.setText(tTitle);
-                                                ChipGroup chipGroup = findViewById(R.id.morningChips);
-                                                chipGroup.addView(chip);
-                                            }
-                                        }
-                                    });
-                                }
-                                else if (doclist.get(i).equals("Meal Prep"))
-                                {
-                                    DocumentReference meal = clientMorningTaskRef.document("Meal Prep");
-                                    meal.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                            if (documentSnapshot.exists()) {
-                                                String tTitle = documentSnapshot.getString(KEY_TASKTITLE);
-                                                Chip chip = new Chip(CaregiverMainActivity.this, null, R.style.morningChipStyle);
-                                                chip.setText(tTitle);
-                                                ChipGroup chipGroup = findViewById(R.id.morningChips);
-                                                chipGroup.addView(chip);
-                                            }
-                                        }
-                                    });
-                                }
-                                else if (doclist.get(i).equals("Medication"))
-                                {
-                                    DocumentReference meds = clientMorningTaskRef.document("Medication");
-                                    meds.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                            if (documentSnapshot.exists()) {
-                                                String tTitle = documentSnapshot.getString(KEY_TASKTITLE);
-                                                Chip chip = new Chip(CaregiverMainActivity.this, null, R.style.morningChipStyle);
-                                                chip.setText(tTitle);
-                                                ChipGroup chipGroup = findViewById(R.id.morningChips);
-                                                chipGroup.addView(chip);
-                                            }
-                                        }
-                                    });
-                                }
-                                else if (doclist.get(i).equals("Personal Care"))
-                                {
-                                    DocumentReference pCare = clientMorningTaskRef.document("Personal Care");
-                                    pCare.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                            if (documentSnapshot.exists()) {
-                                                String tTitle = documentSnapshot.getString(KEY_TASKTITLE);
-                                                Chip chip = new Chip(CaregiverMainActivity.this, null, R.style.morningChipStyle);
-                                                chip.setText(tTitle);
-                                                ChipGroup chipGroup = findViewById(R.id.morningChips);
-                                                chipGroup.addView(chip);
-                                            }
-                                        }
-                                    });
-                                }
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                LinearLayout layout = findViewById(R.id.morningLayout);
+                                Button button = new Button(CaregiverMainActivity.this);
+                                button.setText(document.getId());
+                                button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Log.d(TAG, "button was clicked" + button.getText());
+                                        String passTaskId = String.valueOf(button.getText());
+                                        String passRef = String.valueOf(clientMorningTaskRef);
+                                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
+                                        intent.putExtra("taskId", passTaskId);
+                                        intent.putExtra("ref", passRef);
+                                        startActivity(intent);
+                                    }
+                                });
+                                layout.addView(button);
                             }
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
@@ -303,18 +191,66 @@ public class CaregiverMainActivity extends AppCompatActivity {
                     }
                 });
 
-        ChipGroup chipGroup = findViewById(R.id.morningChips);
-        chipGroup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                taskDetailsDialog();
-            }
+        clientAfternoonTaskRef.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                LinearLayout layout = findViewById(R.id.afternoonLayout);
+                                Button button = new Button(CaregiverMainActivity.this);
+                                button.setText(document.getId());
+                                button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Log.d(TAG, "button was clicked" + button.getText());
+                                        String passTaskId = String.valueOf(button.getText());
+                                        String passRef = String.valueOf(clientAfternoonTaskRef);
+                                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
+                                        intent.putExtra("taskId", passTaskId);
+                                        intent.putExtra("ref", passRef);
+                                        startActivity(intent);
+                                    }
+                                });
+                                layout.addView(button);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
 
-            public void taskDetailsDialog()
-            {
-                TaskDetailsDialog taskDetailsDialog = new TaskDetailsDialog();
-                taskDetailsDialog.show(getSupportFragmentManager(), "it worked!");
-            }
-        });
+        clientEveningTaskRef.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                LinearLayout layout = findViewById(R.id.eveningLayout);
+                                Button button = new Button(CaregiverMainActivity.this);
+                                button.setText(document.getId());
+                                button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Log.d(TAG, "button was clicked" + button.getText());
+                                        String passTaskId = String.valueOf(button.getText());
+                                        String passRef = String.valueOf(clientEveningTaskRef);
+                                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
+                                        intent.putExtra("taskId", passTaskId);
+                                        intent.putExtra("ref", clientEveningTaskRef.getId());
+                                        startActivity(intent);
+                                    }
+                                });
+                                layout.addView(button);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+        };
     }
-}
+
+

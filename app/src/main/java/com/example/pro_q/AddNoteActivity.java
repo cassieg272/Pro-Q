@@ -11,13 +11,9 @@ import android.widget.EditText;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.type.DateTime;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 public class AddNoteActivity extends AppCompatActivity {
@@ -40,8 +36,8 @@ public class AddNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
 
-        createButton = findViewById(R.id.saveButton);
-        discardButton = findViewById(R.id.deleteButton);
+        createButton = findViewById(R.id.completeButton);
+        discardButton = findViewById(R.id.incompleteButton);
         title = findViewById(R.id.titleInput);
         description = findViewById(R.id.descriptionInput);
 

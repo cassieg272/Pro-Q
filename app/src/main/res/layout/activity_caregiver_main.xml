@@ -136,22 +136,10 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:fontFamily="sans-serif"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:text="@string/click_quot_create_tasks_quot_to_get_started"
-                android:textAlignment="center"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <TextView
                 android:id="@+id/tasksLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
                 android:text="Tasks of the Day"
                 android:textAlignment="center"
                 android:textColor="@android:color/holo_blue_dark"
@@ -166,6 +154,7 @@
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
+                    android:id="@+id/morningLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#28500096"
@@ -193,43 +182,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="6dp"
-                        android:layout_marginRight="6dp">
-
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/bathChip"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="6dp"
-                            android:text="Sponge Bath"
-                            android:textAlignment="center"
-                            android:textColor="#9C27B0"
-                            app:chipBackgroundColor="@color/white"
-                            />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip4"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="6dp"
-                            android:text="Morning Meds"
-                            android:textAlignment="center"
-                            android:textColor="#9C27B0"
-                            app:chipBackgroundColor="@color/white" />
-
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip5"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="6dp"
-                            android:text="Don Compression Stockings"
-                            android:textAlignment="center"
-                            android:textColor="#9C27B0"
-                            app:chipBackgroundColor="@color/white" />
-                    </com.google.android.material.chip.ChipGroup>
+                        android:layout_marginRight="6dp"
+                        android:clickable="true" />
 
                 </LinearLayout>
 
@@ -243,6 +197,7 @@
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
+                    android:id="@+id/afternoonLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#43009688"
@@ -274,6 +229,7 @@
                 app:cardUseCompatPadding="true">
 
                 <LinearLayout
+                    android:id="@+id/eveningLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#45FF9800"

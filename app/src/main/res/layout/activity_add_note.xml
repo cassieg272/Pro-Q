@@ -15,7 +15,7 @@
         android:padding="18dp">
 
         <TextView
-            android:id="@+id/editNoteLabel"
+            android:id="@+id/taskDetailsLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="CREATE NOTE"
@@ -51,14 +51,14 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/deleteButton"
+                android:id="@+id/incompleteButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
                 android:text="Discard" />
 
             <Button
-                android:id="@+id/saveButton"
+                android:id="@+id/completeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"

@@ -2,12 +2,9 @@ package com.example.pro_q;
 
 import static android.content.ContentValues.TAG;
 
-import static com.example.pro_q.AddNoteActivity.KEY_DATETIME;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,12 +17,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 
 public class EditNoteActivity extends AppCompatActivity {
     private Button deleteButton;
@@ -54,8 +45,8 @@ public class EditNoteActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
 
 //        TODO - pull info from database (persons document, Notes collection, document and put fields within the form)
-        deleteButton = findViewById(R.id.deleteButton);
-        saveButton = findViewById(R.id.saveButton);
+        deleteButton = findViewById(R.id.incompleteButton);
+        saveButton = findViewById(R.id.completeButton);
         noteTitle = findViewById(R.id.titleInput);
         noteDescription = findViewById(R.id.descriptionInput);
 

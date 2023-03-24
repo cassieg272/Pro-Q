@@ -28,6 +28,7 @@ public class TaskDetailsDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent = new Intent(getActivity(), TaskDetailActivity.class);
+
                         startActivity(intent);
                     }
                 })
@@ -39,6 +40,7 @@ public class TaskDetailsDialog extends AppCompatDialogFragment {
                         startActivity(intent);
                     }
                 });
+
         return builder.create();
     }
 }
