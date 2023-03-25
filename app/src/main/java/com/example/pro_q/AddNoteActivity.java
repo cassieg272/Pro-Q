@@ -36,8 +36,8 @@ public class AddNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
 
-        createButton = findViewById(R.id.completeButton);
-        discardButton = findViewById(R.id.incompleteButton);
+        createButton = findViewById(R.id.updateButton);
+        discardButton = findViewById(R.id.deleteButton);
         title = findViewById(R.id.titleInput);
         description = findViewById(R.id.descriptionInput);
 

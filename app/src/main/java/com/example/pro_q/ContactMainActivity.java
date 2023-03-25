@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,9 +17,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Map;
 
@@ -47,6 +51,18 @@ public class ContactMainActivity extends AppCompatActivity {
 
     private DocumentReference clientAddressRef = db.collection("Client")
             .document("pnX0EcGFTQG24EcNR4P2");
+
+    private CollectionReference clientMorningTaskRef = db.collection("Client")
+            .document("pnX0EcGFTQG24EcNR4P2")
+            .collection("morning");
+
+    private CollectionReference clientAfternoonTaskRef = db.collection("Client")
+            .document("pnX0EcGFTQG24EcNR4P2")
+            .collection("afternoon");
+
+    private CollectionReference clientEveningTaskRef = db.collection("Client")
+            .document("pnX0EcGFTQG24EcNR4P2")
+            .collection("evening");
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -136,9 +152,100 @@ public class ContactMainActivity extends AppCompatActivity {
         viewReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ContactMainActivity.this, EditNoteActivity.class);
+                Intent intent = new Intent(ContactMainActivity.this, ContactViewReportActivity.class);
                 startActivity(intent);
             }
         });
-    }
+        clientMorningTaskRef.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                LinearLayout layout = findViewById(R.id.morningLayout);
+                                Button button = new Button(ContactMainActivity.this);
+                                button.setText(document.getId());
+
+                                button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Log.d(TAG, "button was clicked" + button.getText());
+                                        String passTaskId = String.valueOf(button.getText());
+                                        String passRef = String.valueOf(clientMorningTaskRef);
+                                        Intent intent = new Intent(ContactMainActivity.this, TaskDetailActivity.class);
+                                        intent.putExtra("taskId", passTaskId);
+                                        intent.putExtra("ref", passRef);
+                                        startActivity(intent);
+                                    }
+                                });
+                                layout.addView(button);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        clientAfternoonTaskRef.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                LinearLayout layout = findViewById(R.id.afternoonLayout);
+                                Button button = new Button(ContactMainActivity.this);
+                                button.setText(document.getId());
+                                button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Log.d(TAG, "button was clicked" + button.getText());
+                                        String passTaskId = String.valueOf(button.getText());
+                                        String passRef = String.valueOf(clientAfternoonTaskRef);
+                                        Intent intent = new Intent(ContactMainActivity.this, TaskDetailActivity.class);
+                                        intent.putExtra("taskId", passTaskId);
+                                        intent.putExtra("ref", passRef);
+                                        startActivity(intent);
+                                    }
+                                });
+                                layout.addView(button);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        clientEveningTaskRef.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                LinearLayout layout = findViewById(R.id.eveningLayout);
+                                Button button = new Button(ContactMainActivity.this);
+                                button.setText(document.getId());
+                                button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Log.d(TAG, "button was clicked" + button.getText());
+                                        String passTaskId = String.valueOf(button.getText());
+                                        String passRef = String.valueOf(clientEveningTaskRef);
+                                        Intent intent = new Intent(ContactMainActivity.this, TaskDetailActivity.class);
+                                        intent.putExtra("taskId", passTaskId);
+                                        intent.putExtra("ref", clientEveningTaskRef.getId());
+                                        startActivity(intent);
+                                    }
+                                });
+                                layout.addView(button);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    };
 }
+

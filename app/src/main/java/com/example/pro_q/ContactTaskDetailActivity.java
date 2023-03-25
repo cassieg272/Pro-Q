@@ -18,18 +18,16 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+public class ContactTaskDetailActivity extends AppCompatActivity {
 
-public class TaskDetailActivity extends AppCompatActivity {
-    private TextView showIt;
-    private TextView textView11;
     private TextView category;
     private TextView description;
     private TextView title;
     private CardView cardView;
     private EditText reason;
-    private Button incomplete;
-    private Button markIncomplete;
-    private Button markComplete;
+    private Button delete;
+    private Button update;
+    private Button back;
 
     public static final String KEY_CATEGORY = "category";
     public static final String KEY_TITLE = "title";
@@ -40,13 +38,11 @@ public class TaskDetailActivity extends AppCompatActivity {
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private CollectionReference clientInfoRef = db.collection("Client");
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task_detail);
-
+        setContentView(R.layout.activity_contact_task_detail);
         String reference = getIntent().getStringExtra("ref");
         String taskId = getIntent().getStringExtra("taskId");
 
@@ -58,6 +54,8 @@ public class TaskDetailActivity extends AppCompatActivity {
         description = findViewById(R.id.categoryFill);
         cardView = findViewById(R.id.cardview);
         cardView.setVisibility(View.INVISIBLE);
+        delete = findViewById(R.id.deleteButton);
+        update = findViewById(R.id.updateButton);
 
         task.get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -72,41 +70,11 @@ public class TaskDetailActivity extends AppCompatActivity {
                         description.setText(d);
                     }
                 });
-        incomplete = findViewById(R.id.deleteButton);
-        incomplete.setOnClickListener(new View.OnClickListener() {
+        back = findViewById(R.id.goBackButton);
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                cardView.setVisibility(view.VISIBLE);
-            }
-        });
-
-        markIncomplete = findViewById(R.id.markIncompleteButton);
-        markIncomplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                reason = findViewById(R.id.reasonFill);
-                String reasonEntered = String.valueOf(reason.getText());
-                if (reasonEntered.equals("")) {
-                    Toast.makeText(TaskDetailActivity.this, "Please enter a reason.", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    // TODO get the task and set reason to what is entered in the field
-                    String reasonSend = String.valueOf(reason.getText());
-
-                    Toast.makeText(TaskDetailActivity.this, "Task marked incomplete.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(TaskDetailActivity.this, CaregiverMainActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
-
-        markComplete = findViewById(R.id.updateButton);
-        markComplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO set caregiverComplete to true
-                // on main page if button.caregiverComplete = true set background colour to green
-                Intent intent = new Intent(TaskDetailActivity.this, CaregiverMainActivity.class);
+                Intent intent = new Intent(ContactTaskDetailActivity.this, ContactMainActivity.class);
                 startActivity(intent);
             }
         });

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TaskDetailActivity">
+    tools:context=".ContactTaskDetailActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -86,11 +86,11 @@
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent" />
         </TableLayout>
 
         <LinearLayout
@@ -113,68 +113,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
-                android:text="incomplete" />
+                android:text="delete" />
 
             <Button
                 android:id="@+id/updateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="complete" />
+                android:text="update" />
+
         </LinearLayout>
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardview"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/goBackButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="12dp"
-            app:cardCornerRadius="8dp"
-            app:cardUseCompatPadding="true"
-            tools:visibility="invisible">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#2F00BCD4"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/reasonLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="20dp"
-                    android:text="Please enter reason why task was not completed:"
-                    android:textColor="#3F51B5"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <EditText
-                    android:id="@+id/reasonFill"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:ems="10"
-                    android:hint="type reason here"
-                    android:inputType="textPersonName"
-                    android:minHeight="48dp"
-                    android:textColor="#3F51B5" />
-
-                <Button
-                    android:id="@+id/markIncompleteButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:backgroundTint="@color/purple"
-                    android:text="Mark as Incomplete" />
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+            android:layout_gravity="center"
+            android:text="back"
+            android:textAlignment="center" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

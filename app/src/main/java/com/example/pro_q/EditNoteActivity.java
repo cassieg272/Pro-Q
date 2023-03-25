@@ -45,8 +45,8 @@ public class EditNoteActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(this);
 
 //        TODO - pull info from database (persons document, Notes collection, document and put fields within the form)
-        deleteButton = findViewById(R.id.incompleteButton);
-        saveButton = findViewById(R.id.completeButton);
+        deleteButton = findViewById(R.id.deleteButton);
+        saveButton = findViewById(R.id.updateButton);
         noteTitle = findViewById(R.id.titleInput);
         noteDescription = findViewById(R.id.descriptionInput);
 

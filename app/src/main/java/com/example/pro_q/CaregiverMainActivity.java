@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -171,6 +172,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
                                 LinearLayout layout = findViewById(R.id.morningLayout);
                                 Button button = new Button(CaregiverMainActivity.this);
                                 button.setText(document.getId());
+
                                 button.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
