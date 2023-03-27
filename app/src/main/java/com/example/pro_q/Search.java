@@ -19,10 +19,12 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class Search extends AppCompatActivity {
     ArrayList<ClientModel> clientModels = new ArrayList<>();
@@ -96,21 +98,32 @@ public class Search extends AppCompatActivity {
     }
 
     private void getClientList(Query query) {
-        ArrayList<ClientModel> clientList = new ArrayList<>();
+        final ArrayList<ClientModel>[] clientModelList = new ArrayList[]{new ArrayList<>()};
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()&& task.getResult().size() != 0){
+                    ArrayList<ClientModel> clientList = new ArrayList<>();
                     for(QueryDocumentSnapshot document: task.getResult()){
-                        ClientModel client = document.toObject(ClientModel.class);
-                        clientList.add(client);
+                        String id = document.getId();
+
+                        String firstName = (String) document.get("firstName");
+                        String lastName = (String) document.get("lastName");
+                        Map<String, String> address = (Map<String, String>) document.get("address");
+                        String street = address.get("street");
+                        String city = address.get("city");
+                        String province = address.get("province");
+                        String postalCode = address.get("postalCode");
+                        Log.d("TAG", "onComplete: "+firstName+" "+lastName+" "+ id+ " "+street+", "+city+", "+province+ " "+postalCode);
+                        clientList.add(new ClientModel(city, province, postalCode, street, id, firstName, lastName));
+                        Log.d("TAG", "getClientList: "+clientList.toString());
+
                     }
                 }else{
                     Toast.makeText(Search.this, "This client does not exist", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        Log.d("TAG", "getClientList: "+clientList.toString());
     }
 
 

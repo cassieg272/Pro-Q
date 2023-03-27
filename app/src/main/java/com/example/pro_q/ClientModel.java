@@ -35,5 +35,15 @@ public class ClientModel {
     public String getLastName() {
         return lastName;
     }
+
+    @Override
+    public String toString() {
+        return "ClientModel{" +
+                "address='" +this.getAddress() +
+                ", id='" + id + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }
 
