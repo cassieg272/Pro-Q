@@ -2,9 +2,7 @@ package com.example.pro_q;
 
 public class ClientModel {
     String address, id, fullName;
-    public ClientModel() {
 
-    }
     public ClientModel(String address, String id, String fullName) {
         this.address = address;
         this.id = id;

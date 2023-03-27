@@ -25,4 +25,5 @@
     <string name="logoDescription">Pro-Q Logo</string>
     <string name="searchPrompt">Search by last name:</string>
     <string name="search_bar">Search Bar</string>
+    <string name="client_gender">Client Gender</string>
 </resources>
