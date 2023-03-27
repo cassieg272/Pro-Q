@@ -105,21 +105,29 @@ public class Search extends AppCompatActivity {
                 if(task.isSuccessful()&& task.getResult().size() != 0){
                     ArrayList<ClientModel> clientList = new ArrayList<>();
                     for(QueryDocumentSnapshot document: task.getResult()){
-                        String id = document.getId();
+                        String id = document.getId(); //get document ID aka client ID
 
+                        //get values in database of the matched clients
                         String firstName = (String) document.get("firstName");
                         String lastName = (String) document.get("lastName");
-                        Map<String, String> address = (Map<String, String>) document.get("address");
-                        String street = address.get("street");
-                        String city = address.get("city");
-                        String province = address.get("province");
-                        String postalCode = address.get("postalCode");
-                        Log.d("TAG", "onComplete: "+firstName+" "+lastName+" "+ id+ " "+street+", "+city+", "+province+ " "+postalCode);
-                        clientList.add(new ClientModel(city, province, postalCode, street, id, firstName, lastName));
+
+                        Map<String, String> addressMap = (Map<String, String>) document.get("address");
+                        String street = addressMap.get("street");
+                        String city = addressMap.get("city");
+                        String province = addressMap.get("province");
+                        String postalCode = addressMap.get("postalCode");
+                        String address = street+", "+city+", "+province+ " "+postalCode;
+
+                        Log.d("TAG", "onComplete: "+firstName+" "+lastName+" "+ id+ " "+address);
+
+                        //create a clientModel object and add to clientList
+                        clientList.add(new ClientModel(address, id, firstName, lastName));
                         Log.d("TAG", "getClientList: "+clientList.toString());
 
                     }
-                }else{
+                }
+                //if task is not successful and/or there is no result in the list returned by task, display message
+                else{
                     Toast.makeText(Search.this, "This client does not exist", Toast.LENGTH_SHORT).show();
                 }
             }
