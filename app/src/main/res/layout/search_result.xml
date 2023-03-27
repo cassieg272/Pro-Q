@@ -3,45 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/search_view_border"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="8dp"
+        android:layout_margin="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:strokeColor="@color/light_grey"
-        app:strokeWidth="1dp">
+        app:strokeWidth="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp">
-
-            <TextView
-                android:id="@+id/cltID"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:text="123123123"
-                android:textSize="23sp"
-                app:layout_constraintBottom_toBottomOf="@+id/cltName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/cltName" />
+            android:padding="5dp"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/cltName"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="10dp"
                 android:text="John Doe"
-                android:textSize="23sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,14 +36,26 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/cltAddress"
-                android:layout_width="359dp"
-                android:layout_height="51dp"
-                android:text="123 Sesame St, Thunder Bay, P7E, 4G6"
-                android:textSize="23sp"
-                app:layout_constraintEnd_toEndOf="@+id/cltID"
+                android:id="@+id/cltID"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="123123123"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="@+id/cltName"
                 app:layout_constraintTop_toBottomOf="@+id/cltName" />
+
+            <TextView
+                android:id="@+id/cltAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:text="123 Sesame St, Thunder Bay, P7E 4G6 123 Sesame St, Thunder Bay, P7E "
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/cltID"
+                app:layout_constraintTop_toBottomOf="@+id/cltID" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

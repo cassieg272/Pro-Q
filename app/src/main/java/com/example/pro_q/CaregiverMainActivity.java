@@ -29,7 +29,6 @@ public class CaregiverMainActivity extends AppCompatActivity {
     private TextView clientName;
     private TextView clientPhone;
     private TextView clientAddress;
-
     private Button addNote;
     private Button addTask;
     private Button viewReport;
