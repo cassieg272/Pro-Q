@@ -40,13 +40,12 @@ public class CaregiverMainActivity extends AppCompatActivity {
     // Keys - Match the keys to the field value in the database
     public static final String KEY_PHONE = "phone";
     public static final String KEY_GENDER = "gender";
-//    String phone, gender, name, address, id;
+    //    String phone, gender, name, address, id;
     public static final String KEY_TASKTITLE = "title";
 
     // get references for client document and collections
     private DocumentReference clientDoc;
     private CollectionReference clientMorningTaskRef, clientAfternoonTaskRef, clientEveningTaskRef;
-
 
 
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
@@ -121,98 +120,100 @@ public class CaregiverMainActivity extends AppCompatActivity {
             }
         });
 
-//        clientMorningTaskRef.get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d(TAG, document.getId() + " => " + document.getData());
-//                                LinearLayout layout = findViewById(R.id.morningLayout);
-//                                Button button = new Button(CaregiverMainActivity.this);
-//                                button.setText(document.getId());
-//
-//                                button.setOnClickListener(new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View v) {
-//                                        Log.d(TAG, "button was clicked" + button.getText());
-//                                        String passTaskId = String.valueOf(button.getText());
-//                                        String passRef = String.valueOf(clientMorningTaskRef);
+        clientMorningTaskRef.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                LinearLayout layout = findViewById(R.id.morningLayout);
+                                Button button = new Button(CaregiverMainActivity.this);
+                                button.setText(document.getId());
+
+                                button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Log.d(TAG, "button was clicked" + button.getText());
+                                        String passTaskId = String.valueOf(button.getText());
+                                        String passRef = String.valueOf(clientMorningTaskRef);
 //                                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
 //                                        intent.putExtra("taskId", passTaskId);
 //                                        intent.putExtra("ref", passRef);
 //                                        startActivity(intent);
-//                                    }
-//                                });
-//                                layout.addView(button);
-//                            }
-//                        } else {
-//                            Log.d(TAG, "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
-//
-//        clientAfternoonTaskRef.get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d(TAG, document.getId() + " => " + document.getData());
-//                                LinearLayout layout = findViewById(R.id.afternoonLayout);
-//                                Button button = new Button(CaregiverMainActivity.this);
-//                                button.setText(document.getId());
-//                                button.setOnClickListener(new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View v) {
-//                                        Log.d(TAG, "button was clicked" + button.getText());
-//                                        String passTaskId = String.valueOf(button.getText());
-//                                        String passRef = String.valueOf(clientAfternoonTaskRef);
+                                    }
+                                });
+                                layout.addView(button);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        clientAfternoonTaskRef.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                LinearLayout layout = findViewById(R.id.afternoonLayout);
+                                Button button = new Button(CaregiverMainActivity.this);
+                                button.setText(document.getId());
+                                button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Log.d(TAG, "button was clicked" + button.getText());
+                                        String passTaskId = String.valueOf(button.getText());
+                                        String passRef = String.valueOf(clientAfternoonTaskRef);
 //                                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
 //                                        intent.putExtra("taskId", passTaskId);
 //                                        intent.putExtra("ref", passRef);
 //                                        startActivity(intent);
-//                                    }
-//                                });
-//                                layout.addView(button);
-//                            }
-//                        } else {
-//                            Log.d(TAG, "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
-//
-//        clientEveningTaskRef.get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d(TAG, document.getId() + " => " + document.getData());
-//                                LinearLayout layout = findViewById(R.id.eveningLayout);
-//                                Button button = new Button(CaregiverMainActivity.this);
-//                                button.setText(document.getId());
-//                                button.setOnClickListener(new View.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(View v) {
-//                                        Log.d(TAG, "button was clicked" + button.getText());
-//                                        String passTaskId = String.valueOf(button.getText());
-//                                        String passRef = String.valueOf(clientEveningTaskRef);
+                                    }
+                                });
+                                layout.addView(button);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        clientEveningTaskRef.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                LinearLayout layout = findViewById(R.id.eveningLayout);
+                                Button button = new Button(CaregiverMainActivity.this);
+                                button.setText(document.getId());
+                                button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Log.d(TAG, "button was clicked" + button.getText());
+                                        String passTaskId = String.valueOf(button.getText());
+                                        String passRef = String.valueOf(clientEveningTaskRef);
 //                                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
 //                                        intent.putExtra("taskId", passTaskId);
 //                                        intent.putExtra("ref", clientEveningTaskRef.getId());
 //                                        startActivity(intent);
-//                                    }
-//                                });
-//                                layout.addView(button);
-//                            }
-//                        } else {
-//                            Log.d(TAG, "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
-//    };
+                                    }
+                                });
+                                layout.addView(button);
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
     }
+
+    ;
 }
+
 
 
