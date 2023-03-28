@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewReportActivity">
+    tools:context=".ContactViewReportActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -87,5 +87,4 @@
             android:text="back"
             android:textAlignment="center" />
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
