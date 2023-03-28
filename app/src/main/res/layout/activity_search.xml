@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="18dp"
+        app:theme="@style/AppSearchView"
         android:layout_marginTop="40dp"
         android:background="@drawable/search_view_border"
         android:iconifiedByDefault="false"

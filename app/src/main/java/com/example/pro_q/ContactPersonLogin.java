@@ -78,7 +78,6 @@ public class ContactPersonLogin extends AppCompatActivity {
                         user.add(id);
                         user.add(name);
                         user.add(String.valueOf(clientList));
-                        Log.d("TAG", String.valueOf(user));
 
                         //perform authentication with Firestore Authentication library
                         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(ContactPersonLogin.this, task1 -> {
