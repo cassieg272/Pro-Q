@@ -12,6 +12,9 @@
         android:theme="@style/Theme.ProQ"
         tools:targetApi="31">
         <activity
+            android:name=".Users"
+            android:exported="false" />
+        <activity
             android:name=".Search"
             android:exported="false" />
         <activity
