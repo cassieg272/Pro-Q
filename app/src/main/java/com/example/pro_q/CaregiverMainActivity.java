@@ -103,10 +103,10 @@ public class CaregiverMainActivity extends AppCompatActivity {
         });
 
         // Navigate to Add Task Page
-        findViewById(R.id.taskButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CaregiverMainActivity.this, AddTaskActivity.class);
+                findViewById(R.id.taskButton).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(CaregiverMainActivity.this, AddTaskActivity.class);
                 startActivity(intent);
             }
         });
@@ -116,6 +116,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CaregiverMainActivity.this, ViewReportActivity.class);
+                intent.putExtra("clientID", id);
                 startActivity(intent);
             }
         });
@@ -137,10 +138,10 @@ public class CaregiverMainActivity extends AppCompatActivity {
                                         Log.d(TAG, "button was clicked" + button.getText());
                                         String passTaskId = String.valueOf(button.getText());
                                         String passRef = String.valueOf(clientMorningTaskRef);
-//                                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
-//                                        intent.putExtra("taskId", passTaskId);
-//                                        intent.putExtra("ref", passRef);
-//                                        startActivity(intent);
+                                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
+                                        intent.putExtra("taskId", passTaskId);
+                                        intent.putExtra("ref", passRef);
+                                        startActivity(intent);
                                     }
                                 });
                                 layout.addView(button);
@@ -167,10 +168,10 @@ public class CaregiverMainActivity extends AppCompatActivity {
                                         Log.d(TAG, "button was clicked" + button.getText());
                                         String passTaskId = String.valueOf(button.getText());
                                         String passRef = String.valueOf(clientAfternoonTaskRef);
-//                                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
-//                                        intent.putExtra("taskId", passTaskId);
-//                                        intent.putExtra("ref", passRef);
-//                                        startActivity(intent);
+                                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
+                                        intent.putExtra("taskId", passTaskId);
+                                        intent.putExtra("ref", passRef);
+                                        startActivity(intent);
                                     }
                                 });
                                 layout.addView(button);
@@ -197,10 +198,10 @@ public class CaregiverMainActivity extends AppCompatActivity {
                                         Log.d(TAG, "button was clicked" + button.getText());
                                         String passTaskId = String.valueOf(button.getText());
                                         String passRef = String.valueOf(clientEveningTaskRef);
-//                                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
-//                                        intent.putExtra("taskId", passTaskId);
-//                                        intent.putExtra("ref", clientEveningTaskRef.getId());
-//                                        startActivity(intent);
+                                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
+                                        intent.putExtra("taskId", passTaskId);
+                                        intent.putExtra("ref", clientEveningTaskRef.getId());
+                                        startActivity(intent);
                                     }
                                 });
                                 layout.addView(button);

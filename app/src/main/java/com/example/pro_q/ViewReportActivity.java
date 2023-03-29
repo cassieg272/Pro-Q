@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -29,16 +30,22 @@ import java.util.List;
 public class ViewReportActivity extends AppCompatActivity {
     private Button back;
 
-    // Connection to Firestore
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference morning = db.collection("Client").document("fKvP44KanzN3izfiFfL5").collection("morning");
-    private CollectionReference afternoon = db.collection("Client").document("fKvP44KanzN3izfiFfL5").collection("afternoon");
-    private CollectionReference evening = db.collection("Client").document("fKvP44KanzN3izfiFfL5").collection("evening");
+    //Declare collection & document references
+    private DocumentReference clientDoc;
+    private CollectionReference morning, afternoon, evening;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_report);
+        String id = getIntent().getStringExtra("clientID"); //get client ID from previous activity
+
+        //assign path to document & collection references
+        clientDoc = FirebaseFirestore.getInstance().collection("Client").document(id);
+        morning = clientDoc.collection("morning");
+        afternoon = clientDoc.collection("afternoon");
+        evening = clientDoc.collection("evening");
 
         morning.whereEqualTo("caregiverComplete", true).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
