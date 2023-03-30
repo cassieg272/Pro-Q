@@ -12,10 +12,11 @@
         android:theme="@style/Theme.ProQ"
         tools:targetApi="31">
         <activity
+            android:name=".ContactPersonClientList"
+            android:exported="false" />
+        <activity
             android:name=".Search"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".CaregiverLogin"
             android:exported="false" />
@@ -25,19 +26,15 @@
         <activity
             android:name=".WelcomeActivity"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".ViewReportActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".AddTaskActivity"
             android:exported="false" />
@@ -59,7 +56,6 @@
         <activity
             android:name=".TaskDetailActivity"
             android:exported="false" />
-
         <activity
             android:name=".DeleteSuccessActivity"
             android:exported="false" />
@@ -73,4 +69,3 @@
     </application>
 
 </manifest>
-

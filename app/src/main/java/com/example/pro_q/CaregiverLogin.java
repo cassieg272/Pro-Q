@@ -85,15 +85,11 @@ public class CaregiverLogin extends AppCompatActivity {
     }
 
     private void authenticateUser(Task<QuerySnapshot> task, String email, String password) {
-        ArrayList<String> user = new ArrayList<>(); //declare & initialize arraylist
 
         //get data from the returned document
         for (QueryDocumentSnapshot document : task.getResult()) {
             //add values to arrayList
             String id = document.getId();
-            String name = document.get("firstName") + " " + document.get("lastName");
-            user.add(id);
-            user.add(name);
 
             //perform authentication with Firestore Authentication library
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(CaregiverLogin.this, task1 -> {
@@ -101,7 +97,7 @@ public class CaregiverLogin extends AppCompatActivity {
                 if (task1.isSuccessful()) {
                     //Sign in succeed and go to next activity if email & password matches
                     Intent intent = new Intent(getApplicationContext(), Search.class);
-                    intent.putExtra("caregiverID", user); //pass caregiver info to next activity
+                    intent.putExtra("caregiverID", id); //pass caregiver info to next activity
                     startActivity(intent);
                 }
                 //unsuccessful login, display message

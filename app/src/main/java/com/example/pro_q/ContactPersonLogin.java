@@ -59,7 +59,6 @@ public class ContactPersonLogin extends AppCompatActivity {
 
     //get data from query and validate email and password
     private void getQueryData(Query query, String email, String password) {
-        ArrayList<String> user = new ArrayList<>(); //declare & initialize arraylist
 
         //get data from the query passed in as argument
         query.get().addOnCompleteListener(task -> {
@@ -73,19 +72,14 @@ public class ContactPersonLogin extends AppCompatActivity {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         //add values to arrayList
                         String id = document.getId();
-                        String name = document.get("firstName") + " " + document.get("lastName");
-                        List<String> clientList = (List<String>) document.get("clientList");
-                        user.add(id);
-                        user.add(name);
-                        user.add(String.valueOf(clientList));
 
                         //perform authentication with Firestore Authentication library
                         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(ContactPersonLogin.this, task1 -> {
                             //successful login
                             if (task1.isSuccessful()) {
                                 //Sign in succeed and go to next activity if email & password matches
-                                Intent intent = new Intent(getApplicationContext(), Search.class);
-                                intent.putExtra("contactPersonID", user); //pass contact person ID to next activity
+                                Intent intent = new Intent(getApplicationContext(), ContactPersonClientList.class);
+                                intent.putExtra("contactPersonID", id); //pass contact person ID to next activity
                                 startActivity(intent);
                             }
                             //unsuccessful login, display message

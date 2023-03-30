@@ -9,10 +9,10 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:contentDescription="@string/logoContentDescription"
         android:layout_width="214dp"
         android:layout_height="80dp"
-        android:layout_marginTop="152dp"
+        android:layout_marginTop="224dp"
+        android:contentDescription="@string/logoContentDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"

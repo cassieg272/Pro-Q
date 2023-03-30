@@ -23,14 +23,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="18dp"
-        app:theme="@style/AppSearchView"
-        android:layout_marginTop="40dp"
         android:background="@drawable/search_view_border"
         android:iconifiedByDefault="false"
         android:queryHint="@string/searchHint"
         app:layout_constraintEnd_toEndOf="@+id/logo"
         app:layout_constraintStart_toStartOf="@+id/logo"
-        app:layout_constraintTop_toBottomOf="@+id/logo" />
+        app:layout_constraintTop_toBottomOf="@+id/logo"
+        app:theme="@style/AppSearchView" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchResultRecyclerView"
@@ -43,4 +42,18 @@
         app:layout_constraintEnd_toEndOf="@+id/searchView"
         app:layout_constraintStart_toStartOf="@+id/searchView"
         app:layout_constraintTop_toBottomOf="@+id/searchView" />
+
+    <TextView
+        android:id="@+id/clientListTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/clientListTitle"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/logo"
+        app:layout_constraintStart_toStartOf="@+id/logo"
+        app:layout_constraintTop_toBottomOf="@+id/logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
