@@ -104,7 +104,7 @@ public class Search extends AppCompatActivity implements RecyclerViewInterface{
         getClientList(query);
     }
 
-    public void getClientList(Query query) {
+    private void getClientList(Query query) {
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
