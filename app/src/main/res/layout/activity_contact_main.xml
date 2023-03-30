@@ -104,7 +104,7 @@
             android:textSize="12sp" />
 
         <Button
-            android:id="@+id/taskButton"
+            android:id="@+id/timerButton"
             android:layout_width="110dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"

@@ -138,7 +138,7 @@ public class ContactMainActivity extends AppCompatActivity {
         });
 
         // Navigate to Add Task Page
-        addTask = findViewById(R.id.taskButton);
+        addTask = findViewById(R.id.timerButton);
         addTask.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

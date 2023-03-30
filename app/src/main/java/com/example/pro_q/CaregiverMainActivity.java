@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,9 +16,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.chip.Chip;
-import com.google.android.material.chip.ChipGroup;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -27,15 +23,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.List;
-import java.util.Map;
-
 public class CaregiverMainActivity extends AppCompatActivity {
 
     private static final String TAG = "CaregiverMainActivity";
     private TextView clientId, clientName, clientPhone, clientAddress, clientGender;
-
-    private Button addNote, addTask, viewReport;
 
     // Keys - Match the keys to the field value in the database
     public static final String KEY_PHONE = "phone";
@@ -93,21 +84,11 @@ public class CaregiverMainActivity extends AppCompatActivity {
 
         // BUTTON BAR
 
-        // Navigate to Add Note Page
-        findViewById(R.id.noteButton).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CaregiverMainActivity.this, AddNoteActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // Navigate to Add Task Page
-                findViewById(R.id.taskButton).setOnClickListener(new View.OnClickListener() {
+        // Timer Functions
+                findViewById(R.id.timerButton).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent = new Intent(CaregiverMainActivity.this, AddTaskActivity.class);
-                startActivity(intent);
+
             }
         });
 
