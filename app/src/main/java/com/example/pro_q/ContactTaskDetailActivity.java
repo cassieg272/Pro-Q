@@ -19,18 +19,12 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ContactTaskDetailActivity extends AppCompatActivity {
-
-    private TextView category;
-    private TextView description;
-    private TextView title;
+    private EditText category, description, title, timeOfDay;
     private CardView cardView;
-    private EditText reason;
-    private Button delete;
-    private Button update;
-    private Button back;
+    // TODO add delete and update functions
+    private Button delete, update, back;
 
     public static final String KEY_CATEGORY = "category";
-    public static final String KEY_TITLE = "title";
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_REASON = "reason";
 
@@ -43,15 +37,16 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_task_detail);
-        String reference = getIntent().getStringExtra("ref");
         String taskId = getIntent().getStringExtra("taskId");
+        String time = getIntent().getStringExtra("time");
+        String clientId = getIntent().getStringExtra("clientID");
 
-        // TODO How do I pass a document reference
-        DocumentReference task = db.collection(reference).document(taskId);
+        DocumentReference task = clientInfoRef.document(clientId).collection(time).document(taskId);
 
-        category = findViewById(R.id.categoryFill);
-        title = findViewById(R.id.titleFill);
-        description = findViewById(R.id.categoryFill);
+        category = findViewById(R.id.categoryEdit);
+        title = findViewById(R.id.titleEdit);
+        description = findViewById(R.id.categoryEdit);
+        timeOfDay = findViewById(R.id.timeEdit);
         cardView = findViewById(R.id.cardview);
         cardView.setVisibility(View.INVISIBLE);
         delete = findViewById(R.id.deleteButton);
@@ -62,12 +57,13 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String cat = documentSnapshot.getString(KEY_CATEGORY);
-                        String t = documentSnapshot.getString(KEY_TITLE);
+                        String t = taskId;
                         String d = documentSnapshot.getString(KEY_DESCRIPTION);
 
                         category.setText(cat);
                         title.setText(t);
                         description.setText(d);
+                        timeOfDay.setText(time);
                     }
                 });
         back = findViewById(R.id.goBackButton);

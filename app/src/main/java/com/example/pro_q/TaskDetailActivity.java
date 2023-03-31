@@ -48,10 +48,8 @@ public class TaskDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task_detail);
 
         String taskId = getIntent().getStringExtra("taskId");
-
         String time = getIntent().getStringExtra("time");
         String clientId = getIntent().getStringExtra("clientID");
-        Log.d(TAG, "client id is:" + clientId);
 
         DocumentReference task = clientInfoRef.document(clientId).collection(time).document(taskId);
 
