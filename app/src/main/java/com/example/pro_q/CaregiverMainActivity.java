@@ -31,10 +31,8 @@ public class CaregiverMainActivity extends AppCompatActivity {
     // Keys - Match the keys to the field value in the database
     public static final String KEY_PHONE = "phone";
     public static final String KEY_GENDER = "gender";
-    //    String phone, gender, name, address, id;
-    public static final String KEY_TASKTITLE = "title";
 
-    // get references for client document and collections
+    // Path to Document and Collections
     private DocumentReference clientDoc;
     private CollectionReference clientMorningTaskRef, clientAfternoonTaskRef, clientEveningTaskRef;
 
@@ -70,7 +68,6 @@ public class CaregiverMainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
-                            // Get Client Phone
                             String phone = documentSnapshot.getString(KEY_PHONE);
                             clientPhone.setText(phone);
                             String gender = documentSnapshot.getString(KEY_GENDER);
@@ -116,12 +113,12 @@ public class CaregiverMainActivity extends AppCompatActivity {
                                 button.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Log.d(TAG, "button was clicked" + button.getText());
-                                        String passTaskId = String.valueOf(button.getText());
-                                        String passRef = String.valueOf(clientMorningTaskRef);
+                                        String passTaskId = document.getId();
+                                        String time = "morning";
                                         Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
+                                        intent.putExtra("clientID", id);
+                                        intent.putExtra("time", time);
                                         intent.putExtra("taskId", passTaskId);
-                                        intent.putExtra("ref", passRef);
                                         startActivity(intent);
                                     }
                                 });
@@ -146,12 +143,12 @@ public class CaregiverMainActivity extends AppCompatActivity {
                                 button.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Log.d(TAG, "button was clicked" + button.getText());
-                                        String passTaskId = String.valueOf(button.getText());
-                                        String passRef = String.valueOf(clientAfternoonTaskRef);
+                                        String passTaskId = document.getId();
+                                        String time = "afternoon";
                                         Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
+                                        intent.putExtra("clientID", id);
+                                        intent.putExtra("time", time);
                                         intent.putExtra("taskId", passTaskId);
-                                        intent.putExtra("ref", passRef);
                                         startActivity(intent);
                                     }
                                 });
@@ -176,12 +173,12 @@ public class CaregiverMainActivity extends AppCompatActivity {
                                 button.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Log.d(TAG, "button was clicked" + button.getText());
-                                        String passTaskId = String.valueOf(button.getText());
-                                        String passRef = String.valueOf(clientEveningTaskRef);
+                                        String passTaskId = document.getId();
+                                        String time = "evening";
                                         Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
+                                        intent.putExtra("clientID", id);
+                                        intent.putExtra("time", time);
                                         intent.putExtra("taskId", passTaskId);
-                                        intent.putExtra("ref", clientEveningTaskRef.getId());
                                         startActivity(intent);
                                     }
                                 });
@@ -192,9 +189,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    ;
+    };
 }
 
 

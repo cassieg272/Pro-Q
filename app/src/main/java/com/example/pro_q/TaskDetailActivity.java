@@ -1,11 +1,14 @@
 package com.example.pro_q;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,28 +16,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
+
 
 public class TaskDetailActivity extends AppCompatActivity {
-    private TextView showIt;
-    private TextView textView11;
-    private TextView category;
-    private TextView description;
-    private TextView title;
+    private TextView category, description, title, timeOfDay;
     private CardView cardView;
     private EditText reason;
-    private Button incomplete;
-    private Button markIncomplete;
-    private Button markComplete;
+    private Button incomplete, markIncomplete, markComplete;
 
     public static final String KEY_CATEGORY = "category";
-    public static final String KEY_TITLE = "title";
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_REASON = "reason";
+    public static final boolean KEY_CAREGIVER_COMPLETE = Boolean.parseBoolean("caregiverComplete");
 
     // Connection to Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -47,15 +47,18 @@ public class TaskDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
 
-        String reference = getIntent().getStringExtra("ref");
         String taskId = getIntent().getStringExtra("taskId");
 
-        // TODO How do I pass a document reference
-        DocumentReference task = db.collection(reference).document(taskId);
+        String time = getIntent().getStringExtra("time");
+        String clientId = getIntent().getStringExtra("clientID");
+        Log.d(TAG, "client id is:" + clientId);
+
+        DocumentReference task = clientInfoRef.document(clientId).collection(time).document(taskId);
 
         category = findViewById(R.id.categoryFill);
         title = findViewById(R.id.titleFill);
-        description = findViewById(R.id.categoryFill);
+        description = findViewById(R.id.descriptionFill);
+        timeOfDay = findViewById(R.id.timeFill);
         cardView = findViewById(R.id.cardview);
         cardView.setVisibility(View.INVISIBLE);
 
@@ -64,12 +67,13 @@ public class TaskDetailActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         String cat = documentSnapshot.getString(KEY_CATEGORY);
-                        String t = documentSnapshot.getString(KEY_TITLE);
+                        String t = taskId;
                         String d = documentSnapshot.getString(KEY_DESCRIPTION);
 
                         category.setText(cat);
                         title.setText(t);
                         description.setText(d);
+                        timeOfDay.setText(time);
                     }
                 });
         incomplete = findViewById(R.id.deleteButton);
@@ -90,9 +94,8 @@ public class TaskDetailActivity extends AppCompatActivity {
                     Toast.makeText(TaskDetailActivity.this, "Please enter a reason.", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    // TODO get the task and set reason to what is entered in the field
                     String reasonSend = String.valueOf(reason.getText());
-
+                    task.update(KEY_REASON, reasonSend);
                     Toast.makeText(TaskDetailActivity.this, "Task marked incomplete.", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(TaskDetailActivity.this, CaregiverMainActivity.class);
                     startActivity(intent);
@@ -104,8 +107,8 @@ public class TaskDetailActivity extends AppCompatActivity {
         markComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO set caregiverComplete to true
-                // on main page if button.caregiverComplete = true set background colour to green
+                // TODO figure out how to change this
+                task.update(String.valueOf(KEY_CAREGIVER_COMPLETE), true);
                 Intent intent = new Intent(TaskDetailActivity.this, CaregiverMainActivity.class);
                 startActivity(intent);
             }

@@ -9,6 +9,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -29,6 +30,7 @@ import java.util.List;
 
 public class ViewReportActivity extends AppCompatActivity {
     private Button back;
+    public static final String KEY_REASON = "reason";
 
     //Declare collection & document references
     private DocumentReference clientDoc;
@@ -55,8 +57,14 @@ public class ViewReportActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 LinearLayout layout = findViewById(R.id.completedTasksLayout);
                                 TextView text = new TextView(ViewReportActivity.this);
+                                // TODO change text size
+                                text.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
                                 text.setText(document.getId());
                                 layout.addView(text);
+                                TextView reason = new TextView(ViewReportActivity.this);
+
+                                // TODO how to set this??
+                                reason.setText(KEY_REASON);
                             }
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
@@ -68,8 +76,6 @@ public class ViewReportActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, "incomplete tasks");
-                                Log.d(TAG, document.getId() + " => " + document.getData());
                                 LinearLayout layout = findViewById(R.id.incompleteLayout);
                                 TextView text = new TextView(ViewReportActivity.this);
                                 text.setText(document.getId());
