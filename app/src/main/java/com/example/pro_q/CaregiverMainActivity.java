@@ -48,7 +48,6 @@ public class CaregiverMainActivity extends AppCompatActivity {
     private CollectionReference clientMorningTaskRef, clientAfternoonTaskRef, clientEveningTaskRef;
 
 
-    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,24 +71,22 @@ public class CaregiverMainActivity extends AppCompatActivity {
         clientMorningTaskRef = clientDoc.collection("morning");
         clientAfternoonTaskRef = clientDoc.collection("afternoon");
         clientEveningTaskRef = clientDoc.collection("evening");
-//
+
         // CLIENT INFO - Retrieve data from collection
-        clientDoc.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            // Get Client Phone
-                            String phone = documentSnapshot.getString(KEY_PHONE);
-                            clientPhone.setText(phone);
-                            String gender = documentSnapshot.getString(KEY_GENDER);
-                            clientGender.setText(gender);
-                        } else {
-                            Toast.makeText(CaregiverMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                })
-                .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
+        clientDoc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    // Get Client Phone
+                    String phone = documentSnapshot.getString(KEY_PHONE);
+                    clientPhone.setText(phone);
+                    String gender = documentSnapshot.getString(KEY_GENDER);
+                    clientGender.setText(gender);
+                } else {
+                    Toast.makeText(CaregiverMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
+                }
+            }
+        }).addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
 
         // BUTTON BAR
 
@@ -103,10 +100,10 @@ public class CaregiverMainActivity extends AppCompatActivity {
         });
 
         // Navigate to Add Task Page
-                findViewById(R.id.taskButton).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(CaregiverMainActivity.this, AddTaskActivity.class);
+        findViewById(R.id.taskButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CaregiverMainActivity.this, AddTaskActivity.class);
                 startActivity(intent);
             }
         });
@@ -121,99 +118,39 @@ public class CaregiverMainActivity extends AppCompatActivity {
             }
         });
 
-        clientMorningTaskRef.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                LinearLayout layout = findViewById(R.id.morningLayout);
-                                Button button = new Button(CaregiverMainActivity.this);
-                                button.setText(document.getId());
-
-                                button.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Log.d(TAG, "button was clicked" + button.getText());
-                                        String passTaskId = String.valueOf(button.getText());
-                                        String passRef = String.valueOf(clientMorningTaskRef);
-                                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
-                                        intent.putExtra("taskId", passTaskId);
-                                        intent.putExtra("ref", passRef);
-                                        startActivity(intent);
-                                    }
-                                });
-                                layout.addView(button);
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
-        clientAfternoonTaskRef.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                LinearLayout layout = findViewById(R.id.afternoonLayout);
-                                Button button = new Button(CaregiverMainActivity.this);
-                                button.setText(document.getId());
-                                button.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Log.d(TAG, "button was clicked" + button.getText());
-                                        String passTaskId = String.valueOf(button.getText());
-                                        String passRef = String.valueOf(clientAfternoonTaskRef);
-                                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
-                                        intent.putExtra("taskId", passTaskId);
-                                        intent.putExtra("ref", passRef);
-                                        startActivity(intent);
-                                    }
-                                });
-                                layout.addView(button);
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
-        clientEveningTaskRef.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                LinearLayout layout = findViewById(R.id.eveningLayout);
-                                Button button = new Button(CaregiverMainActivity.this);
-                                button.setText(document.getId());
-                                button.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Log.d(TAG, "button was clicked" + button.getText());
-                                        String passTaskId = String.valueOf(button.getText());
-                                        String passRef = String.valueOf(clientEveningTaskRef);
-                                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
-                                        intent.putExtra("taskId", passTaskId);
-                                        intent.putExtra("ref", clientEveningTaskRef.getId());
-                                        startActivity(intent);
-                                    }
-                                });
-                                layout.addView(button);
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+        //generate task list
+        getTaskList(clientEveningTaskRef, findViewById(R.id.eveningLayout));
+        getTaskList(clientMorningTaskRef, findViewById(R.id.morningLayout));
+        getTaskList(clientAfternoonTaskRef, findViewById(R.id.afternoonLayout));
     }
 
-    ;
+    private void getTaskList (CollectionReference clientTaskRef, LinearLayout layout){
+        clientTaskRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Button button = new Button(CaregiverMainActivity.this);
+                        button.setText(document.getId());
+                        button.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                String passTaskId = String.valueOf(button.getText());
+                                String passRef = String.valueOf(clientTaskRef);
+                                Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
+                                intent.putExtra("taskId", passTaskId);
+                                intent.putExtra("ref", clientTaskRef.getId());
+                                startActivity(intent);
+                            }
+                        });
+                        layout.addView(button);
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
 }
 
 
