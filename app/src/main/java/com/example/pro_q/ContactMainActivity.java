@@ -32,15 +32,10 @@ public class ContactMainActivity extends AppCompatActivity {
     private Button addNote, addTask, viewReport;
 
     // Keys - Match the keys to the field value in the database
-//    public static final String KEY_FIRSTNAME = "firstName";
-//    public static final String KEY_LASTNAME = "lastName";
+    public static final String KEY_FIRSTNAME = "firstName";
+    public static final String KEY_LASTNAME = "lastName";
     public static final String KEY_PHONE = "phone";
     public static final String KEY_GENDER = "gender";
-
-    // Connection to Firestore
-//    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-    // Path to database reference
 
     // Path to Document and Collections
     private DocumentReference clientDoc;
@@ -53,8 +48,6 @@ public class ContactMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_caregiver_main);
         FirebaseApp.initializeApp(this);
 
-        String name = getIntent().getStringExtra("Name");
-        String address = getIntent().getStringExtra("Address");
         String id = getIntent().getStringExtra("ID");
 
         clientId = findViewById(R.id.clientId);
@@ -64,18 +57,16 @@ public class ContactMainActivity extends AppCompatActivity {
         clientGender = findViewById(R.id.clientGender);
 
         clientId.setText(id);
-        clientName.setText(name);
-        clientAddress.setText(address);
 
         clientDoc = FirebaseFirestore.getInstance().collection("Client").document(id);
         clientMorningTaskRef = clientDoc.collection("morning");
         clientAfternoonTaskRef = clientDoc.collection("afternoon");
         clientEveningTaskRef = clientDoc.collection("evening");
 
-//        clientId = findViewById(R.id.clientId);
-//        clientName = findViewById(R.id.clientName);
-//        clientPhone = findViewById(R.id.clientPhone);
-//        clientAddress = findViewById(R.id.clientAddress);
+        clientId = findViewById(R.id.clientId);
+        clientName = findViewById(R.id.clientName);
+        clientPhone = findViewById(R.id.clientPhone);
+        clientAddress = findViewById(R.id.clientAddress);
 
         // CLIENT INFO - Retrieve data from collection
         clientDoc.get()
@@ -83,13 +74,37 @@ public class ContactMainActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
+                            String fname = documentSnapshot.getString(KEY_FIRSTNAME);
+                            String lname = documentSnapshot.getString(KEY_LASTNAME);
                             String phone = documentSnapshot.getString(KEY_PHONE);
-                            clientPhone.setText(phone);
                             String gender = documentSnapshot.getString(KEY_GENDER);
+
+                            clientName.setText(fname + " " + lname);
+                            clientPhone.setText(phone);
                             clientGender.setText(gender);
                         }
                         else {
                             Toast.makeText(ContactMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
+
+        clientDoc.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                // Get Client Address
+                                Map<String, String> addressMap = (Map<String, String>) document.get("address");
+                                String st = addressMap.get("street");
+                                String c = addressMap.get("city");
+                                String pcode = addressMap.get("postalCode");
+                                String address = st + ", " + c + " " + pcode;
+                                clientAddress.setText(address);
+                            }
                         }
                     }
                 })

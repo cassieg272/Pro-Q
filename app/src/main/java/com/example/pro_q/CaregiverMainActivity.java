@@ -22,6 +22,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.Source;
+
+import java.util.Map;
 
 public class CaregiverMainActivity extends AppCompatActivity {
 
@@ -29,8 +32,8 @@ public class CaregiverMainActivity extends AppCompatActivity {
     private TextView clientId, clientName, clientPhone, clientAddress, clientGender;
 
     // Keys - Match the keys to the field value in the database
-    public static final String KEY_FIRSTNAME = "firstname";
-    public static final String KEY_LASTNAME = "lastname";
+    public static final String KEY_FIRSTNAME = "firstName";
+    public static final String KEY_LASTNAME = "lastName";
     public static final String KEY_PHONE = "phone";
     public static final String KEY_GENDER = "gender";
 
@@ -85,6 +88,26 @@ public class CaregiverMainActivity extends AppCompatActivity {
                             clientGender.setText(gender);
                         } else {
                             Toast.makeText(CaregiverMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
+
+        clientDoc.get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                // Get Client Address
+                                Map<String, String> addressMap = (Map<String, String>) document.get("address");
+                                String st = addressMap.get("street");
+                                String c = addressMap.get("city");
+                                String pcode = addressMap.get("postalCode");
+                                String address = st + ", " + c + " " + pcode;
+                                clientAddress.setText(address);
+                            }
                         }
                     }
                 })
