@@ -15,9 +15,10 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        caregiverBtn=findViewById(R.id.caregiverBtn);
-        contactPersonBtn=findViewById(R.id.contactPersonBtn);
+        caregiverBtn = findViewById(R.id.caregiverBtn);
+        contactPersonBtn = findViewById(R.id.contactPersonBtn);
 
+        // Caregiver Button - when clicked, go to CaregiverLogin
         caregiverBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -26,6 +27,7 @@ public class WelcomeActivity extends AppCompatActivity {
             }
         });
 
+        // Contact Person Button - when clicked, go to ContactPersonLogin
         contactPersonBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

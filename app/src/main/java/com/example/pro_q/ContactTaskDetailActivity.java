@@ -13,20 +13,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class ContactTaskDetailActivity extends AppCompatActivity {
     private EditText category, description, title, timeOfDay;
     private CardView cardView;
-    // TODO add delete and update functions
     private Button delete, update, back;
 
     public static final String KEY_CATEGORY = "category";
     public static final String KEY_DESCRIPTION = "description";
-    public static final String KEY_REASON = "reason";
 
     // Connection to Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -37,10 +40,13 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_task_detail);
+
+        // Receiving data from previous activity
         String taskId = getIntent().getStringExtra("taskId");
         String time = getIntent().getStringExtra("time");
         String clientId = getIntent().getStringExtra("clientID");
 
+        // Reference to specific task in database
         DocumentReference task = clientInfoRef.document(clientId).collection(time).document(taskId);
 
         category = findViewById(R.id.categoryEdit);
@@ -52,6 +58,7 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
         delete = findViewById(R.id.deleteButton);
         update = findViewById(R.id.updateButton);
 
+        // Retrieve task information from the database and display it
         task.get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
@@ -66,7 +73,31 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
                         timeOfDay.setText(time);
                     }
                 });
+
+        // The Buttons
         back = findViewById(R.id.goBackButton);
+        update = findViewById(R.id.updateButton);
+        delete = findViewById(R.id.deleteButton);
+
+        // Update Button - updates the task description
+        // TODO - allow to update anything else?
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String updateDescription = description.getText().toString();
+                task.update(KEY_DESCRIPTION, updateDescription);
+            }
+        });
+
+        // Delete Button - deletes the task from the database
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                task.delete();
+            }
+        });
+
+        // Back Button - returns user to ContactMainActivity
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

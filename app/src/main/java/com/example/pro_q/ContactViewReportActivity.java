@@ -17,24 +17,38 @@ import android.widget.TextView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class ContactViewReportActivity extends AppCompatActivity {
     private Button back;
+    public static final String KEY_REASON = "reason";
+
+    //Declare collection & document references
+    private DocumentReference clientDoc;
+    private CollectionReference morning, afternoon, evening;
 
     // Connection to Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference morning = db.collection("Client").document("pnX0EcGFTQG24EcNR4P2").collection("morning");
-    private CollectionReference afternoon = db.collection("Client").document("pnX0EcGFTQG24EcNR4P2").collection("afternoon");
-    private CollectionReference evening = db.collection("Client").document("pnX0EcGFTQG24EcNR4P2").collection("evening");
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_view_report);
 
+        // Get client ID from previous activity
+        String id = getIntent().getStringExtra("clientID");
+
+        // Assign path to document & collection references
+        clientDoc = FirebaseFirestore.getInstance().collection("Client").document(id);
+        morning = clientDoc.collection("morning");
+        afternoon = clientDoc.collection("afternoon");
+        evening = clientDoc.collection("evening");
+
+        // If task is marked complete - find the layout in the app and create a textview with text set to completed task title
         morning.whereEqualTo("caregiverComplete", true).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -50,23 +64,7 @@ public class ContactViewReportActivity extends AppCompatActivity {
                         }
                     }
                 });
-        morning.whereEqualTo("caregiverComplete", false).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, "incomplete tasks");
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                LinearLayout layout = findViewById(R.id.incompleteLayout);
-                                TextView text = new TextView(ContactViewReportActivity.this);
-                                text.setText(document.getId());
-                                layout.addView(text);
-                            }
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+
         afternoon.whereEqualTo("caregiverComplete", true).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -84,23 +82,7 @@ public class ContactViewReportActivity extends AppCompatActivity {
                         }
                     }
                 });
-        afternoon.whereEqualTo("caregiverComplete", false).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, "incomplete tasks");
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                LinearLayout layout = findViewById(R.id.incompleteLayout);
-                                TextView text = new TextView(ContactViewReportActivity.this);
-                                text.setText(document.getId());
-                                layout.addView(text);
-                            }
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+
         evening.whereEqualTo("caregiverComplete", true).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -118,6 +100,44 @@ public class ContactViewReportActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+        // If task is marked incomplete - find the layout in the app and create a textview with text set to incomplete task title
+        morning.whereEqualTo("caregiverComplete", false).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, "incomplete tasks");
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                LinearLayout layout = findViewById(R.id.incompleteLayout);
+                                TextView text = new TextView(ContactViewReportActivity.this);
+                                text.setText(document.getId());
+                                layout.addView(text);
+                            }
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
+        afternoon.whereEqualTo("caregiverComplete", false).get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Log.d(TAG, "incomplete tasks");
+                                Log.d(TAG, document.getId() + " => " + document.getData());
+                                LinearLayout layout = findViewById(R.id.incompleteLayout);
+                                TextView text = new TextView(ContactViewReportActivity.this);
+                                text.setText(document.getId());
+                                layout.addView(text);
+                            }
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+
         evening.whereEqualTo("caregiverComplete", false).get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -136,11 +156,12 @@ public class ContactViewReportActivity extends AppCompatActivity {
                     }
                 });
 
+        // Back Button - returns user to ContactMainActivity
         back = findViewById(R.id.backButton);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ContactViewReportActivity.this, CaregiverMainActivity.class);
+                Intent intent = new Intent(ContactViewReportActivity.this, ContactMainActivity.class);
                 startActivity(intent);
             }
         });
