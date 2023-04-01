@@ -65,67 +65,53 @@ public class TaskDetailActivity extends AppCompatActivity {
 
         // Get data from the newly created document reference
         task.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String cat = documentSnapshot.getString(KEY_CATEGORY);
-                        String t = taskId;
-                        String d = documentSnapshot.getString(KEY_DESCRIPTION);
+                .addOnSuccessListener(documentSnapshot -> {
+                    String cat = documentSnapshot.getString(KEY_CATEGORY);
+                    String t = taskId;
+                    String d = documentSnapshot.getString(KEY_DESCRIPTION);
 
-                        // Set and display task information in the app
-                        category.setText(cat);
-                        title.setText(t);
-                        description.setText(d);
-                        timeOfDay.setText(time);
-                    }
+                    // Set and display task information in the app
+                    category.setText(cat);
+                    title.setText(t);
+                    description.setText(d);
+                    timeOfDay.setText(time);
                 });
         // Find the Incomplete Button and set On Click to make the cardview visible
         incomplete = findViewById(R.id.deleteButton);
-        incomplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cardView.setVisibility(view.VISIBLE);
-            }
-        });
+        incomplete.setOnClickListener(view -> cardView.setVisibility(view.VISIBLE));
 
         // Find the Mark Incomplete Button
         markIncomplete = findViewById(R.id.markIncompleteButton);
-        markIncomplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Get the value of Reason
-                reason = findViewById(R.id.reasonFill);
-                String reasonEntered = String.valueOf(reason.getText());
+        markIncomplete.setOnClickListener(view -> {
+            // Get the value of Reason
+            reason = findViewById(R.id.reasonFill);
+            String reasonEntered = String.valueOf(reason.getText());
 
-                // If nothing is entered, display a toast requesting user to enter a reason
-                if (reasonEntered.equals("")) {
-                    Toast.makeText(TaskDetailActivity.this, "Please enter a reason.", Toast.LENGTH_LONG).show();
-                }
-                // Else, update the task document in Firestore by setting Reason to what user entered. Make a toast. Then return to CaregiverMainActivity
-                else {
-                    String reasonSend = String.valueOf(reason.getText());
-                    task.update(KEY_REASON, reasonSend);
-                    task.update(KEY_CAREGIVER_COMPLETE, "no");
-                    Toast.makeText(TaskDetailActivity.this, "Task marked incomplete.", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(TaskDetailActivity.this, CaregiverMainActivity.class);
-                    intent.putExtra("ID", clientId);
-                    startActivity(intent);
-                }
+            // If nothing is entered, display a toast requesting user to enter a reason
+            if (reasonEntered.equals("")) {
+                Toast.makeText(TaskDetailActivity.this, "Please enter a reason.", Toast.LENGTH_LONG).show();
+            }
+            // Else, update the task document in Firestore by setting Reason to what user entered. Make a toast. Then return to CaregiverMainActivity
+            else {
+                String reasonSend = String.valueOf(reason.getText());
+                task.update(KEY_REASON, reasonSend);
+                task.update(KEY_CAREGIVER_COMPLETE, "no");
+                Toast.makeText(TaskDetailActivity.this, "Task marked incomplete.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(TaskDetailActivity.this, CaregiverMainActivity.class);
+                intent.putExtra("ID", clientId);
+                startActivity(intent);
             }
         });
 
         // Find the Mark Complete Button
         markComplete = findViewById(R.id.updateButton);
-        markComplete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // When clicked - set the value of caregiverComplete in Firestore to true, then return to CaregiverMainActivity
-                task.update(KEY_CAREGIVER_COMPLETE, "yes");
-                task.update(KEY_REASON, "");
-                Intent intent = new Intent(TaskDetailActivity.this, CaregiverMainActivity.class);
-                intent.putExtra("ID", clientId);
-                startActivity(intent);
-            }
+        markComplete.setOnClickListener(view -> {
+            // When clicked - set the value of caregiverComplete in Firestore to true, then return to CaregiverMainActivity
+            task.update(KEY_CAREGIVER_COMPLETE, "yes");
+            task.update(KEY_REASON, "");
+            Intent intent = new Intent(TaskDetailActivity.this, CaregiverMainActivity.class);
+            intent.putExtra("ID", clientId);
+            startActivity(intent);
         });
     }
 }

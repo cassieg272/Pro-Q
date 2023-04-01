@@ -60,18 +60,15 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
 
         // Retrieve task information from the database and display it
         task.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String cat = documentSnapshot.getString(KEY_CATEGORY);
-                        String t = taskId;
-                        String d = documentSnapshot.getString(KEY_DESCRIPTION);
+                .addOnSuccessListener(documentSnapshot -> {
+                    String cat = documentSnapshot.getString(KEY_CATEGORY);
+                    String t = taskId;
+                    String d = documentSnapshot.getString(KEY_DESCRIPTION);
 
-                        category.setText(cat);
-                        title.setText(t);
-                        description.setText(d);
-                        timeOfDay.setText(time);
-                    }
+                    category.setText(cat);
+                    title.setText(t);
+                    description.setText(d);
+                    timeOfDay.setText(time);
                 });
 
         // The Buttons
@@ -81,29 +78,18 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
 
         // Update Button - updates the task description
         // TODO - allow to update anything else?
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String updateDescription = description.getText().toString();
-                task.update(KEY_DESCRIPTION, updateDescription);
-            }
+        update.setOnClickListener(view -> {
+            String updateDescription = description.getText().toString();
+            task.update(KEY_DESCRIPTION, updateDescription);
         });
 
         // Delete Button - deletes the task from the database
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                task.delete();
-            }
-        });
+        delete.setOnClickListener(view -> task.delete());
 
         // Back Button - returns user to ContactMainActivity
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(ContactTaskDetailActivity.this, ContactMainActivity.class);
-                startActivity(intent);
-            }
+        back.setOnClickListener(view -> {
+            Intent intent = new Intent(ContactTaskDetailActivity.this, ContactMainActivity.class);
+            startActivity(intent);
         });
     }
 }
