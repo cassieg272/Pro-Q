@@ -174,16 +174,6 @@
                         android:textColor="#9C27B0"
                         android:textSize="20sp"
                         android:textStyle="bold" />
-
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/morningChips"
-                        style="@style/morningChipStyle"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="6dp"
-                        android:layout_marginRight="6dp"
-                        android:clickable="true" />
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>

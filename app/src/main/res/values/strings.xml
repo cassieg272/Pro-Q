@@ -27,4 +27,12 @@
     <string name="search_bar">Search Bar</string>
     <string name="client_gender">Client Gender</string>
     <string name="clientListTitle">List of Matched Clients</string>
+    <string name="afternoonTitle">Afternoon</string>
+    <string name="add_note_buttonText">Add Note</string>
+    <string name="create_task_buttonText">create task</string>
+    <string name="view_report_buttonText">View Report</string>
+    <string name="eveningTimeWindowLabel">Evening (17:00 - 22:00)</string>
+    <string name="afternoonTimeWindowLabel">Afternoon (12:00 - 17:00)</string>
+    <string name="morningTimeWindowLabel">Morning (08:00 - 12:00)</string>
+    <string name="TaskListLabel">Tasks of the Day</string>
 </resources>

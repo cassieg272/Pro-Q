@@ -14,4 +14,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="light_grey">#FFDEE3E0</color>
     <color name="grey">#FF535754</color>
+    <color name="eveningLabelColor">#FF9800</color>
+    <color name="eveningBackgroundColor">#45FF9800</color>
+    <color name="afternoonLabelColor">#009688</color>
+    <color name="afternoonBackgroundColor">#43009688</color>
+    <color name="morningLabelColor">#9C27B0</color>
+    <color name="morningBackgroundColor">#28500096</color>
+    <color name="client_info_dashboard">#00BCD4</color>
+    <color name="clientDashboardBackground">#2F00BCD4</color>
 </resources>

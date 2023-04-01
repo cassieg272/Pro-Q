@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,8 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -24,102 +27,68 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.List;
 import java.util.Map;
 
 public class ContactMainActivity extends AppCompatActivity {
-    private static final String TAG = "ContactMainActivity";
-    private TextView clientId;
-    private TextView clientName;
-    private TextView clientPhone;
-    private TextView clientAddress;
 
-    private Button addNote;
-    private Button addTask;
-    private Button viewReport;
+    private static final String TAG = "CaregiverMainActivity";
+    private TextView clientId, clientName, clientPhone, clientAddress, clientGender;
+
+    private Button addNote, addTask, viewReport;
 
     // Keys - Match the keys to the field value in the database
-    public static final String KEY_FIRSTNAME = "firstName";
-    public static final String KEY_LASTNAME = "lastName";
     public static final String KEY_PHONE = "phone";
+    public static final String KEY_GENDER = "gender";
+    //    String phone, gender, name, address, id;
+    public static final String KEY_TASKTITLE = "title";
 
-    // Connection to Firestore
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    // get references for client document and collections
+    private DocumentReference clientDoc;
+    private CollectionReference clientMorningTaskRef, clientAfternoonTaskRef, clientEveningTaskRef;
 
-    // Path to database reference
-    private DocumentReference clientInfoRef = db.collection("Client")
-            .document("pnX0EcGFTQG24EcNR4P2");
 
-    private DocumentReference clientAddressRef = db.collection("Client")
-            .document("pnX0EcGFTQG24EcNR4P2");
-
-    private CollectionReference clientMorningTaskRef = db.collection("Client")
-            .document("pnX0EcGFTQG24EcNR4P2")
-            .collection("morning");
-
-    private CollectionReference clientAfternoonTaskRef = db.collection("Client")
-            .document("pnX0EcGFTQG24EcNR4P2")
-            .collection("afternoon");
-
-    private CollectionReference clientEveningTaskRef = db.collection("Client")
-            .document("pnX0EcGFTQG24EcNR4P2")
-            .collection("evening");
-
-    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_caregiver_main);
-        FirebaseApp.initializeApp(this);
+        setContentView(R.layout.activity_contact_main);
+
+        String name = getIntent().getStringExtra("Name");
+        String address = getIntent().getStringExtra("Address");
+        String id = getIntent().getStringExtra("ID");
 
         clientId = findViewById(R.id.clientId);
         clientName = findViewById(R.id.clientName);
         clientPhone = findViewById(R.id.clientPhone);
         clientAddress = findViewById(R.id.clientAddress);
+        clientGender = findViewById(R.id.clientGender);
 
+        clientId.setText(id);
+        clientName.setText(name);
+        clientAddress.setText(address);
+
+        clientDoc = FirebaseFirestore.getInstance().collection("Client").document(id);
+        clientMorningTaskRef = clientDoc.collection("morning");
+        clientAfternoonTaskRef = clientDoc.collection("afternoon");
+        clientEveningTaskRef = clientDoc.collection("evening");
+//
         // CLIENT INFO - Retrieve data from collection
-        clientInfoRef.get()
+        clientDoc.get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
-
-                            // Get Client Id
-                            String clId = documentSnapshot.getId();
-                            clientId.setText("Client Id: " + clId);
-
-                            // Get Client Name
-                            String fname = documentSnapshot.getString(KEY_FIRSTNAME);
-                            String lname = documentSnapshot.getString(KEY_LASTNAME);
-                            String name = fname + " " + lname;
-                            clientName.setText(name);
-
                             // Get Client Phone
                             String phone = documentSnapshot.getString(KEY_PHONE);
-                            clientPhone.setText(phone);
-                        }
-                        else {
-                            Toast.makeText(ContactMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                })
-                .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
-
-
-        clientAddressRef.get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                // Get Client Address
-                                Map<String, String> addressMap = (Map<String, String>) document.get("address");
-                                String st = addressMap.get("street");
-                                String c = addressMap.get("city");
-                                String pcode = addressMap.get("postalCode");
-                                String address = st + ", " + c + " " + pcode;
-                                clientAddress.setText(address);
+                            if(phone==""||phone==null){
+                                clientPhone.setText("No phone number");
+                            }else{
+                                clientPhone.setText(phone);
                             }
+                            String gender = documentSnapshot.getString(KEY_GENDER);
+                            clientGender.setText(gender);
+                        } else {
+                            Toast.makeText(ContactMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
                         }
                     }
                 })
@@ -128,8 +97,7 @@ public class ContactMainActivity extends AppCompatActivity {
         // BUTTON BAR
 
         // Navigate to Add Note Page
-        addNote = findViewById(R.id.noteButton);
-        addNote.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.noteButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ContactMainActivity.this, AddNoteActivity.class);
@@ -138,8 +106,7 @@ public class ContactMainActivity extends AppCompatActivity {
         });
 
         // Navigate to Add Task Page
-        addTask = findViewById(R.id.taskButton);
-        addTask.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.taskButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ContactMainActivity.this, AddTaskActivity.class);
@@ -148,14 +115,15 @@ public class ContactMainActivity extends AppCompatActivity {
         });
 
         // Navigate to View Report Page
-        viewReport = findViewById(R.id.reportButton);
-        viewReport.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.reportButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ContactMainActivity.this, ContactViewReportActivity.class);
+                Intent intent = new Intent(ContactMainActivity.this, ViewReportActivity.class);
+                intent.putExtra("clientID", id);
                 startActivity(intent);
             }
         });
+
         clientMorningTaskRef.get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -246,6 +214,10 @@ public class ContactMainActivity extends AppCompatActivity {
                         }
                     }
                 });
-    };
+    }
+
+    ;
 }
+
+
 
