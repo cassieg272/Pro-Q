@@ -49,7 +49,7 @@ public class ContactViewReportActivity extends AppCompatActivity {
         evening = clientDoc.collection("evening");
 
         // If task is marked complete - find the layout in the app and create a textview with text set to completed task title
-        morning.whereEqualTo("caregiverComplete", true).get()
+        morning.whereEqualTo("caregiverComplete", "yes").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -65,7 +65,7 @@ public class ContactViewReportActivity extends AppCompatActivity {
                     }
                 });
 
-        afternoon.whereEqualTo("caregiverComplete", true).get()
+        afternoon.whereEqualTo("caregiverComplete", "yes").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -83,7 +83,7 @@ public class ContactViewReportActivity extends AppCompatActivity {
                     }
                 });
 
-        evening.whereEqualTo("caregiverComplete", true).get()
+        evening.whereEqualTo("caregiverComplete", "yes").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -102,7 +102,7 @@ public class ContactViewReportActivity extends AppCompatActivity {
                 });
 
         // If task is marked incomplete - find the layout in the app and create a textview with text set to incomplete task title
-        morning.whereEqualTo("caregiverComplete", false).get()
+        morning.whereEqualTo("caregiverComplete", "no").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -120,7 +120,7 @@ public class ContactViewReportActivity extends AppCompatActivity {
                     }
                 });
 
-        afternoon.whereEqualTo("caregiverComplete", false).get()
+        afternoon.whereEqualTo("caregiverComplete", "no").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -138,7 +138,7 @@ public class ContactViewReportActivity extends AppCompatActivity {
                     }
                 });
 
-        evening.whereEqualTo("caregiverComplete", false).get()
+        evening.whereEqualTo("caregiverComplete", "no").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {

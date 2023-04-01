@@ -45,23 +45,6 @@ public class ContactMainActivity extends AppCompatActivity {
     // Path to Document and Collections
     private DocumentReference clientDoc;
     private CollectionReference clientMorningTaskRef, clientAfternoonTaskRef, clientEveningTaskRef;
-//    private DocumentReference clientInfoRef = db.collection("Client")
-//            .document("pnX0EcGFTQG24EcNR4P2");
-//
-//    private DocumentReference clientAddressRef = db.collection("Client")
-//            .document("pnX0EcGFTQG24EcNR4P2");
-//
-//    private CollectionReference clientMorningTaskRef = db.collection("Client")
-//            .document("pnX0EcGFTQG24EcNR4P2")
-//            .collection("morning");
-//
-//    private CollectionReference clientAfternoonTaskRef = db.collection("Client")
-//            .document("pnX0EcGFTQG24EcNR4P2")
-//            .collection("afternoon");
-//
-//    private CollectionReference clientEveningTaskRef = db.collection("Client")
-//            .document("pnX0EcGFTQG24EcNR4P2")
-//            .collection("evening");
 
     @SuppressLint("WrongViewCast")
     @Override
@@ -211,7 +194,6 @@ public class ContactMainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
                                 LinearLayout layout = findViewById(R.id.eveningLayout);
                                 Button button = new Button(ContactMainActivity.this);
                                 button.setText(document.getId());

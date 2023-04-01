@@ -34,8 +34,7 @@ public class TaskDetailActivity extends AppCompatActivity {
     public static final String KEY_CATEGORY = "category";
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_REASON = "reason";
-    // TODO - make this work
-    public static final boolean KEY_CAREGIVER_COMPLETE = Boolean.parseBoolean("caregiverComplete");
+    public static final String KEY_CAREGIVER_COMPLETE = "caregiverComplete";
 
     // Connection to Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -106,8 +105,10 @@ public class TaskDetailActivity extends AppCompatActivity {
                 else {
                     String reasonSend = String.valueOf(reason.getText());
                     task.update(KEY_REASON, reasonSend);
+                    task.update(KEY_CAREGIVER_COMPLETE, "no");
                     Toast.makeText(TaskDetailActivity.this, "Task marked incomplete.", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(TaskDetailActivity.this, CaregiverMainActivity.class);
+                    intent.putExtra("ID", clientId);
                     startActivity(intent);
                 }
             }
@@ -118,10 +119,11 @@ public class TaskDetailActivity extends AppCompatActivity {
         markComplete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO figure out how to change this
                 // When clicked - set the value of caregiverComplete in Firestore to true, then return to CaregiverMainActivity
-                task.update(String.valueOf(KEY_CAREGIVER_COMPLETE), true);
+                task.update(KEY_CAREGIVER_COMPLETE, "yes");
+                task.update(KEY_REASON, "");
                 Intent intent = new Intent(TaskDetailActivity.this, CaregiverMainActivity.class);
+                intent.putExtra("ID", clientId);
                 startActivity(intent);
             }
         });

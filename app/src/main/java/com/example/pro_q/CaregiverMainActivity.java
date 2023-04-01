@@ -29,6 +29,8 @@ public class CaregiverMainActivity extends AppCompatActivity {
     private TextView clientId, clientName, clientPhone, clientAddress, clientGender;
 
     // Keys - Match the keys to the field value in the database
+    public static final String KEY_FIRSTNAME = "firstname";
+    public static final String KEY_LASTNAME = "lastname";
     public static final String KEY_PHONE = "phone";
     public static final String KEY_GENDER = "gender";
 
@@ -44,9 +46,10 @@ public class CaregiverMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_caregiver_main);
 
         // Receive data from previous activity
-        String name = getIntent().getStringExtra("Name");
-        String address = getIntent().getStringExtra("Address");
         String id = getIntent().getStringExtra("ID");
+//        String name = getIntent().getStringExtra("Name");
+//        String address = getIntent().getStringExtra("Address");
+
 
         clientId = findViewById(R.id.clientId);
         clientName = findViewById(R.id.clientName);
@@ -56,8 +59,8 @@ public class CaregiverMainActivity extends AppCompatActivity {
 
         // Set the fields to the data passed in and display it
         clientId.setText(id);
-        clientName.setText(name);
-        clientAddress.setText(address);
+//        clientName.setText(name);
+//        clientAddress.setText(address);
 
         // Create Document and Collection References
         clientDoc = FirebaseFirestore.getInstance().collection("Client").document(id);
@@ -72,8 +75,12 @@ public class CaregiverMainActivity extends AppCompatActivity {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
                             // If the document exists... get the values of phone and gender from the document reference and set display them in app
+                            String fname = documentSnapshot.getString(KEY_FIRSTNAME);
+                            String lname = documentSnapshot.getString(KEY_LASTNAME);
                             String phone = documentSnapshot.getString(KEY_PHONE);
                             String gender = documentSnapshot.getString(KEY_GENDER);
+
+                            clientName.setText(fname + " " + lname);
                             clientPhone.setText(phone);
                             clientGender.setText(gender);
                         } else {
