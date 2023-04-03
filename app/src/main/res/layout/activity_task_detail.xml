@@ -114,9 +114,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="12dp"
+            android:visibility="invisible"
             app:cardCornerRadius="8dp"
-            app:cardUseCompatPadding="true"
-            tools:visibility="invisible">
+            app:cardUseCompatPadding="true">
 
             <LinearLayout
                 android:layout_width="match_parent"

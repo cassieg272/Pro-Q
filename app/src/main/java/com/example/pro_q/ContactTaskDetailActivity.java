@@ -26,8 +26,7 @@ import java.util.Map;
 public class ContactTaskDetailActivity extends AppCompatActivity {
     private EditText category, description, title, timeOfDay;
     private CardView cardView;
-    private Button delete, update, back;
-
+    private Button delete, update, back, confirmDelete, cancel;
     public static final String KEY_CATEGORY = "category";
     public static final String KEY_DESCRIPTION = "description";
 
@@ -55,8 +54,6 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
         timeOfDay = findViewById(R.id.timeEdit);
         cardView = findViewById(R.id.cardview);
         cardView.setVisibility(View.INVISIBLE);
-        delete = findViewById(R.id.deleteButton);
-        update = findViewById(R.id.updateButton);
 
         // Retrieve task information from the database and display it
         task.get()
@@ -75,6 +72,8 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
         back = findViewById(R.id.goBackButton);
         update = findViewById(R.id.updateButton);
         delete = findViewById(R.id.deleteButton);
+        cancel = findViewById(R.id.cancelButton);
+        confirmDelete = findViewById(R.id.confirmDeleteButton);
 
         // Update Button - updates the task description
         // TODO - allow to update anything else?
@@ -83,8 +82,17 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
             task.update(KEY_DESCRIPTION, updateDescription);
         });
 
-        // Delete Button - deletes the task from the database
-        delete.setOnClickListener(view -> task.delete());
+        // Delete Button - sets cardview to Visible
+        delete.setOnClickListener(view -> cardView.setVisibility(View.VISIBLE));
+
+        // Confirm Delete Button - deletes the task from the database
+        confirmDelete.setOnClickListener(view -> {
+            task.delete();
+            Toast.makeText(ContactTaskDetailActivity.this, "Task Deleted!", Toast.LENGTH_SHORT).show();
+        });
+
+        // Cancel Button - sets cardview back to Invisible
+        cancel.setOnClickListener(view -> cardView.setVisibility(View.INVISIBLE));
 
         // Back Button - returns user to ContactMainActivity
         back.setOnClickListener(view -> {

@@ -5,13 +5,12 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class DeleteNoteDialog extends AppCompatDialogFragment {
+public class DeleteTaskDialog extends AppCompatDialogFragment {
 
     // Connection to Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -22,12 +21,13 @@ public class DeleteNoteDialog extends AppCompatDialogFragment {
         builder.setTitle("ProQ")
 
                 // Once user clicks "DELETE", this dialog box pops up to confirm deletion
-                .setMessage("Are you sure you want to delete this note?")
+                .setMessage("Are you sure you want to delete this task?")
 
                 // When user clicks "OK", will go to delete confirmation page
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
                         Intent intent = new Intent(getActivity(), DeleteSuccessActivity.class);
                         startActivity(intent);
                     }

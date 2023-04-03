@@ -106,7 +106,7 @@ public class EditNoteActivity extends AppCompatActivity {
 
     public void deleteNoteDialog()
     {
-        DeleteNoteDialog deleteNoteDialog = new DeleteNoteDialog();
+        DeleteTaskDialog deleteNoteDialog = new DeleteTaskDialog();
         deleteNoteDialog.show(getSupportFragmentManager(), "it worked!");
     }
 

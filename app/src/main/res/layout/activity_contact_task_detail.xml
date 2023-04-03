@@ -31,14 +31,12 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <EditText
+        <TextView
             android:id="@+id/categoryEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            tools:ignore="SpeakableTextPresentCheck" />
+            android:layout_marginTop="15dp"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/titleLabel2"
@@ -48,14 +46,12 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <EditText
+        <TextView
             android:id="@+id/titleEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            tools:ignore="SpeakableTextPresentCheck" />
+            android:layout_marginTop="15dp"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/descriptionLabel2"
@@ -81,14 +77,12 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <EditText
+        <TextView
             android:id="@+id/timeEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:minHeight="48dp"
-            tools:ignore="SpeakableTextPresentCheck" />
+            android:layout_marginTop="15dp"
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -120,6 +114,57 @@
                 android:text="update" />
 
         </LinearLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:elevation="12dp"
+            android:visibility="invisible"
+            app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#2F00BCD4"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/confirmLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="15dp"
+                    android:text="Are you sure you want to delete this task?"
+                    android:textAlignment="center"
+                    android:textColor="#3F51B5"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/confirmDeleteButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:backgroundTint="@color/purple"
+                    android:text="delete task"
+                    android:textColorLink="@color/pink" />
+
+                <Button
+                    android:id="@+id/cancelButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:backgroundTint="@color/purple"
+                    android:text="cancel" />
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <Button
             android:id="@+id/goBackButton"
