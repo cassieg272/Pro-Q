@@ -19,12 +19,15 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.w3c.dom.Text;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ContactTaskDetailActivity extends AppCompatActivity {
-    private EditText category, description, title, timeOfDay;
+    private TextView category, title, timeOfDay;
+    private EditText description;
     private CardView cardView;
     private Button delete, update, back, confirmDelete, cancel;
     public static final String KEY_CATEGORY = "category";
@@ -50,7 +53,7 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
 
         category = findViewById(R.id.categoryEdit);
         title = findViewById(R.id.titleEdit);
-        description = findViewById(R.id.categoryEdit);
+        description = findViewById(R.id.descriptionEdit);
         timeOfDay = findViewById(R.id.timeEdit);
         cardView = findViewById(R.id.cardview);
         cardView.setVisibility(View.INVISIBLE);
