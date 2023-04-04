@@ -124,7 +124,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
         getTaskList(clientAfternoonTaskRef, findViewById(R.id.afternoonLayout));
     }
 
-    private void getTaskList (CollectionReference clientTaskRef, LinearLayout layout){
+    private void getTaskList(CollectionReference clientTaskRef, LinearLayout layout) {
         clientTaskRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

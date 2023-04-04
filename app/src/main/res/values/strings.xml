@@ -35,4 +35,5 @@
     <string name="afternoonTimeWindowLabel">Afternoon (12:00 - 17:00)</string>
     <string name="morningTimeWindowLabel">Morning (08:00 - 12:00)</string>
     <string name="TaskListLabel">Tasks of the Day</string>
+    <string name="swipeInstruction"><![CDATA[<< Swipe to next day\'s task list >>]]></string>
 </resources>

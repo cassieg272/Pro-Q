@@ -1,26 +1,32 @@
 package com.example.pro_q;
 
 public class TaskModel {
-    String taskID, taskTitle;
-
-    public TaskModel(String taskID, String taskTitle) {
-        this.taskID = taskID;
-        this.taskTitle = taskTitle;
-    }
-
-    public String getTaskID() {
-        return taskID;
-    }
-
-    public String getTaskTitle() {
-        return taskTitle;
-    }
-
+    String name, description, category;
+    public TaskModel() {}
     @Override
     public String toString() {
-        return "TaskModel{" +
-                "taskID='" + taskID + '\'' +
-                ", taskTitle='" + taskTitle + '\'' +
+        return "TaskModel {" +
+                "taskName = '" + name + '\'' +
+                ", taskDesc = '" + description + '\'' +
+                ", taskCategory = '" + category + '\'' +
                 '}';
+    }
+
+    public String getTaskName() {
+        return name;
+    }
+
+    public String getTaskDesc() {
+        return description;
+    }
+
+    public String getTaskCategory() {
+        return category;
+    }
+
+    public TaskModel(String name, String description, String category) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
     }
 }

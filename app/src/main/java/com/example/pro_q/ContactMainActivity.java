@@ -2,6 +2,9 @@ package com.example.pro_q;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -24,15 +27,16 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ContactMainActivity extends AppCompatActivity {
+public class ContactMainActivity extends AppCompatActivity implements RecyclerViewInterface{
 
-    private static final String TAG = "CaregiverMainActivity";
     private TextView clientId, clientName, clientPhone, clientAddress, clientGender;
 
     private Button addNote, addTask, viewReport;
@@ -40,11 +44,14 @@ public class ContactMainActivity extends AppCompatActivity {
     // Keys - Match the keys to the field value in the database
     public static final String KEY_PHONE = "phone";
     public static final String KEY_GENDER = "gender";
-    //    String phone, gender, name, address, id;
+    String phone, gender, name, address, id;
     public static final String KEY_TASKTITLE = "title";
 
     // get references for client document and collections
     private DocumentReference clientDoc;
+    private ViewPager2 viewPagerDayTask;
+    private ArrayList<DayModel> allDayList = new ArrayList<>();
+    private String[] weekDays = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
     private CollectionReference clientMorningTaskRef, clientAfternoonTaskRef, clientEveningTaskRef;
 
 
@@ -53,11 +60,12 @@ public class ContactMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_main);
 
-        String name = getIntent().getStringExtra("Name");
-        String address = getIntent().getStringExtra("Address");
-        String id = getIntent().getStringExtra("ID");
+        name = getIntent().getStringExtra("Name");
+        address = getIntent().getStringExtra("Address");
+        id = getIntent().getStringExtra("ID");
 
         clientId = findViewById(R.id.clientId);
+        viewPagerDayTask = findViewById(R.id.viewPagerDayTask);
         clientName = findViewById(R.id.clientName);
         clientPhone = findViewById(R.id.clientPhone);
         clientAddress = findViewById(R.id.clientAddress);
@@ -79,20 +87,20 @@ public class ContactMainActivity extends AppCompatActivity {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
                             // Get Client Phone
-                            String phone = documentSnapshot.getString(KEY_PHONE);
-                            if(phone==""||phone==null){
+                            phone = documentSnapshot.getString(KEY_PHONE);
+                            if (phone == "" || phone == null) {
                                 clientPhone.setText("No phone number");
-                            }else{
+                            } else {
                                 clientPhone.setText(phone);
                             }
-                            String gender = documentSnapshot.getString(KEY_GENDER);
+                            gender = documentSnapshot.getString(KEY_GENDER);
                             clientGender.setText(gender);
                         } else {
                             Toast.makeText(ContactMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
                         }
                     }
                 })
-                .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
+                .addOnFailureListener(e -> Log.d("TAG", "onFailure: " + e.toString()));
 
         // BUTTON BAR
 
@@ -124,99 +132,25 @@ public class ContactMainActivity extends AppCompatActivity {
             }
         });
 
-        clientMorningTaskRef.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                LinearLayout layout = findViewById(R.id.morningLayout);
-                                Button button = new Button(ContactMainActivity.this);
-                                button.setText(document.getId());
 
-                                button.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Log.d(TAG, "button was clicked" + button.getText());
-                                        String passTaskId = String.valueOf(button.getText());
-                                        String passRef = String.valueOf(clientMorningTaskRef);
-                                        Intent intent = new Intent(ContactMainActivity.this, TaskDetailActivity.class);
-                                        intent.putExtra("taskId", passTaskId);
-                                        intent.putExtra("ref", passRef);
-                                        startActivity(intent);
-                                    }
-                                });
-                                layout.addView(button);
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
-        clientAfternoonTaskRef.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                LinearLayout layout = findViewById(R.id.afternoonLayout);
-                                Button button = new Button(ContactMainActivity.this);
-                                button.setText(document.getId());
-                                button.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Log.d(TAG, "button was clicked" + button.getText());
-                                        String passTaskId = String.valueOf(button.getText());
-                                        String passRef = String.valueOf(clientAfternoonTaskRef);
-                                        Intent intent = new Intent(ContactMainActivity.this, TaskDetailActivity.class);
-                                        intent.putExtra("taskId", passTaskId);
-                                        intent.putExtra("ref", passRef);
-                                        startActivity(intent);
-                                    }
-                                });
-                                layout.addView(button);
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-
-        clientEveningTaskRef.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                LinearLayout layout = findViewById(R.id.eveningLayout);
-                                Button button = new Button(ContactMainActivity.this);
-                                button.setText(document.getId());
-                                button.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Log.d(TAG, "button was clicked" + button.getText());
-                                        String passTaskId = String.valueOf(button.getText());
-                                        String passRef = String.valueOf(clientEveningTaskRef);
-                                        Intent intent = new Intent(ContactMainActivity.this, TaskDetailActivity.class);
-                                        intent.putExtra("taskId", passTaskId);
-                                        intent.putExtra("ref", clientEveningTaskRef.getId());
-                                        startActivity(intent);
-                                    }
-                                });
-                                layout.addView(button);
-                            }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
+        Log.d("TAG", "onCreate: start");
+        for (String day:weekDays) {
+            allDayList.add(new DayModel(id, ContactMainActivity.this, day));
+        }
+        Log.d("TAG", "onCreate: "+allDayList.size());
+        Log.d("TAG", "onCreate: end");
+        DayAdapter dayAdapter = new DayAdapter(ContactMainActivity.this, allDayList, ContactMainActivity.this);
+        viewPagerDayTask.setAdapter(dayAdapter);
+        viewPagerDayTask.setClipToPadding(false);
+        viewPagerDayTask.setClipChildren(false);
+        viewPagerDayTask.setOffscreenPageLimit(2);
+        viewPagerDayTask.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
-    ;
+    @Override
+    public void onItemClick(int position) {
+
+    }
 }
 
 
