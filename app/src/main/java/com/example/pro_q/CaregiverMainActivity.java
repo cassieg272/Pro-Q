@@ -9,6 +9,9 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -30,9 +34,10 @@ import java.util.Calendar;
 import java.util.Map;
 
 public class CaregiverMainActivity extends AppCompatActivity {
-
+    private FirebaseAuth mAuth;
     private static final String TAG = "CaregiverMainActivity";
     private TextView clientId, clientName, clientPhone, clientAddress, clientGender;
+    private Button logout, searchReturn;
 
     // Keys - Match the keys to the field value in the database
     public static final String KEY_FIRSTNAME = "firstName";
@@ -43,7 +48,6 @@ public class CaregiverMainActivity extends AppCompatActivity {
     // Path to Document and Collections
     private DocumentReference clientDoc;
     private CollectionReference clientMorningTaskRef, clientAfternoonTaskRef, clientEveningTaskRef;
-    private PendingIntent resetIntent;
 
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
@@ -197,6 +201,29 @@ public class CaregiverMainActivity extends AppCompatActivity {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 });
+
+        // Search Return Button - returns user to Client Search page
+        searchReturn = findViewById(R.id.searchReturnButton);
+        searchReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                Intent intent = new Intent(CaregiverMainActivity.this, Search.class);
+                startActivity(intent);
+            }
+        });
+
+        // Logout Button - signs user out of firestore and brings them back to login page
+        mAuth = FirebaseAuth.getInstance();
+        logout = findViewById(R.id.logoutButton);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                Intent intent = new Intent(CaregiverMainActivity.this, CaregiverLogin.class);
+                startActivity(intent);
+            }
+        });
     };
 }
 

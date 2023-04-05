@@ -238,5 +238,23 @@
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
+        <Button
+            android:id="@+id/searchBackButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@android:color/holo_blue_light"
+            android:text="client search"
+            android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/leaveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:text="logout"
+            android:textSize="18sp" />
     </LinearLayout>
 </ScrollView>

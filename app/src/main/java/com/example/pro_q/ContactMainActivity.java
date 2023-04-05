@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -29,8 +30,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.Map;
 
 public class ContactMainActivity extends AppCompatActivity {
+    private FirebaseAuth mAuth;
     private TextView clientId, clientName, clientPhone, clientAddress, clientGender;
-    private Button addNote, addTask, viewReport;
+    private Button addTask, viewReport, logout, searchReturn;
 
     // Keys - Match the keys to the field value in the database
     public static final String KEY_FIRSTNAME = "firstName";
@@ -42,7 +44,7 @@ public class ContactMainActivity extends AppCompatActivity {
     private DocumentReference clientDoc;
     private CollectionReference clientMorningTaskRef, clientAfternoonTaskRef, clientEveningTaskRef;
 
-    @SuppressLint("WrongViewCast")
+    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,6 +205,22 @@ public class ContactMainActivity extends AppCompatActivity {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 });
+
+        searchReturn = findViewById(R.id.searchBackButton);
+        searchReturn.setOnClickListener(view -> {
+            mAuth.signOut();
+            Intent intent = new Intent(ContactMainActivity.this, Search.class);
+            startActivity(intent);
+        });
+
+        // Logout Button - signs user out of firestore and brings them back to login page
+        mAuth = FirebaseAuth.getInstance();
+        logout = findViewById(R.id.leaveButton);
+        logout.setOnClickListener(view -> {
+            mAuth.signOut();
+            Intent intent = new Intent(ContactMainActivity.this, ContactPersonLogin.class);
+            startActivity(intent);
+        });
     };
 }
 
