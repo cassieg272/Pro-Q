@@ -109,6 +109,7 @@ public class TaskDetailActivity extends AppCompatActivity {
             // When clicked - set the value of caregiverComplete in Firestore to true, then return to CaregiverMainActivity
             task.update(KEY_CAREGIVER_COMPLETE, "yes");
             task.update(KEY_REASON, "");
+            Toast.makeText(TaskDetailActivity.this, "Task marked complete.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(TaskDetailActivity.this, CaregiverMainActivity.class);
             intent.putExtra("ID", clientId);
             startActivity(intent);

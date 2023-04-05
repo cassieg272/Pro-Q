@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +26,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
 
+import java.util.Calendar;
 import java.util.Map;
 
 public class CaregiverMainActivity extends AppCompatActivity {
@@ -40,7 +43,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
     // Path to Document and Collections
     private DocumentReference clientDoc;
     private CollectionReference clientMorningTaskRef, clientAfternoonTaskRef, clientEveningTaskRef;
-
+    private PendingIntent resetIntent;
 
     @SuppressLint({"WrongViewCast", "MissingInflatedId"})
     @Override
@@ -48,7 +51,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_caregiver_main);
 
-        // Receive data from previous activity
+//         Receive data from previous activity
         String id = getIntent().getStringExtra("ID");
 
         clientId = findViewById(R.id.clientId);

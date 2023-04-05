@@ -24,7 +24,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class ContactViewReportActivity extends AppCompatActivity {
-    private Button back;
+    private Button back, reset;
+    public static final String KEY_CAREGIVER_COMPLETE = "caregiverComplete";
     public static final String KEY_REASON = "reason";
 
     //Declare collection & document references
@@ -149,6 +150,42 @@ public class ContactViewReportActivity extends AppCompatActivity {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 });
+
+        reset = findViewById(R.id.resetButton);
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                morning.whereEqualTo("caregiverComplete", "yes").get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String taskRef = document.getId();
+                                    morning.document(taskRef).update(KEY_CAREGIVER_COMPLETE, "no", KEY_REASON, "");
+                                }
+                            }
+                        });
+
+                afternoon.whereEqualTo("caregiverComplete", "yes").get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String taskRef = document.getId();
+                                    afternoon.document(taskRef).update(KEY_CAREGIVER_COMPLETE, "no", KEY_REASON, "");
+                                }
+                            }
+                        });
+
+                evening.whereEqualTo("caregiverComplete", "yes").get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    String taskRef = document.getId();
+                                    evening.document(taskRef).update(KEY_CAREGIVER_COMPLETE, "no", KEY_REASON, "");
+                                }
+                            }
+                        });
+            }
+        });
 
         // Back Button - returns user to ContactMainActivity
         back = findViewById(R.id.backButton);

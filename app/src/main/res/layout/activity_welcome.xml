@@ -6,46 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".WelcomeActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="136dp"
-        android:layout_height="141dp"
-        android:layout_marginTop="180dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/noun_who_4249588" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/whoTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/whoAreYou"
-        android:textColor="@color/black"
-        android:textSize="28sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/caregiverBtn"
-        android:layout_width="203dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/caregiverBtnText"
-        app:layout_constraintEnd_toEndOf="@+id/whoTextView"
-        app:layout_constraintStart_toStartOf="@+id/whoTextView"
-        app:layout_constraintTop_toBottomOf="@+id/whoTextView" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="136dp"
+                android:layout_height="141dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="180dp"
+                app:srcCompat="@drawable/noun_who_4249588" />
 
-    <Button
-        android:id="@+id/contactPersonBtn"
-        android:layout_width="203dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/contactPersonBtnText"
-        app:layout_constraintEnd_toEndOf="@+id/caregiverBtn"
-        app:layout_constraintStart_toStartOf="@+id/caregiverBtn"
-        app:layout_constraintTop_toBottomOf="@+id/caregiverBtn" />
+            <TextView
+                android:id="@+id/whoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/whoAreYou"
+                android:textColor="@color/black"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/caregiverBtn"
+                android:layout_width="203dp"
+                android:layout_height="59dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:text="@string/caregiverBtnText" />
+
+            <Button
+                android:id="@+id/contactPersonBtn"
+                android:layout_width="203dp"
+                android:layout_height="59dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:text="@string/contactPersonBtnText" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

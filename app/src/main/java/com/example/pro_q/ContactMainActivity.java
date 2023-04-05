@@ -131,6 +131,7 @@ public class ContactMainActivity extends AppCompatActivity {
             intent.putExtra("clientID", id);
             startActivity(intent);
         });
+
         clientMorningTaskRef.get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

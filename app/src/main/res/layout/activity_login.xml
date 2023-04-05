@@ -7,68 +7,69 @@
     app:passwordToggleEnabled="true"
     tools:context=".CaregiverLogin">
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="214dp"
-        android:layout_height="80dp"
-        android:layout_marginTop="224dp"
-        android:contentDescription="@string/logoContentDescription"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_cropped" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/emailTextInputLayout"
-        android:hint="@string/emailHint"
-        app:startIconDrawable="@drawable/baseline_email_24"
-        app:layout_constraintEnd_toEndOf="@+id/logo"
-        app:layout_constraintStart_toStartOf="@+id/logo"
-        app:boxBackgroundColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/logo"
-        android:layout_marginTop="32dp">
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="320dp"
-            android:layout_height="match_parent"
-            android:id="@+id/emailEditText"
-            android:inputType="textEmailAddress" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="214dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="224dp"
+                android:contentDescription="@string/logoContentDescription"
+                app:srcCompat="@drawable/logo_cropped" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailTextInputLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="32dp"
+                android:hint="@string/emailHint"
+                app:boxBackgroundColor="@color/white"
+                app:startIconDrawable="@drawable/baseline_email_24">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailEditText"
+                    android:layout_width="320dp"
+                    android:layout_height="match_parent"
+                    android:inputType="textEmailAddress" />
 
 
-    </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/passwordTextInputLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:hint="@string/passwordHint"
-        app:boxBackgroundColor="@color/white"
-        app:endIconMode="password_toggle"
-        app:layout_constraintEnd_toEndOf="@+id/emailTextInputLayout"
-        app:layout_constraintHorizontal_bias="0.333"
-        app:layout_constraintStart_toStartOf="@+id/emailTextInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/emailTextInputLayout"
-        app:startIconDrawable="@drawable/baseline_lock_24">
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/passwordTextInputLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:hint="@string/passwordHint"
+                app:boxBackgroundColor="@color/white"
+                app:endIconMode="password_toggle"
+                app:startIconDrawable="@drawable/baseline_lock_24">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/passwordEditText"
-            android:layout_width="320dp"
-            android:layout_height="match_parent"
-            android:inputType="textPassword" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/passwordEditText"
+                    android:layout_width="320dp"
+                    android:layout_height="match_parent"
+                    android:inputType="textPassword" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/loginBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="@string/loginBtn"
-        app:layout_constraintEnd_toEndOf="@+id/passwordTextInputLayout"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="@+id/passwordTextInputLayout"
-        app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout" />
+            <Button
+                android:id="@+id/loginBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/loginBtn" />
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
