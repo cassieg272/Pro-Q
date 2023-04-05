@@ -43,9 +43,9 @@ public class DayModel extends AppCompatActivity {
     Context context;
 
     String[] timeOfDay = {"Morning", "Afternoon", "Evening"};
-    public ArrayList<TaskModel> afternoonTaskArr = new ArrayList<>();
-   public ArrayList<TaskModel> morningTaskArr = new ArrayList<>();
-    public ArrayList<TaskModel> eveningTaskArr = new ArrayList<>();
+    private ArrayList<TaskModel> afternoonTaskArr = new ArrayList<>();
+    private ArrayList<TaskModel> morningTaskArr = new ArrayList<>();
+    private ArrayList<TaskModel> eveningTaskArr = new ArrayList<>();
 
 
     public String getDay() {
@@ -57,14 +57,29 @@ public class DayModel extends AppCompatActivity {
         this.day = day;
         this.context = context;
         dayTaskCollection = FirebaseFirestore.getInstance().collection("Client").document(id).collection(day);
-        getDayTask(dayTaskCollection);
+        getDayTask();
     }
+
     public ArrayList<TaskModel> getEveningTaskArr() {
+
         return eveningTaskArr;
+
+    }
+
+    public ArrayList<TaskModel> getAfternoonTaskArr() {
+
+        return afternoonTaskArr;
+
+    }
+
+    public ArrayList<TaskModel> getMorningTaskArr() {
+
+        return morningTaskArr;
+
     }
 
     //retrieve the task information on the day stored in field <day>
-    private void getDayTask(CollectionReference dayTaskCollection) {
+    private void getDayTask() {
         dayTaskCollection.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -75,15 +90,15 @@ public class DayModel extends AppCompatActivity {
                         switch (time.toLowerCase()) {
                             //if the document name is morning then retrieve the tasks and add to morningTaskArr
                             case "morning":
-                                morningTaskArr = getTimeTask(time, morningTaskArr);
+                                getTimeTask(time);
                                 break;
                             //if the document name is afternoon then retrieve the tasks and add to afternoonTaskArr
                             case "afternoon":
-                                afternoonTaskArr = getTimeTask(time, afternoonTaskArr);
+                                getTimeTask(time);
                                 break;
                             //if the document name is evening then retrieve the tasks and add to eveningTaskArr
                             case "evening":
-                                eveningTaskArr = getTimeTask(time, eveningTaskArr);
+                                getTimeTask(time);
                                 break;
                             default:
                                 break;
@@ -97,7 +112,8 @@ public class DayModel extends AppCompatActivity {
     }
 
     //retrieve task list for the given time of day and create TaskModel objects and store them in the corresponding morning/afternoon/evening arraylist
-    private ArrayList<TaskModel> getTimeTask(String time, ArrayList<TaskModel> taskArr) {
+    private void getTimeTask(String time) {
+        ArrayList<TaskModel> taskArr = new ArrayList<>();
         dayTaskCollection.document(time).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -121,13 +137,30 @@ public class DayModel extends AppCompatActivity {
                                     Log.d("TAG", "getTimeTask: null");
                                 }
                             }
+
                         }
+                        switch (time.toLowerCase()) {
+                            //if the document name is morning then retrieve the tasks and add to morningTaskArr
+                            case "morning":
+                                morningTaskArr = taskArr;
+                                break;
+                            //if the document name is afternoon then retrieve the tasks and add to afternoonTaskArr
+                            case "afternoon":
+                                afternoonTaskArr = taskArr;
+                                break;
+                            //if the document name is evening then retrieve the tasks and add to eveningTaskArr
+                            case "evening":
+                                eveningTaskArr = taskArr;
+                                break;
+                            default:
+                                break;
+                        }
+
                     }
                 } else {
                     Toast.makeText(context, "Please create task for " + day + " " + time, Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        return taskArr;
     }
 }

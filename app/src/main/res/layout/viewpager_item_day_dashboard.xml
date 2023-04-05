@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -24,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/TaskListLabel"
                 android:textAlignment="center"
+                android:layout_marginTop="10dp"
                 android:textColor="@android:color/holo_blue_dark"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -34,6 +35,10 @@
                 <LinearLayout
                     android:id="@+id/morningTaskContainer"
                     android:layout_width="match_parent"
+                    android:orientation="vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="10dp"
                     android:layout_height="wrap_content"
                     android:background="@color/morningBackgroundColor">
 
@@ -50,7 +55,11 @@
                 <LinearLayout
                     android:id="@+id/afternoonTaskContainer"
                     android:layout_width="match_parent"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="10dp"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
                     android:background="@color/afternoonBackgroundColor">
 
                     <TextView
@@ -65,9 +74,12 @@
             <androidx.cardview.widget.CardView style="@style/timeWindowContainer">
                 <LinearLayout
                     android:id="@+id/eveningTaskContainer"
-                    style="@style/timeWindowContainer"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="10dp"
                     android:background="@color/eveningBackgroundColor">
 
                     <TextView
@@ -79,4 +91,4 @@
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

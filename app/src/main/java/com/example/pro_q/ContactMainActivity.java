@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class ContactMainActivity extends AppCompatActivity implements RecyclerViewInterface{
+public class ContactMainActivity extends AppCompatActivity implements RecyclerViewInterface {
 
     private TextView clientId, clientName, clientPhone, clientAddress, clientGender;
 
@@ -135,7 +135,9 @@ public class ContactMainActivity extends AppCompatActivity implements RecyclerVi
 
         Log.d("TAG", "onCreate: start");
         for (String day:weekDays) {
-            allDayList.add(new DayModel(id, ContactMainActivity.this, day));
+            DayModel newDay =new DayModel(id, ContactMainActivity.this, day);
+            allDayList.add(newDay);
+
         }
         Log.d("TAG", "onCreate: "+allDayList.size());
         Log.d("TAG", "onCreate: end");

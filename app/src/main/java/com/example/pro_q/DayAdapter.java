@@ -5,9 +5,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsoluteLayout;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,33 +41,38 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         //assigning values to the views we created in the search_result layout file
         //based on the position of the recycler view
+        holder.tasksLabel.setText("Tasks for " + dayModels.get(position).getDay());
+        ArrayList<TaskModel> afternoonTaskArr = dayModels.get(position).getAfternoonTaskArr();
+        Log.d("TAG", "test array: aft" + afternoonTaskArr);
+        ArrayList<TaskModel> morningTaskArr =dayModels.get(position).getMorningTaskArr();
+        Log.d("TAG", "test array: morn" + morningTaskArr);
+        ArrayList<TaskModel> eveningTaskArr = dayModels.get(position).getEveningTaskArr();
 
-        ArrayList<TaskModel> afternoonTaskArr = dayModels.get(position).afternoonTaskArr;
-        Log.d("TAG", "test array: "+afternoonTaskArr);
-        ArrayList<TaskModel> morningTaskArr = dayModels.get(position).morningTaskArr;
-        Log.d("TAG", "test array: "+morningTaskArr);
-
-        ArrayList<TaskModel> eveningTaskArr = dayModels.get(position).morningTaskArr;
-        Log.d("TAG", "test arr: "+eveningTaskArr);
-
+        Log.d("TAG", "test arr: eve " + eveningTaskArr);
         createBtn(morningTaskArr, holder.morningTask);
         createBtn(afternoonTaskArr, holder.afternoonTask);
         createBtn(eveningTaskArr, holder.eveningTask);
-        holder.tasksLabel.setText("Tasks for " + dayModels.get(position).getDay());
     }
 
     private void createBtn(ArrayList<TaskModel> arrayList, LinearLayout layout) {
         for (TaskModel task : arrayList) {
-            if (arrayList == null) {
-                return;
-            }
             Button taskBtn = new Button(context);
-            taskBtn.setText(task.getTaskName());
-            taskBtn.setWidth(100);
-            taskBtn.setHeight(100);
-            taskBtn.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
-            taskBtn.setBackgroundColor(taskBtn.getContext().getResources().getColor(R.color.grey));
-            Log.d("TAG", "onBindViewHolder: " + task.getTaskName());
+            taskBtn.setText("Meal Prep");
+            taskBtn.setTextColor(taskBtn.getContext().getResources().getColor(R.color.white));
+            taskBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, "clicked btn", Toast.LENGTH_LONG).show();
+                }
+            });
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(5, 5, 5, 10);
+            taskBtn.setLayoutParams(params);
+            taskBtn.setBackgroundColor(taskBtn.getContext().getResources().getColor(R.color.purple_200));
+            taskBtn.setTextColor(taskBtn.getContext().getResources().getColor(R.color.white));
+//            Log.d("TAG", "onBindViewHolder: " + task.getTaskName());
             layout.addView(taskBtn);
         }
     }
