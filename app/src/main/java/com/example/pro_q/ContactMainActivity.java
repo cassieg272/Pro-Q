@@ -36,6 +36,7 @@ public class ContactMainActivity extends AppCompatActivity {
     private static final String TAG = "CaregiverMainActivity";
     private TextView clientId, clientName, clientPhone, clientAddress, clientGender;
     private Button logout, clientListButton, addTask, viewReport;
+
     // Keys - Match the keys to the field value in the database
     public static final String KEY_PHONE = "phone";
     public static final String KEY_GENDER = "gender";
@@ -134,6 +135,7 @@ public class ContactMainActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
     //method to create buttons dynamically based on the number of tasks for each time of day
     private void getTaskList(CollectionReference taskCollection, LinearLayout layout, String time) {
         taskCollection.get().addOnCompleteListener(task -> {

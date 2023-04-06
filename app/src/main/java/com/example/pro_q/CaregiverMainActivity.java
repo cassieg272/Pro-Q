@@ -67,7 +67,6 @@ public class CaregiverMainActivity extends AppCompatActivity {
         address = sharedPref.getString("clientAddress", "<Address>");
         id = sharedPref.getString("clientId", "<Id>");
 
-
         clientId = findViewById(R.id.clientId);
         timerButton = findViewById(R.id.timerButton);
         clientName = findViewById(R.id.clientName);
