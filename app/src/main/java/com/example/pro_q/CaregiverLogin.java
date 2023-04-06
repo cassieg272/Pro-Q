@@ -1,7 +1,10 @@
 package com.example.pro_q;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -24,11 +27,16 @@ public class CaregiverLogin extends AppCompatActivity {
     private CollectionReference paramedCollection;
     private CollectionReference bayshoreCollection;
     private FirebaseAuth mAuth;
+    private SharedPreferences sharedPref ;
+    private SharedPreferences.Editor editor ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
 
         email = findViewById(R.id.emailEditText);
         password = findViewById(R.id.passwordEditText);
@@ -97,7 +105,9 @@ public class CaregiverLogin extends AppCompatActivity {
                 if (task1.isSuccessful()) {
                     //Sign in succeed and go to next activity if email & password matches
                     Intent intent = new Intent(getApplicationContext(), Search.class);
-                    intent.putExtra("caregiverID", id); //pass caregiver info to next activity
+                    //put the caregiverID into sharedPreferences file to use throughout the app
+                    editor.putString("caregiverID", id); //write caregiver ID to sharedPreferences file
+                    editor.commit();
                     startActivity(intent);
                 }
                 //unsuccessful login, display message

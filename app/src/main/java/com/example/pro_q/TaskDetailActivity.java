@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,6 +40,8 @@ public class TaskDetailActivity extends AppCompatActivity {
     public static final String KEY_CATEGORY = "category";
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_REASON = "reason";
+    private SharedPreferences sharedPref ;
+    private SharedPreferences.Editor editor ;
     public static final String KEY_CAREGIVER_COMPLETE = "caregiverComplete";
 
     // Connection to Firestore
@@ -52,13 +56,16 @@ public class TaskDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_detail);
 
-        // Get the data from the previous activity
-        String taskId = getIntent().getStringExtra("taskId");
-        String time = getIntent().getStringExtra("time");
-        String clientId = getIntent().getStringExtra("clientID");
+        sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
+
+        // Get the data from the sharedPreferences file
+        String taskId = sharedPref.getString("taskId", "");
+        String taskTime = sharedPref.getString("taskTime", "");
+        String clientId = sharedPref.getString("clientId", "");
 
         // Create a new document reference using the data passed in
-        DocumentReference task = clientInfoRef.document(clientId).collection(time).document(taskId);
+        DocumentReference task = clientInfoRef.document(clientId).collection(taskTime).document(taskId);
 
         category = findViewById(R.id.categoryFill);
         title = findViewById(R.id.titleFill);
@@ -71,15 +78,15 @@ public class TaskDetailActivity extends AppCompatActivity {
         task.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String cat = documentSnapshot.getString("category");
+                        String cat = documentSnapshot.getString(KEY_CATEGORY);
                         String t = taskId;
-                        String d = documentSnapshot.getString("description");
+                        String d = documentSnapshot.getString(KEY_DESCRIPTION);
 
                         // Set and display task information in the app
                         category.setText(cat);
                         title.setText(t);
                         description.setText(d);
-                        timeOfDay.setText(time.substring(0, 1).toUpperCase() + time.substring(1));
+                        timeOfDay.setText(taskTime.substring(0, 1).toUpperCase() + taskTime.substring(1)); //capitalize first letter of taskTime value
                     }
                 });
         // Find the Incomplete Button and set On Click to make the cardview visible
@@ -104,7 +111,6 @@ public class TaskDetailActivity extends AppCompatActivity {
                 task.update(KEY_CAREGIVER_COMPLETE, "no");
                 Toast.makeText(TaskDetailActivity.this, "Task marked incomplete.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(TaskDetailActivity.this, CaregiverMainActivity.class);
-                intent.putExtra("ID", clientId);
                 startActivity(intent);
             }
         });
@@ -117,7 +123,6 @@ public class TaskDetailActivity extends AppCompatActivity {
             task.update(KEY_REASON, "");
             Toast.makeText(TaskDetailActivity.this, "Task marked complete.", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(TaskDetailActivity.this, CaregiverMainActivity.class);
-            intent.putExtra("ID", clientId);
             startActivity(intent);
         });
     }

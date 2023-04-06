@@ -1,6 +1,8 @@
 package com.example.pro_q;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +35,8 @@ public class Search extends AppCompatActivity implements RecyclerViewInterface{
     private SearchView searchView;
     private CollectionReference clientCollection;
     private RecyclerView resultList;
+    private SharedPreferences sharedPref ;
+    private SharedPreferences.Editor editor ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,10 +152,13 @@ public class Search extends AppCompatActivity implements RecyclerViewInterface{
     //onItemClick is executed when user click on a result
     @Override
     public void onItemClick(int position) {
+        sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
+        editor.putString("clientId",  clientModels.get(position).getId());
+        editor.putString("clientAddress", clientModels.get(position).getAddress());
+        editor.putString("clientName",  clientModels.get(position).getFullName());
+        editor.commit();
         Intent intent = new Intent(Search.this, CaregiverMainActivity.class);
-        intent.putExtra("ID", clientModels.get(position).getId());
-        intent.putExtra("Address", clientModels.get(position).getAddress());
-        intent.putExtra("Name", clientModels.get(position).getFullName());
         startActivity(intent);
     }
 }

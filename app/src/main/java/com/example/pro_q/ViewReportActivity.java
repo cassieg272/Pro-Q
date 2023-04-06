@@ -6,7 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
@@ -35,14 +37,20 @@ public class ViewReportActivity extends AppCompatActivity {
     // Declare collection & document references
     private DocumentReference clientDoc;
     private CollectionReference morning, afternoon, evening;
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_report);
+
+        sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
+
         // Get client ID from previous activity
-        String id = getIntent().getStringExtra("clientID");
+        String id = sharedPref.getString("clientId", "");
 
         // Assign path to document & collection references
         clientDoc = FirebaseFirestore.getInstance().collection("Client").document(id);
@@ -51,96 +59,15 @@ public class ViewReportActivity extends AppCompatActivity {
         evening = clientDoc.collection("evening");
 
         // If task is marked complete - find the layout in the app and create a textview with text set to completed task title
-        morning.whereEqualTo("caregiverComplete", "yes").get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            LinearLayout layout = findViewById(R.id.completedTasksLayout);
-                            TextView text = new TextView(ViewReportActivity.this);
-                            text.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
-                            text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                            text.setText(document.getId());
-                            layout.addView(text);
-                        }
-                        Log.d(TAG, "Error getting documents: ", task.getException());
-                    }
-                });
+        getCompletedTask(morning);
+        getCompletedTask(afternoon);
+        getCompletedTask(evening);
 
-        afternoon.whereEqualTo("caregiverComplete", "yes").get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            LinearLayout layout = findViewById(R.id.completedTasksLayout);
-                            TextView text = new TextView(ViewReportActivity.this);
-                            text.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
-                            text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                            text.setText(document.getId());
-                            layout.addView(text);
-                        }
-                        Log.d(TAG, "Error getting documents: ", task.getException());
-                    }
-                });
-
-        evening.whereEqualTo("caregiverComplete", "yes").get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            LinearLayout layout = findViewById(R.id.completedTasksLayout);
-                            TextView text = new TextView(ViewReportActivity.this);
-                            text.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
-                            text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                            text.setText(document.getId());
-                            layout.addView(text);
-                        }
-                        Log.d(TAG, "Error getting documents: ", task.getException());
-                    }
-                });
 
         // If task is marked incomplete - find the layout in the app and create a textview with text set to incomplete task title
-        morning.whereEqualTo("caregiverComplete", "no").get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            LinearLayout layout = findViewById(R.id.incompleteLayout);
-                            TextView text = new TextView(ViewReportActivity.this);
-                            text.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
-                            text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                            text.setText(document.getId());
-                            layout.addView(text);
-                        }
-                        Log.d(TAG, "Error getting documents: ", task.getException());
-                    }
-                });
-
-        afternoon.whereEqualTo("caregiverComplete", "no").get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            LinearLayout layout = findViewById(R.id.incompleteLayout);
-                            TextView text = new TextView(ViewReportActivity.this);
-                            text.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
-                            text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                            text.setText(document.getId());
-                            layout.addView(text);
-                        }
-                        Log.d(TAG, "Error getting documents: ", task.getException());
-                    }
-                });
-
-        evening.whereEqualTo("caregiverComplete", "no").get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            LinearLayout layout = findViewById(R.id.incompleteLayout);
-                            TextView text = new TextView(ViewReportActivity.this);
-                            text.setTextSize(TypedValue.COMPLEX_UNIT_SP,18);
-                            text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                            text.setText(document.getId());
-                            layout.addView(text);
-                        }
-                        Log.d(TAG, "Error getting documents: ", task.getException());
-                    }
-                });
+        getIncompleteTask(morning);
+        getIncompleteTask(afternoon);
+        getIncompleteTask(evening);
 
         // Back Button - returns user to CaregiverMainActivity
         back = findViewById(R.id.backButton);
@@ -149,5 +76,37 @@ public class ViewReportActivity extends AppCompatActivity {
             intent.putExtra("ID", id);
             startActivity(intent);
         });
+    }
+
+    private void getCompletedTask(CollectionReference taskCollection) {
+        taskCollection.whereEqualTo("caregiverComplete", "yes").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    LinearLayout layout = findViewById(R.id.completedTasksLayout);
+                    TextView text = new TextView(ViewReportActivity.this);
+                    text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+                    text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    text.setText(document.getId());
+                    layout.addView(text);
+                }
+                Log.d(TAG, "Error getting documents: ", task.getException());
+            }
+        });
+    }
+    private void getIncompleteTask(CollectionReference taskCollection){
+        taskCollection.whereEqualTo("caregiverComplete", "no").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    LinearLayout layout = findViewById(R.id.incompleteLayout);
+                    TextView text = new TextView(ViewReportActivity.this);
+                    text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+                    text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    text.setText(document.getId());
+                    layout.addView(text);
+                }
+                Log.d(TAG, "Error getting documents: ", task.getException());
+            }
+        });
+
     }
 }

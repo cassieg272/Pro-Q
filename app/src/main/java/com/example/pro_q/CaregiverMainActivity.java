@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -47,23 +49,21 @@ public class CaregiverMainActivity extends AppCompatActivity {
     // Path to Document and Collections
     private DocumentReference clientDoc;
     private CollectionReference clientMorningTaskRef, clientAfternoonTaskRef, clientEveningTaskRef;
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        clientId.setText(id);
-        clientName.setText("name");
-        clientAddress.setText("address");
-    }
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_caregiver_main);
+        sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
 
-        name = getIntent().getStringExtra("Name");
-        address = getIntent().getStringExtra("Address");
-        id = getIntent().getStringExtra("ID");
+        //get values from sharedPreferences file
+        name = sharedPref.getString("clientName", "<Name>");
+        address = sharedPref.getString("clientAddress", "<Address>");
+        id = sharedPref.getString("clientId", "<Id>");
+
 
         clientId = findViewById(R.id.clientId);
         clientName = findViewById(R.id.clientName);
@@ -111,7 +111,6 @@ public class CaregiverMainActivity extends AppCompatActivity {
         findViewById(R.id.reportButton).setOnClickListener(view -> {
             // On click - go to ViewReportActivity and pass the data held in id (store it under the name "clientID")
             Intent intent = new Intent(CaregiverMainActivity.this, ViewReportActivity.class);
-            intent.putExtra("clientID", id);
             startActivity(intent);
         });
 
@@ -120,19 +119,19 @@ public class CaregiverMainActivity extends AppCompatActivity {
         getTaskList(clientAfternoonTaskRef, findViewById(R.id.afternoonLayout), "afternoon");
         getTaskList(clientEveningTaskRef, findViewById(R.id.eveningLayout), "evening");
 
+        mAuth = FirebaseAuth.getInstance();
+
         // Search Return Button - returns user to Client Search page
         searchReturn = findViewById(R.id.searchReturnButton);
         searchReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAuth.signOut();
                 Intent intent = new Intent(CaregiverMainActivity.this, Search.class);
                 startActivity(intent);
             }
         });
 
         // Logout Button - signs user out of firestore and brings them back to login page
-        mAuth = FirebaseAuth.getInstance();
         logout = findViewById(R.id.logoutButton);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,9 +153,11 @@ public class CaregiverMainActivity extends AppCompatActivity {
                         String passTaskId = document.getId();
                         Log.d(TAG, "getTaskList: "+passTaskId+ " "+id+" "+time);
                         Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
-                        intent.putExtra("clientID", id);
-                        intent.putExtra("time", time);
-                        intent.putExtra("taskId", passTaskId);
+                        sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
+                        editor = sharedPref.edit();
+                        editor.putString("taskId", passTaskId);
+                        editor.putString("taskTime", time);
+                        editor.commit();
                         startActivity(intent);
                     });
                     layout.addView(button);
