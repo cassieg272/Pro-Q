@@ -48,9 +48,6 @@
             android:name=".ContactMainActivity"
             android:exported="false" />
         <activity
-            android:name=".ContactViewReportActivity"
-            android:exported="false" />
-        <activity
             android:name=".ContactTaskDetailActivity"
             android:exported="false" />
         <activity

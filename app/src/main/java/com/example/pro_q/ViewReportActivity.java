@@ -32,7 +32,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ViewReportActivity extends AppCompatActivity {
-    private Button back;
+    private Button back, reset;
+    public static final String KEY_CAREGIVER_COMPLETE = "caregiverComplete";
+    public static final String KEY_REASON = "reason";
 
     // Declare collection & document references
     private DocumentReference clientDoc;
@@ -47,6 +49,9 @@ public class ViewReportActivity extends AppCompatActivity {
 
         sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
+
+        reset = findViewById(R.id.resetButton);
+        back = findViewById(R.id.backButton);
 
         // Get client ID from previous activity
         String id = sharedPref.getString("clientId", "");
@@ -67,17 +72,37 @@ public class ViewReportActivity extends AppCompatActivity {
         getIncompleteTask(afternoon);
         getIncompleteTask(evening);
 
+        Boolean fromCaregiverMainActivity = sharedPref.getBoolean("fromCaregiverMainActivity", true);
+
+
         // Back Button - returns user to CaregiverMainActivity
-        back = findViewById(R.id.backButton);
         back.setOnClickListener(view -> {
-            Intent intent = new Intent(ViewReportActivity.this, CaregiverMainActivity.class);
-            intent.putExtra("ID", id);
+            Intent intent;
+            if(fromCaregiverMainActivity) {
+                intent = new Intent(ViewReportActivity.this, CaregiverMainActivity.class);
+            }else{
+                intent = new Intent(ViewReportActivity.this, ContactMainActivity.class);
+            }
             startActivity(intent);
         });
+
+        if (!fromCaregiverMainActivity) {
+            reset.setVisibility(View.VISIBLE);
+            reset.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    resetTask(morning);
+                    resetTask(afternoon);
+                    resetTask(evening);
+                }
+            });
+        } else {
+            reset.setVisibility(View.GONE);
+        }
     }
 
     private void getCompletedTask(CollectionReference taskCollection) {
-        taskCollection.whereEqualTo("caregiverComplete", "yes").get().addOnCompleteListener(task -> {
+        taskCollection.whereEqualTo(KEY_CAREGIVER_COMPLETE, "yes").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     LinearLayout layout = findViewById(R.id.completedTasksLayout);
@@ -91,8 +116,9 @@ public class ViewReportActivity extends AppCompatActivity {
             }
         });
     }
-    private void getIncompleteTask(CollectionReference taskCollection){
-        taskCollection.whereEqualTo("caregiverComplete", "no").get().addOnCompleteListener(task -> {
+
+    private void getIncompleteTask(CollectionReference taskCollection) {
+        taskCollection.whereEqualTo(KEY_CAREGIVER_COMPLETE, "no").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     LinearLayout layout = findViewById(R.id.incompleteLayout);
@@ -106,5 +132,17 @@ public class ViewReportActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void resetTask(CollectionReference taskCollection) {
+        taskCollection.whereEqualTo(KEY_CAREGIVER_COMPLETE, "yes").get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String taskRef = document.getId();
+                            taskCollection.document(taskRef).update(KEY_CAREGIVER_COMPLETE, "no", KEY_REASON, "");
+                        }
+                    }
+                });
     }
 }

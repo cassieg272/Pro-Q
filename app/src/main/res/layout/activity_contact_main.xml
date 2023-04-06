@@ -101,7 +101,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/timerButton"
+                android:id="@+id/addTask"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
@@ -156,45 +156,13 @@
                     android:paddingTop="15dp"
                     android:paddingRight="15dp"
                     android:paddingBottom="15dp"
-                    android:text="Morning (0800 - 1200)"
+                    android:text="Morning (08:00 - 12:00)"
                     android:textColor="#9C27B0"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
             </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="12dp"
-            app:cardCornerRadius="8dp"
-            app:cardUseCompatPadding="true">
-
-            <LinearLayout
-                android:id="@+id/eveningLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#45FF9800"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/eveningLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:gravity="center"
-                    android:paddingLeft="15dp"
-                    android:paddingTop="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingBottom="15dp"
-                    android:text="Evening (1700 - 2100)"
-                    android:textColor="#FF9800"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -221,7 +189,7 @@
                     android:paddingTop="15dp"
                     android:paddingRight="15dp"
                     android:paddingBottom="15dp"
-                    android:text="Afternoon (1200 - 1700)"
+                    android:text="Afternoon (12:00 - 17:00)"
                     android:textColor="#009688"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -229,13 +197,45 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="12dp"
+            app:cardCornerRadius="8dp"
+            app:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:id="@+id/eveningLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#45FF9800"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/eveningLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:paddingLeft="15dp"
+                    android:paddingTop="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingBottom="15dp"
+                    android:text="Evening (17:00 - 21:00)"
+                    android:textColor="#FF9800"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
         <Button
-            android:id="@+id/searchBackButton"
+            android:id="@+id/clientListButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:backgroundTint="@android:color/holo_blue_light"
-            android:text="client search"
+            android:text="client list"
             android:textSize="18sp" />
 
         <Button

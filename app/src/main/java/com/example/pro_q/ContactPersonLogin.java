@@ -1,6 +1,8 @@
 package com.example.pro_q;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -23,9 +25,13 @@ public class ContactPersonLogin extends AppCompatActivity {
     private TextInputEditText password;
     private CollectionReference conPerCollection;
     private FirebaseAuth mAuth;
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -79,7 +85,8 @@ public class ContactPersonLogin extends AppCompatActivity {
                             if (task1.isSuccessful()) {
                                 //Sign in succeed and go to next activity if email & password matches
                                 Intent intent = new Intent(getApplicationContext(), ContactPersonClientList.class);
-                                intent.putExtra("contactPersonID", id); //pass contact person ID to next activity
+                                editor.putString("contactPersonId", id); //write caregiver ID to sharedPreferences file
+                                editor.commit();
                                 startActivity(intent);
                             }
                             //unsuccessful login, display message
@@ -96,7 +103,7 @@ public class ContactPersonLogin extends AppCompatActivity {
             }
             //if query failed to be run
             else {
-                Toast.makeText(getApplicationContext(), "Sign in failed. Try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Sign in failed. Try again", Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -74,6 +74,8 @@ public class CaregiverMainActivity extends AppCompatActivity {
         clientPhone = findViewById(R.id.clientPhone);
         clientAddress = findViewById(R.id.clientAddress);
         clientGender = findViewById(R.id.clientGender);
+        searchReturn = findViewById(R.id.searchReturnButton);
+        logout = findViewById(R.id.logoutButton);
 
         clientId.setText(id);
         clientName.setText(name);
@@ -125,8 +127,11 @@ public class CaregiverMainActivity extends AppCompatActivity {
 
         // Navigate to View Report Page
         findViewById(R.id.reportButton).setOnClickListener(view -> {
-            // On click - go to ViewReportActivity and pass the data held in id (store it under the name "clientID")
+            // On click - go to ViewReportActivity
             Intent intent = new Intent(CaregiverMainActivity.this, ViewReportActivity.class);
+            editor.putBoolean("fromCaregiverMainActivity", true);
+//            editor.putBoolean("fromContactMainActivity", false);
+            editor.commit();
             startActivity(intent);
         });
 
@@ -138,7 +143,6 @@ public class CaregiverMainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         // Search Return Button - returns user to Client Search page
-        searchReturn = findViewById(R.id.searchReturnButton);
         searchReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,7 +152,6 @@ public class CaregiverMainActivity extends AppCompatActivity {
         });
 
         // Logout Button - signs user out of firestore and brings them back to login page
-        logout = findViewById(R.id.logoutButton);
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

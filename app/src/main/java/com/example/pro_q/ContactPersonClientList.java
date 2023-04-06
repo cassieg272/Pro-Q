@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.SearchView;
@@ -27,13 +29,18 @@ public class ContactPersonClientList extends AppCompatActivity implements Recycl
     private final CollectionReference clientCollection = db.collection("Client");
     private RecyclerView resultList;
 
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
 
-        //get contact person ID passed in by Intent from previous activity
-        String contactPersonId = getIntent().getStringExtra("contactPersonID");
+        //get contact person ID from sharedPreferences file
+        String contactPersonId =sharedPref.getString("contactPersonId", "<Id>");
 
         //declare and assign Firestore contact person document reference and activity views
         SearchView searchBar = findViewById(R.id.searchView);
@@ -90,10 +97,13 @@ public class ContactPersonClientList extends AppCompatActivity implements Recycl
     //onItemClick is executed when user click on a result
     @Override
     public void onItemClick(int position) {
+        sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
+        editor = sharedPref.edit();
+        editor.putString("clientId",  clientModels.get(position).getId());
+        editor.putString("clientAddress", clientModels.get(position).getAddress());
+        editor.putString("clientName",  clientModels.get(position).getFullName());
+        editor.commit();
         Intent intent = new Intent(ContactPersonClientList.this, ContactMainActivity.class);
-        intent.putExtra("ID", clientModels.get(position).getId());
-        intent.putExtra("Address", clientModels.get(position).getAddress());
-        intent.putExtra("Name", clientModels.get(position).getFullName());
         startActivity(intent);
     }
 }

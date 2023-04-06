@@ -160,7 +160,7 @@
                         android:paddingTop="15dp"
                         android:paddingRight="15dp"
                         android:paddingBottom="15dp"
-                        android:text="Morning (0800 - 1200)"
+                        android:text="Morning (08:00 - 12:00)"
                         android:textColor="#9C27B0"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -193,7 +193,7 @@
                         android:paddingTop="15dp"
                         android:paddingRight="15dp"
                         android:paddingBottom="15dp"
-                        android:text="Afternoon (1200 - 1700)"
+                        android:text="Afternoon (12:00 - 17:00)"
                         android:textColor="#009688"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -225,7 +225,7 @@
                         android:paddingTop="15dp"
                         android:paddingRight="15dp"
                         android:paddingBottom="15dp"
-                        android:text="Evening (1700 - 2100)"
+                        android:text="Evening (17:00 - 21:00)"
                         android:textColor="#FF9800"
                         android:textSize="20sp"
                         android:textStyle="bold" />

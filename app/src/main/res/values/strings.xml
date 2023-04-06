@@ -27,6 +27,5 @@
     <string name="search_bar">Search Bar</string>
     <string name="client_gender">Client Gender</string>
     <string name="clientListTitle">List of Matched Clients</string>
-    <string name="start">Start</string>
 
 </resources>
