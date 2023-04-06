@@ -22,7 +22,7 @@ public class TimerDialog extends AppCompatDialogFragment {
     public TimerDialog(Date startTime, Date finishTime) {
         this.finishTime = finishTime;
         this.startTime = startTime;
-        this.elapsedTime = finishTime.getTime() - startTime.getTime();
+        this.elapsedTime = finishTime.getTime() - startTime.getTime(); //convert finish and start time to milliseconds to do the subtraction
 
     }
     private String convertFormat(long time){
@@ -34,6 +34,7 @@ public class TimerDialog extends AppCompatDialogFragment {
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
     public Dialog onCreateDialog(Bundle savedInstanceState){
+        //convert date and time values to user-friendly format
         startTimeStr = "\n\t\tSTART: "+dateFormat.format(startTime)+"\n\n";
         finishTimeStr = "\t\tFINISH: "+dateFormat.format(finishTime)+"\n\n";
         elapsedTimeStr = "\t\tDURATION: "+convertFormat(elapsedTime);
