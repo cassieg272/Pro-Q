@@ -28,8 +28,5 @@
     <string name="client_gender">Client Gender</string>
     <string name="clientListTitle">List of Matched Clients</string>
     <string name="start">Start</string>
-    <string name="dateTextView">"Date: "</string>
-    <string name="start_time">Start Time</string>
-    <string name="finishTime">Finish Time:</string>
-    <string name="duration">Visit Duration</string>
+
 </resources>

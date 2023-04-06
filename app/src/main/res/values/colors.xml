@@ -3,6 +3,7 @@
     <color name="yellow">#FFEE0B</color>
     <color name="orange">#FB5607</color>
     <color name="pink">#FF006E</color>
+    <color name="pink_disable">#ed5c9a</color>
     <color name="purple">#8338EC</color>
     <color name="blue">#3A86FF</color>
     <color name="black">#FF000000</color>

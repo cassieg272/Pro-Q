@@ -32,14 +32,17 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.Source;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 public class CaregiverMainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private static final String TAG = "CaregiverMainActivity";
     private TextView clientId, clientName, clientPhone, clientAddress, clientGender;
-    private Button logout, searchReturn;
+    private Button logout, searchReturn, timerButton;
 
     // Keys - Match the keys to the field value in the database
     public static final String KEY_PHONE = "phone";
@@ -66,6 +69,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
 
 
         clientId = findViewById(R.id.clientId);
+        timerButton = findViewById(R.id.timerButton);
         clientName = findViewById(R.id.clientName);
         clientPhone = findViewById(R.id.clientPhone);
         clientAddress = findViewById(R.id.clientAddress);
@@ -105,8 +109,18 @@ public class CaregiverMainActivity extends AppCompatActivity {
         // Timer Functions
         findViewById(R.id.timerButton).setOnClickListener(view -> {
             // On click - go to CaregiverTimerMainActivity
-            Intent intent = new Intent(CaregiverMainActivity.this, CaregiverTimerMainActivity.class);
-            startActivity(intent);
+            Date startTime = Calendar.getInstance().getTime();
+            timerButton.setText("Tracking...");
+            timerButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    timerButton.setText("Finished");
+                    Date finishTime = Calendar.getInstance().getTime();
+                    timerButton.setClickable(false);
+                    timerButton.setBackgroundColor(timerButton.getContext().getResources().getColor(R.color.pink_disable));
+                    openDialog(startTime, finishTime);
+                }
+            });
         });
 
         // Navigate to View Report Page
@@ -145,6 +159,13 @@ public class CaregiverMainActivity extends AppCompatActivity {
         });
     }
 
+    private void openDialog(Date startTime, Date finishTime) {
+        Log.d(TAG, "openDialog: "+startTime+" "+finishTime);
+        TimerDialog timerDialog = new TimerDialog(startTime, finishTime);
+        timerDialog.show(getSupportFragmentManager(), "Timer Dialog");
+    }
+
+    //method to create buttons dynamically based on the number of tasks for each time of day
     private void getTaskList(CollectionReference taskCollection, LinearLayout layout, String time) {
         taskCollection.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
