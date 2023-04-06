@@ -94,6 +94,8 @@ public class ViewReportActivity extends AppCompatActivity {
                     resetTask(morning);
                     resetTask(afternoon);
                     resetTask(evening);
+                    Intent intent = new Intent(ViewReportActivity.this, ContactMainActivity.class);
+                    startActivity(intent);
                 }
             });
         } else {
@@ -127,7 +129,7 @@ public class ViewReportActivity extends AppCompatActivity {
                     text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     String taskId = document.getId();
                     String reason = document.getString(KEY_REASON);
-                    text.setText(taskId + ": " + reason);
+                    text.setText(taskId + " " + reason);
                     layout.addView(text);
                 }
                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -142,7 +144,19 @@ public class ViewReportActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String taskRef = document.getId();
-                            taskCollection.document(taskRef).update(KEY_CAREGIVER_COMPLETE, "no",KEY_REASON, "");
+                            // Set tasks marked completed in database back to no (not complete)
+                            taskCollection.document(taskRef).update(KEY_CAREGIVER_COMPLETE, "no");
+                        }
+                    }
+                });
+        taskCollection.whereEqualTo(KEY_CAREGIVER_COMPLETE, "no").get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String taskRef = document.getId();
+                            // Remove any "reasons" in database - reset to ""
+                            taskCollection.document(taskRef).update(KEY_REASON, "");
                         }
                     }
                 });

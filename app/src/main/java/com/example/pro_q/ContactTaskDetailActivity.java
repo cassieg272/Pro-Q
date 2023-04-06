@@ -70,7 +70,6 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
         String clientId = sharedPref.getString("clientId", "");
 
         // Reference to specific task in database
-        DocumentReference clientDoc = clientInfoRef.document(clientId);
         DocumentReference task = clientInfoRef.document(clientId).collection(chosenTime).document(taskId);
 
         category = findViewById(R.id.categoryValue);
@@ -122,10 +121,12 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
         confirmDelete.setOnClickListener(view -> {
             task.delete();
             Toast.makeText(ContactTaskDetailActivity.this, "Task Deleted!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(ContactTaskDetailActivity.this, ContactMainActivity.class);
+            startActivity(intent);
         });
 
         // Cancel Button - sets cardview back to Invisible
-        cancel.setOnClickListener(view -> deleteConfirm.setVisibility(View.INVISIBLE));
+        cancel.setOnClickListener(view -> deleteConfirm.setVisibility(View.GONE));
 
         // Back Button - returns user to ContactMainActivity
         back.setOnClickListener(view -> {

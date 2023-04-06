@@ -62,7 +62,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
         sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
 
-        //get values from sharedPreferences file
+        // Get values from sharedPreferences file
         name = sharedPref.getString("clientName", "<Name>");
         address = sharedPref.getString("clientAddress", "<Address>");
         id = sharedPref.getString("clientId", "<Id>");
@@ -76,6 +76,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
         searchReturn = findViewById(R.id.searchReturnButton);
         logout = findViewById(R.id.logoutButton);
 
+        // Set the text to the values from the shared prefs file
         clientId.setText(id);
         clientName.setText(name);
         clientAddress.setText(address);
@@ -86,22 +87,19 @@ public class CaregiverMainActivity extends AppCompatActivity {
         clientEveningTaskRef = clientDoc.collection("evening");
 
         // CLIENT INFO - Retrieve data from collection
-        clientDoc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
-                    // Get Client Phone
-                    String phone = documentSnapshot.getString(KEY_PHONE);
-                    if (phone == null) {
-                        clientPhone.setText("No Phone");
-                    } else {
-                        clientPhone.setText(phone);
-                    }
-                    String gender = documentSnapshot.getString(KEY_GENDER);
-                    clientGender.setText(gender);
+        clientDoc.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                // Get Client Phone
+                String phone = documentSnapshot.getString(KEY_PHONE);
+                if (phone == null) {
+                    clientPhone.setText("No Phone");
                 } else {
-                    Toast.makeText(CaregiverMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
+                    clientPhone.setText(phone);
                 }
+                String gender = documentSnapshot.getString(KEY_GENDER);
+                clientGender.setText(gender);
+            } else {
+                Toast.makeText(CaregiverMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
 
@@ -112,15 +110,12 @@ public class CaregiverMainActivity extends AppCompatActivity {
             // On click - go to CaregiverTimerMainActivity
             Date startTime = Calendar.getInstance().getTime();
             timerButton.setText("Tracking...");
-            timerButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    timerButton.setText("Finished");
-                    Date finishTime = Calendar.getInstance().getTime();
-                    timerButton.setClickable(false);
-                    timerButton.setBackgroundColor(timerButton.getContext().getResources().getColor(R.color.pink_disable));
-                    openDialog(startTime, finishTime);
-                }
+            timerButton.setOnClickListener(v -> {
+                timerButton.setText("Finished");
+                Date finishTime = Calendar.getInstance().getTime();
+                timerButton.setClickable(false);
+                timerButton.setBackgroundColor(timerButton.getContext().getResources().getColor(R.color.pink_disable));
+                openDialog(startTime, finishTime);
             });
         });
 
@@ -129,7 +124,6 @@ public class CaregiverMainActivity extends AppCompatActivity {
             // On click - go to ViewReportActivity
             Intent intent = new Intent(CaregiverMainActivity.this, ViewReportActivity.class);
             editor.putBoolean("fromCaregiverMainActivity", true);
-//            editor.putBoolean("fromContactMainActivity", false);
             editor.commit();
             startActivity(intent);
         });
@@ -151,14 +145,11 @@ public class CaregiverMainActivity extends AppCompatActivity {
         });
 
         // Logout Button - signs user out of firestore and brings them back to login page
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                Intent intent = new Intent(CaregiverMainActivity.this, WelcomeActivity.class);
-                startActivity(intent);
-            }
-        });
+        logout.setOnClickListener((view -> {
+            mAuth.signOut();
+            Intent intent = new Intent(CaregiverMainActivity.this, WelcomeActivity.class);
+            startActivity(intent);
+        }));
     }
 
     private void openDialog(Date startTime, Date finishTime) {
