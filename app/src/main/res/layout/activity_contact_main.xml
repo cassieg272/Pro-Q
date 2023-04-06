@@ -101,16 +101,6 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/noteButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:layout_weight="1"
-                android:drawableTop="@drawable/baseline_note_add_24"
-                android:text="add note"
-                android:textSize="12sp" />
-
-            <Button
                 android:id="@+id/timerButton"
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"

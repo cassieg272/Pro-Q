@@ -109,16 +109,6 @@ public class ContactMainActivity extends AppCompatActivity {
 
         // BUTTON BAR
 
-        // Navigate to Add Note Page
-//        addNote = findViewById(R.id.noteButton);
-//        addNote.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(ContactMainActivity.this, AddNoteActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
         // Navigate to Add Task Page
         addTask = findViewById(R.id.timerButton);
         addTask.setOnClickListener(view -> {
