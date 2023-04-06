@@ -40,7 +40,6 @@ public class ViewReportActivity extends AppCompatActivity {
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +61,6 @@ public class ViewReportActivity extends AppCompatActivity {
         getCompletedTask(morning);
         getCompletedTask(afternoon);
         getCompletedTask(evening);
-
 
         // If task is marked incomplete - find the layout in the app and create a textview with text set to incomplete task title
         getIncompleteTask(morning);

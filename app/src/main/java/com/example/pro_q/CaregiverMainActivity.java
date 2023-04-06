@@ -104,7 +104,9 @@ public class CaregiverMainActivity extends AppCompatActivity {
 
         // Timer Functions
         findViewById(R.id.timerButton).setOnClickListener(view -> {
-
+            // On click - go to CaregiverTimerMainActivity
+            Intent intent = new Intent(CaregiverMainActivity.this, CaregiverTimerMainActivity.class);
+            startActivity(intent);
         });
 
         // Navigate to View Report Page
@@ -151,7 +153,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
                     button.setText(document.getId());
                     button.setOnClickListener(v -> {
                         String passTaskId = document.getId();
-                        Log.d(TAG, "getTaskList: "+passTaskId+ " "+id+" "+time);
+                        Log.d(TAG, "getTaskList: " + passTaskId + " " + id + " " + time);
                         Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
                         sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
                         editor = sharedPref.edit();
