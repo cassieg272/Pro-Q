@@ -125,7 +125,9 @@ public class ViewReportActivity extends AppCompatActivity {
                     TextView text = new TextView(ViewReportActivity.this);
                     text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
                     text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                    text.setText(document.getId());
+                    String taskId = document.getId();
+                    String reason = document.getString(KEY_REASON);
+                    text.setText(taskId + ": " + reason);
                     layout.addView(text);
                 }
                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -140,7 +142,7 @@ public class ViewReportActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             String taskRef = document.getId();
-                            taskCollection.document(taskRef).update(KEY_CAREGIVER_COMPLETE, "no", KEY_REASON, "");
+                            taskCollection.document(taskRef).update(KEY_CAREGIVER_COMPLETE, "no",KEY_REASON, "");
                         }
                     }
                 });
