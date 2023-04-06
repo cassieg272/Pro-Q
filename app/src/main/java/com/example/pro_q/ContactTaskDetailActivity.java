@@ -109,10 +109,9 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
 
 
         // Update Button - updates the task description
-        // TODO - allow to update anything else?
         update.setOnClickListener(view -> {
             String updateDescription = description.getText().toString();
-            String newTime = timeOfDay.getText().toString();
+            Toast.makeText(ContactTaskDetailActivity.this, "Task Updated!", Toast.LENGTH_SHORT).show();
             task.update(KEY_DESCRIPTION, updateDescription);
         });
 
