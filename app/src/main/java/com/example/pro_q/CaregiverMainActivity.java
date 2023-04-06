@@ -40,23 +40,30 @@ public class CaregiverMainActivity extends AppCompatActivity {
     private Button logout, searchReturn;
 
     // Keys - Match the keys to the field value in the database
-    public static final String KEY_FIRSTNAME = "firstName";
-    public static final String KEY_LASTNAME = "lastName";
     public static final String KEY_PHONE = "phone";
     public static final String KEY_GENDER = "gender";
+    static String id, name, address;
 
     // Path to Document and Collections
     private DocumentReference clientDoc;
     private CollectionReference clientMorningTaskRef, clientAfternoonTaskRef, clientEveningTaskRef;
 
-    @SuppressLint({"WrongViewCast", "MissingInflatedId"})
+    @Override
+    protected void onPause() {
+        super.onPause();
+        clientId.setText(id);
+        clientName.setText("name");
+        clientAddress.setText("address");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_caregiver_main);
 
-//         Receive data from previous activity
-        String id = getIntent().getStringExtra("ID");
+        name = getIntent().getStringExtra("Name");
+        address = getIntent().getStringExtra("Address");
+        id = getIntent().getStringExtra("ID");
 
         clientId = findViewById(R.id.clientId);
         clientName = findViewById(R.id.clientName);
@@ -64,50 +71,34 @@ public class CaregiverMainActivity extends AppCompatActivity {
         clientAddress = findViewById(R.id.clientAddress);
         clientGender = findViewById(R.id.clientGender);
 
-        // Set the field to the data passed in and display it
         clientId.setText(id);
+        clientName.setText(name);
+        clientAddress.setText(address);
 
-        // Create Document and Collection References
         clientDoc = FirebaseFirestore.getInstance().collection("Client").document(id);
         clientMorningTaskRef = clientDoc.collection("morning");
         clientAfternoonTaskRef = clientDoc.collection("afternoon");
         clientEveningTaskRef = clientDoc.collection("evening");
 
-        // CLIENT DOC - Retrieve data from collection
-        clientDoc.get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        // If the document exists... get the values of phone and gender from the document reference and set display them in app
-                        String fname = documentSnapshot.getString(KEY_FIRSTNAME);
-                        String lname = documentSnapshot.getString(KEY_LASTNAME);
-                        String phone = documentSnapshot.getString(KEY_PHONE);
-                        String gender = documentSnapshot.getString(KEY_GENDER);
-
-                        clientName.setText(fname + " " + lname);
-                        clientPhone.setText(phone);
-                        clientGender.setText(gender);
+        // CLIENT INFO - Retrieve data from collection
+        clientDoc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    // Get Client Phone
+                    String phone = documentSnapshot.getString(KEY_PHONE);
+                    if (phone == null) {
+                        clientPhone.setText("No Phone");
                     } else {
-                        Toast.makeText(CaregiverMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
+                        clientPhone.setText(phone);
                     }
-                })
-                .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
-
-        clientDoc.get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            // Get Client Address
-                            Map<String, String> addressMap = (Map<String, String>) document.get("address");
-                            String st = addressMap.get("street");
-                            String c = addressMap.get("city");
-                            String pcode = addressMap.get("postalCode");
-                            String address = st + ", " + c + " " + pcode;
-                            clientAddress.setText(address);
-                        }
-                    }
-                })
-                .addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
+                    String gender = documentSnapshot.getString(KEY_GENDER);
+                    clientGender.setText(gender);
+                } else {
+                    Toast.makeText(CaregiverMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
+                }
+            }
+        }).addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
 
         // BUTTON BAR
 
@@ -124,83 +115,10 @@ public class CaregiverMainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Get info from client's morning tasks
-        clientMorningTaskRef.get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        // Retrieve information from the document snapshot
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Find the morning layout in the application, create a button and set its text to the document id
-                            LinearLayout layout = findViewById(R.id.morningLayout);
-                            Button button = new Button(CaregiverMainActivity.this);
-                            button.setText(document.getId());
-
-                            // Set the OnClickListener for the new button
-                            button.setOnClickListener(v -> {
-                                // On click - go to TaskDetailActivity and pass id, time, and passTaskId
-                                String passTaskId = document.getId();
-                                String time = "morning";
-                                Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
-                                intent.putExtra("clientID", id);
-                                intent.putExtra("time", time);
-                                intent.putExtra("taskId", passTaskId);
-                                startActivity(intent);
-                            });
-                            // Add the button to the layout
-                            layout.addView(button);
-                        }
-                    } else {
-                        Log.d(TAG, "Error getting documents: ", task.getException());
-                    }
-                });
-
-        // Get info from client's afternoon tasks
-        clientAfternoonTaskRef.get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            LinearLayout layout = findViewById(R.id.afternoonLayout);
-                            Button button = new Button(CaregiverMainActivity.this);
-                            button.setText(document.getId());
-                            button.setOnClickListener(v -> {
-                                String passTaskId = document.getId();
-                                String time = "afternoon";
-                                Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
-                                intent.putExtra("clientID", id);
-                                intent.putExtra("time", time);
-                                intent.putExtra("taskId", passTaskId);
-                                startActivity(intent);
-                            });
-                            layout.addView(button);
-                        }
-                    } else {
-                        Log.d(TAG, "Error getting documents: ", task.getException());
-                    }
-                });
-
-        // Get info from client's evening tasks
-        clientEveningTaskRef.get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            LinearLayout layout = findViewById(R.id.eveningLayout);
-                            Button button = new Button(CaregiverMainActivity.this);
-                            button.setText(document.getId());
-                            button.setOnClickListener(v -> {
-                                String passTaskId = document.getId();
-                                String time = "evening";
-                                Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
-                                intent.putExtra("clientID", id);
-                                intent.putExtra("time", time);
-                                intent.putExtra("taskId", passTaskId);
-                                startActivity(intent);
-                            });
-                            layout.addView(button);
-                        }
-                    } else {
-                        Log.d(TAG, "Error getting documents: ", task.getException());
-                    }
-                });
+        // Get info from client's morning, afternoon, evening tasks
+        getTaskList(clientMorningTaskRef, findViewById(R.id.morningLayout), "morning");
+        getTaskList(clientAfternoonTaskRef, findViewById(R.id.afternoonLayout), "afternoon");
+        getTaskList(clientEveningTaskRef, findViewById(R.id.eveningLayout), "evening");
 
         // Search Return Button - returns user to Client Search page
         searchReturn = findViewById(R.id.searchReturnButton);
@@ -224,7 +142,30 @@ public class CaregiverMainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    };
+    }
+
+    private void getTaskList(CollectionReference taskCollection, LinearLayout layout, String time) {
+        taskCollection.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Button button = new Button(CaregiverMainActivity.this);
+                    button.setText(document.getId());
+                    button.setOnClickListener(v -> {
+                        String passTaskId = document.getId();
+                        Log.d(TAG, "getTaskList: "+passTaskId+ " "+id+" "+time);
+                        Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
+                        intent.putExtra("clientID", id);
+                        intent.putExtra("time", time);
+                        intent.putExtra("taskId", passTaskId);
+                        startActivity(intent);
+                    });
+                    layout.addView(button);
+                }
+            } else {
+                Log.d(TAG, "Error getting documents: ", task.getException());
+            }
+        });
+    }
 }
 
 
