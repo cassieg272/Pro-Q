@@ -220,7 +220,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 mAuth.signOut();
-                Intent intent = new Intent(CaregiverMainActivity.this, CaregiverLogin.class);
+                Intent intent = new Intent(CaregiverMainActivity.this, WelcomeActivity.class);
                 startActivity(intent);
             }
         });

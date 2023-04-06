@@ -218,7 +218,7 @@ public class ContactMainActivity extends AppCompatActivity {
         logout = findViewById(R.id.leaveButton);
         logout.setOnClickListener(view -> {
             mAuth.signOut();
-            Intent intent = new Intent(ContactMainActivity.this, ContactPersonLogin.class);
+            Intent intent = new Intent(ContactMainActivity.this, WelcomeActivity.class);
             startActivity(intent);
         });
     };

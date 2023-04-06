@@ -10,6 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 public class WelcomeActivity extends AppCompatActivity {
     private Button caregiverBtn;
     private Button contactPersonBtn;
+
+    //when user click on Back button, clear the back stack of all previous activities
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
