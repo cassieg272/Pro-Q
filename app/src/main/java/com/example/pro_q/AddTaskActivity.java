@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
@@ -38,50 +39,50 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class AddTaskActivity extends AppCompatActivity {
-    private TextView category, timeOfDay;
+    private AutoCompleteTextView category, timeOfDay;
     private TextView title;
+    String newDesc, newTitle, newTime, newCategory ="";
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
     private EditText description;
-    private LinearLayout deleteConfirm;
     private Button create, back;
     public static final String KEY_CATEGORY = "category";
     public static final String KEY_DESCRIPTION = "description";
 
     // Connection to Firestore
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+    private DocumentReference clientDoc;
     private CollectionReference clientInfoRef = db.collection("Client");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_contact_task_detail);
+        setContentView(R.layout.activity_add_task);
         sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
 
         // Receiving data from previous activity
-        String taskId = sharedPref.getString("taskId", "");
         String clientId = sharedPref.getString("clientId", "");
 
         // Reference to specific task in database
-        DocumentReference clientDoc = clientInfoRef.document(clientId);
+        clientDoc = clientInfoRef.document(clientId);
 
         category = findViewById(R.id.categoryValue);
         title = findViewById(R.id.titleEdit);
         description = findViewById(R.id.descriptionEdit);
         timeOfDay = findViewById(R.id.timeValue);
 
-        // The Buttons
         back = findViewById(R.id.goBackButton);
+        create = findViewById(R.id.createBtn);
 
-
-//        String[] timeArr = getResources().getStringArray(R.array.time);
-//        ArrayAdapter timeArrayAdapter = new ArrayAdapter(ContactTaskDetailActivity.this, R.layout.dropdown_item, timeArr);
-//        timeOfDay.setAdapter(timeArrayAdapter);
+        //set drop down list to select time
+        String[] timeArr = getResources().getStringArray(R.array.time);
+        ArrayAdapter timeArrayAdapter = new ArrayAdapter(AddTaskActivity.this, R.layout.dropdown_item, timeArr);
+        timeOfDay.setAdapter(timeArrayAdapter);
 
 //        //Attach adapters to AutoCompleteTextView create drop down list
 //        String[] splitedCatList = catList.split("\\s*,\\s*");
@@ -92,12 +93,45 @@ public class AddTaskActivity extends AppCompatActivity {
 
         // Create Task Button - create task upon click
         create.setOnClickListener(view -> {
-            String updateDescription = description.getText().toString();
-            String newTime = timeOfDay.getText().toString();
-//            task.update(KEY_DESCRIPTION, updateDescription);
-        });
+             newDesc = description.getText().toString();
+             newTitle = title.getText().toString();
+             newTime = timeOfDay.getText().toString();
+             newCategory = "category";//category.getText().toString();
 
-        // Delete Button - sets cardview to Visible
+            Log.d("TAG", "onCreate: "+newDesc+" "+newTime+" "+newTitle+" "+newCategory);
+            //check if user left any field blank, if yes, display error message. If no, create task from input
+            if (!newDesc.isEmpty() && !newDesc.isEmpty() && !newTime.isEmpty() && !newTitle.isEmpty()) {
+
+                //create a set of key:value pair to enter into task document
+                Map<String, Object> data = new HashMap<>();
+                data.put("reason", "");
+                data.put("caregiverComplete", "no");
+                data.put("category", newCategory);
+                data.put("description", newDesc);
+
+                //created task document and put data in it
+                clientDoc.collection(newTime.toLowerCase()).document(newTitle)
+                        .set(data)
+                        //display message if finished creating task
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(AddTaskActivity.this, "Task Created Successfully!", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        //display message if fail to create task
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(AddTaskActivity.this, "Fail to Create Task!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+            else {
+                Toast.makeText(this, "Please fill out all the fields", Toast.LENGTH_LONG).show();
+
+            }
+        });
 
         // Back Button - returns user to ContactMainActivity
         back.setOnClickListener(view -> {

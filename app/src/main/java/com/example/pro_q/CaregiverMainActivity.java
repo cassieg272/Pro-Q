@@ -111,14 +111,14 @@ public class CaregiverMainActivity extends AppCompatActivity {
         // Timer Functions
         findViewById(R.id.timerButton).setOnClickListener(view -> {
             // On click - go to CaregiverTimerMainActivity
-            Date startTime = Calendar.getInstance().getTime();
+            Date startTime = Calendar.getInstance().getTime(); //record the time user click Start time button
             timerButton.setText("Tracking...");
             timerButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     timerButton.setText("Finished");
-                    Date finishTime = Calendar.getInstance().getTime();
-                    timerButton.setClickable(false);
+                    Date finishTime = Calendar.getInstance().getTime(); //record the time user click Finish button
+                    timerButton.setClickable(false); //make button no longer clickable
                     timerButton.setBackgroundColor(timerButton.getContext().getResources().getColor(R.color.pink_disable));
                     openDialog(startTime, finishTime);
                 }
