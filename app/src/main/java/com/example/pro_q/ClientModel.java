@@ -8,7 +8,6 @@ public class ClientModel {
         this.id = id;
         this.fullName = fullName;
     }
-
     public String getAddress() {
         return address;
     }

@@ -139,15 +139,16 @@ public class ContactMainActivity extends AppCompatActivity {
         taskCollection.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    Log.d(TAG, document.getId() + " => " + document.getData());
                     Button button = new Button(ContactMainActivity.this);
                     button.setText(document.getId());
                     button.setOnClickListener(v -> {
                         String passTaskId = document.getId();
+                        sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
+                        editor = sharedPref.edit();
+                        editor.putString("taskId", passTaskId);
+                        editor.putString("taskTime", time);
+                        editor.commit();
                         Intent intent = new Intent(ContactMainActivity.this, ContactTaskDetailActivity.class);
-                        intent.putExtra("clientID", id);
-                        intent.putExtra("time", time);
-                        intent.putExtra("taskId", passTaskId);
                         startActivity(intent);
                     });
                     layout.addView(button);
