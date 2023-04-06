@@ -50,7 +50,7 @@ public class ContactMainActivity extends AppCompatActivity implements RecyclerVi
     // get references for client document and collections
     private DocumentReference clientDoc;
     private ViewPager2 viewPagerDayTask;
-    private ArrayList<DayModel> allDayList = new ArrayList<>();
+    private DayModel[] allDayList = new DayModel[7];
     private String[] weekDays = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
     private CollectionReference clientMorningTaskRef, clientAfternoonTaskRef, clientEveningTaskRef;
 
@@ -98,6 +98,28 @@ public class ContactMainActivity extends AppCompatActivity implements RecyclerVi
                         } else {
                             Toast.makeText(ContactMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
                         }
+
+                        for (int i = 0; i < weekDays.length; i++) {
+                            String day = weekDays[i];
+                            allDayList[i] = (new DayModel(id, ContactMainActivity.this, day));
+                            Log.d("TAG", "onSuccess: "+allDayList[i].getAllDayTask().length);
+                            Log.d("TAG", "onSuccess: "+allDayList[i].getAllDayTask()[0]);
+                            Log.d("TAG", "onSuccess: "+allDayList[i].getAllDayTask()[1]);
+                            Log.d("TAG", "onSuccess: "+allDayList[i].getAllDayTask()[2]);
+//                            for(ArrayList<TaskModel> time: allDayList[i].getAllDayTask()) {
+//                                for(TaskModel task:time){
+//                                    Log.d("TAG", "onSuccess: " + task);
+//                                }
+//                            }
+                        }
+                        Log.d("TAG", "onCreate: " + allDayList.length);
+                        Log.d("TAG", "onCreate: end");
+//                        DayAdapter dayAdapter = new DayAdapter(ContactMainActivity.this, allDayList, ContactMainActivity.this);
+//                        viewPagerDayTask.setAdapter(dayAdapter);
+//                        viewPagerDayTask.setClipToPadding(false);
+//                        viewPagerDayTask.setClipChildren(false);
+//                        viewPagerDayTask.setOffscreenPageLimit(2);
+//                        viewPagerDayTask.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
                     }
                 })
                 .addOnFailureListener(e -> Log.d("TAG", "onFailure: " + e.toString()));
@@ -134,19 +156,7 @@ public class ContactMainActivity extends AppCompatActivity implements RecyclerVi
 
 
         Log.d("TAG", "onCreate: start");
-        for (String day:weekDays) {
-            DayModel newDay =new DayModel(id, ContactMainActivity.this, day);
-            allDayList.add(newDay);
 
-        }
-        Log.d("TAG", "onCreate: "+allDayList.size());
-        Log.d("TAG", "onCreate: end");
-        DayAdapter dayAdapter = new DayAdapter(ContactMainActivity.this, allDayList, ContactMainActivity.this);
-        viewPagerDayTask.setAdapter(dayAdapter);
-        viewPagerDayTask.setClipToPadding(false);
-        viewPagerDayTask.setClipChildren(false);
-        viewPagerDayTask.setOffscreenPageLimit(2);
-        viewPagerDayTask.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
     @Override

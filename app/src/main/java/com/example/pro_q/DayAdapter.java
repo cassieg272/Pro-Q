@@ -20,9 +20,9 @@ import java.util.ArrayList;
 public class DayAdapter extends RecyclerView.Adapter<DayAdapter.MyViewHolder> {
     private final RecyclerViewInterface recyclerViewInterface;
     Context context;
-    ArrayList<DayModel> dayModels;
+    DayModel[] dayModels;
 
-    public DayAdapter(Context context, ArrayList<DayModel> dayModels, RecyclerViewInterface recyclerViewInterface) {
+    public DayAdapter(Context context, DayModel[] dayModels, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
         this.dayModels = dayModels;
         this.recyclerViewInterface = recyclerViewInterface;
@@ -41,23 +41,22 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.MyViewHolder> {
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         //assigning values to the views we created in the search_result layout file
         //based on the position of the recycler view
-        holder.tasksLabel.setText("Tasks for " + dayModels.get(position).getDay());
-        ArrayList<TaskModel> afternoonTaskArr = dayModels.get(position).getAfternoonTaskArr();
-        Log.d("TAG", "test array: aft" + afternoonTaskArr);
-        ArrayList<TaskModel> morningTaskArr =dayModels.get(position).getMorningTaskArr();
-        Log.d("TAG", "test array: morn" + morningTaskArr);
-        ArrayList<TaskModel> eveningTaskArr = dayModels.get(position).getEveningTaskArr();
+        DayModel currentDay = dayModels[position];
+        String day = currentDay.getDay();
+        holder.tasksLabel.setText("Tasks for " + day);
 
-        Log.d("TAG", "test arr: eve " + eveningTaskArr);
-        createBtn(morningTaskArr, holder.morningTask);
-        createBtn(afternoonTaskArr, holder.afternoonTask);
-        createBtn(eveningTaskArr, holder.eveningTask);
+        Log.d("TAG", "test array: "+day+" aft" + currentDay.getAllDayTask()[1]);
+        Log.d("TAG", "test array: "+day+" mor" + currentDay.getAllDayTask()[0]);
+        Log.d("TAG", "test array: "+day+" eve" +  currentDay.getAllDayTask()[2]);
+//        createBtn(currentDay.getAllDayTask()[0], holder.morningTask);
+//        createBtn(currentDay.getAllDayTask()[1], holder.afternoonTask);
+//        createBtn(currentDay.getAllDayTask()[2], holder.eveningTask);
     }
 
     private void createBtn(ArrayList<TaskModel> arrayList, LinearLayout layout) {
         for (TaskModel task : arrayList) {
             Button taskBtn = new Button(context);
-            taskBtn.setText("Meal Prep");
+            taskBtn.setText(task.getTaskName());
             taskBtn.setTextColor(taskBtn.getContext().getResources().getColor(R.color.white));
             taskBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -72,7 +71,6 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.MyViewHolder> {
             taskBtn.setLayoutParams(params);
             taskBtn.setBackgroundColor(taskBtn.getContext().getResources().getColor(R.color.purple_200));
             taskBtn.setTextColor(taskBtn.getContext().getResources().getColor(R.color.white));
-//            Log.d("TAG", "onBindViewHolder: " + task.getTaskName());
             layout.addView(taskBtn);
         }
     }
@@ -80,7 +78,7 @@ public class DayAdapter extends RecyclerView.Adapter<DayAdapter.MyViewHolder> {
     @Override
     public int getItemCount() {
         //the recycler view just wants to know the number of items you want displayed
-        return dayModels.size();
+        return dayModels.length;
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
