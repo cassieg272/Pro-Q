@@ -1,11 +1,14 @@
 package com.example.pro_q;
 
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,6 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ViewReportActivity extends AppCompatActivity {
@@ -101,6 +105,10 @@ public class ViewReportActivity extends AppCompatActivity {
         } else {
             reset.setVisibility(View.GONE);
         }
+
+        Alarm alarm = new Alarm(this);
+        alarm.activateAlarm();
+        Log.d(TAG, "alarm set");
     }
 
     private void getCompletedTask(CollectionReference taskCollection) {
@@ -161,4 +169,8 @@ public class ViewReportActivity extends AppCompatActivity {
                     }
                 });
     }
+
+//    public void reset() {
+//
+//    }
 }

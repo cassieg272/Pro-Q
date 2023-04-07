@@ -96,6 +96,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
                 } else {
                     clientPhone.setText(phone);
                 }
+                // Get Client Gender
                 String gender = documentSnapshot.getString(KEY_GENDER);
                 clientGender.setText(gender);
             } else {
@@ -133,8 +134,6 @@ public class CaregiverMainActivity extends AppCompatActivity {
         getTaskList(clientAfternoonTaskRef, findViewById(R.id.afternoonLayout), "afternoon");
         getTaskList(clientEveningTaskRef, findViewById(R.id.eveningLayout), "evening");
 
-        mAuth = FirebaseAuth.getInstance();
-
         // Search Return Button - returns user to Client Search page
         searchReturn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +142,8 @@ public class CaregiverMainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        mAuth = FirebaseAuth.getInstance();
 
         // Logout Button - signs user out of firestore and brings them back to login page
         logout.setOnClickListener((view -> {
@@ -158,7 +159,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
         timerDialog.show(getSupportFragmentManager(), "Timer Dialog");
     }
 
-    //method to create buttons dynamically based on the number of tasks for each time of day
+    // Method to create buttons dynamically based on the number of tasks for each time of day
     private void getTaskList(CollectionReference taskCollection, LinearLayout layout, String time) {
         taskCollection.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

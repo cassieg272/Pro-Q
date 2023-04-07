@@ -34,7 +34,11 @@
         </activity>
         <activity
             android:name=".ViewReportActivity"
-            android:exported="false"></activity>
+            android:exported="false">
+        </activity>
+        <receiver android:name=".ResetTasks"
+            android:enabled="true">
+        </receiver>
         <activity
             android:name=".AddTaskActivity"
             android:exported="false" />

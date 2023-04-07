@@ -56,7 +56,7 @@ public class ContactMainActivity extends AppCompatActivity {
         sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
         editor = sharedPref.edit();
 
-        //get values from sharedPreferences file
+        // Get values from sharedPreferences file
         name = sharedPref.getString("clientName", "<Name>");
         address = sharedPref.getString("clientAddress", "<Address>");
         id = sharedPref.getString("clientId", "<Id>");
@@ -74,29 +74,26 @@ public class ContactMainActivity extends AppCompatActivity {
         clientName.setText(name);
         clientAddress.setText(address);
 
-        //declare & initialize database references
+        // Declare & initialize database references
         clientDoc = FirebaseFirestore.getInstance().collection("Client").document(id);
         clientMorningTaskRef = clientDoc.collection("morning");
         clientAfternoonTaskRef = clientDoc.collection("afternoon");
         clientEveningTaskRef = clientDoc.collection("evening");
 
         // CLIENT INFO - Retrieve data from collection
-        clientDoc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
-                    // Get Client Phone
-                    String phone = documentSnapshot.getString(KEY_PHONE);
-                    if (phone == null) {
-                        clientPhone.setText("No Phone");
-                    } else {
-                        clientPhone.setText(phone);
-                    }
-                    String gender = documentSnapshot.getString(KEY_GENDER);
-                    clientGender.setText(gender);
+        clientDoc.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                // Get Client Phone
+                String phone = documentSnapshot.getString(KEY_PHONE);
+                if (phone == null) {
+                    clientPhone.setText("No Phone");
                 } else {
-                    Toast.makeText(ContactMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
+                    clientPhone.setText(phone);
                 }
+                String gender = documentSnapshot.getString(KEY_GENDER);
+                clientGender.setText(gender);
+            } else {
+                Toast.makeText(ContactMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
 
@@ -112,14 +109,18 @@ public class ContactMainActivity extends AppCompatActivity {
         viewReport.setOnClickListener(view -> {
             Intent intent = new Intent(ContactMainActivity.this, ViewReportActivity.class);
             editor.putBoolean("fromCaregiverMainActivity", false);
-//            editor.putBoolean("fromContactMainActivity", true);
             editor.commit();
             startActivity(intent);
         });
+
+        // Populate the Layouts with Tasks in Database
         getTaskList(clientMorningTaskRef, findViewById(R.id.morningLayout), "morning");
         getTaskList(clientAfternoonTaskRef, findViewById(R.id.afternoonLayout), "afternoon");
         getTaskList(clientEveningTaskRef, findViewById(R.id.eveningLayout), "evening");
 
+        // BOTTOM BUTTONS
+
+        // Client List Button - return user to client list (Search Activity)
         clientListButton = findViewById(R.id.clientListButton);
         clientListButton.setOnClickListener(view -> {
             Intent intent = new Intent(ContactMainActivity.this, ContactPersonClientList.class);
@@ -136,7 +137,7 @@ public class ContactMainActivity extends AppCompatActivity {
         });
     }
 
-    //method to create buttons dynamically based on the number of tasks for each time of day
+    // Method to create buttons dynamically based on the number of tasks for each time of day
     private void getTaskList(CollectionReference taskCollection, LinearLayout layout, String time) {
         taskCollection.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
