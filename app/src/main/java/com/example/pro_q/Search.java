@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -23,11 +22,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class Search extends AppCompatActivity implements RecyclerViewInterface{
@@ -55,7 +52,6 @@ public class Search extends AppCompatActivity implements RecyclerViewInterface{
                 resultList.setVisibility(View.GONE);//empty recycler view for the next search
                 return true;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
@@ -109,42 +105,39 @@ public class Search extends AppCompatActivity implements RecyclerViewInterface{
     }
 
     public void getClientList(Query query) {
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()&& task.getResult().size() != 0){
-                    ArrayList<ClientModel> clientList = new ArrayList<>();
+        query.get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()&& task.getResult().size() != 0){
+                ArrayList<ClientModel> clientList = new ArrayList<>();
 
-                    for(QueryDocumentSnapshot document: task.getResult()){
-                        String id = document.getId(); //get document ID aka client ID
+                for(QueryDocumentSnapshot document: task.getResult()){
+                    String id = document.getId(); //get document ID aka client ID
 
-                        //get values in database of the matched clients
-                        String fullName = (String) document.get("firstName")+ " "+(String) document.get("lastName");
+                    //get values in database of the matched clients
+                    String fullName = (String) document.get("firstName")+ " "+(String) document.get("lastName");
 
-                        //get values from address map field in Firestore and concatenate them to make a complete address
-                        Map<String, String> addressMap = (Map<String, String>) document.get("address");
-                        String street = addressMap.get("street");
-                        String city = addressMap.get("city");
-                        String province = addressMap.get("province");
-                        String postalCode = addressMap.get("postalCode");
-                        String address = street+", "+city+", "+province+ " "+postalCode;
+                    //get values from address map field in Firestore and concatenate them to make a complete address
+                    Map<String, String> addressMap = (Map<String, String>) document.get("address");
+                    String street = addressMap.get("street");
+                    String city = addressMap.get("city");
+                    String province = addressMap.get("province");
+                    String postalCode = addressMap.get("postalCode");
+                    String address = street+", "+city+", "+province+ " "+postalCode;
 
-                        //create a clientModel object and add to clientList
-                        clientList.add(new ClientModel(address, id, fullName));
-                    }
-                        resultList.setVisibility(View.VISIBLE);
-                        clientModels = clientList;
-
-                        //create result list with recyclerview adapter
-                        ClientAdapter adapter = new ClientAdapter(Search.this, clientList, Search.this);
-                        resultList.setAdapter(adapter);
-                        resultList.setLayoutManager(new LinearLayoutManager(Search.this));
+                    //create a clientModel object and add to clientList
+                    clientList.add(new ClientModel(address, id, fullName));
                 }
-                //if task is not successful and/or there is no result in the list returned by task, display message
-                else{
-                    Toast.makeText(Search.this, "This client does not exist", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    resultList.setVisibility(View.VISIBLE);
+                    clientModels = clientList;
+
+                    //create result list with recyclerview adapter
+                    ClientAdapter adapter = new ClientAdapter(Search.this, clientList, Search.this);
+                    resultList.setAdapter(adapter);
+                    resultList.setLayoutManager(new LinearLayoutManager(Search.this));
+            }
+            //if task is not successful and/or there is no result in the list returned by task, display message
+            else{
+                Toast.makeText(Search.this, "This client does not exist", Toast.LENGTH_SHORT).show();
+                return;
             }
         });
     }

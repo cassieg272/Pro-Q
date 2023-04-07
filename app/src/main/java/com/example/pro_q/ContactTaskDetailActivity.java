@@ -1,49 +1,26 @@
 package com.example.pro_q;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class ContactTaskDetailActivity extends AppCompatActivity {
     private TextView category, timeOfDay;
     private TextView title;
-    private String chosenCat, chosenTime, chosenTitle, chosenDesc;
+    private String chosenTime, chosenTitle;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor editor;
     private EditText description;
@@ -96,16 +73,6 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
         title.setText(chosenTitle);
 
         timeOfDay.setText(chosenTime.substring(0, 1).toUpperCase() + chosenTime.substring(1));
-//        String[] timeArr = getResources().getStringArray(R.array.time);
-//        ArrayAdapter timeArrayAdapter = new ArrayAdapter(ContactTaskDetailActivity.this, R.layout.dropdown_item, timeArr);
-//        timeOfDay.setAdapter(timeArrayAdapter);
-
-//        //Attach adapters to AutoCompleteTextView create drop down list
-//        String[] splitedCatList = catList.split("\\s*,\\s*");
-//        Log.d("TAG", "onCreate: "+splitedCatList.length+" "+splitedCatList.toString());
-//        ArrayAdapter catArrayAdapter = new ArrayAdapter(ContactTaskDetailActivity.this, R.layout.dropdown_item, splitedCatList);
-//        category.setAdapter(catArrayAdapter);
-
 
         // Update Button - updates the task description
         update.setOnClickListener(view -> {
@@ -133,7 +100,5 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
             Intent intent = new Intent(ContactTaskDetailActivity.this, ContactMainActivity.class);
             startActivity(intent);
         });
-
-
     }
 }

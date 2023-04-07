@@ -1,42 +1,26 @@
 package com.example.pro_q;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.Source;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
 
 public class CaregiverMainActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -102,7 +86,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(CaregiverMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
             }
-        }).addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
+        }).addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e));
 
         // BUTTON BAR
 
@@ -135,12 +119,9 @@ public class CaregiverMainActivity extends AppCompatActivity {
         getTaskList(clientEveningTaskRef, findViewById(R.id.eveningLayout), "evening");
 
         // Search Return Button - returns user to Client Search page
-        searchReturn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CaregiverMainActivity.this, Search.class);
-                startActivity(intent);
-            }
+        searchReturn.setOnClickListener(view -> {
+            Intent intent = new Intent(CaregiverMainActivity.this, Search.class);
+            startActivity(intent);
         });
 
         mAuth = FirebaseAuth.getInstance();
@@ -154,7 +135,6 @@ public class CaregiverMainActivity extends AppCompatActivity {
     }
 
     private void openDialog(Date startTime, Date finishTime) {
-        Log.d(TAG, "openDialog: "+startTime+" "+finishTime);
         TimerDialog timerDialog = new TimerDialog(startTime, finishTime);
         timerDialog.show(getSupportFragmentManager(), "Timer Dialog");
     }
@@ -168,7 +148,6 @@ public class CaregiverMainActivity extends AppCompatActivity {
                     button.setText(document.getId());
                     button.setOnClickListener(v -> {
                         String passTaskId = document.getId();
-                        Log.d(TAG, "getTaskList: " + passTaskId + " " + id + " " + time);
                         Intent intent = new Intent(CaregiverMainActivity.this, TaskDetailActivity.class);
                         sharedPref = getSharedPreferences("listOfId", Context.MODE_PRIVATE);
                         editor = sharedPref.edit();

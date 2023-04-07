@@ -1,8 +1,5 @@
 package com.example.pro_q;
 
-import static android.content.ContentValues.TAG;
-
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -11,24 +8,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
-import java.util.Date;
 
 public class TaskDetailActivity extends AppCompatActivity {
     private TextView category, description, title, timeOfDay;
@@ -75,20 +65,17 @@ public class TaskDetailActivity extends AppCompatActivity {
         cardView.setVisibility(View.INVISIBLE);
 
         // Get data from the newly created document reference
-        task.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        String cat = documentSnapshot.getString(KEY_CATEGORY);
-                        String t = taskId;
-                        String d = documentSnapshot.getString(KEY_DESCRIPTION);
+        task.get().addOnSuccessListener(documentSnapshot -> {
+            String cat = documentSnapshot.getString(KEY_CATEGORY);
+            String t = taskId;
+            String d = documentSnapshot.getString(KEY_DESCRIPTION);
 
-                        // Set and display task information in the app
-                        category.setText(cat);
-                        title.setText(t);
-                        description.setText(d);
-                        timeOfDay.setText(taskTime.substring(0, 1).toUpperCase() + taskTime.substring(1)); //capitalize first letter of taskTime value
-                    }
-                });
+            // Set and display task information in the app
+            category.setText(cat);
+            title.setText(t);
+            description.setText(d);
+            timeOfDay.setText(taskTime.substring(0, 1).toUpperCase() + taskTime.substring(1)); //capitalize first letter of taskTime value
+        });
         // Find the Incomplete Button and set On Click to make the cardview visible
         incomplete = findViewById(R.id.deleteButton);
         incomplete.setOnClickListener(view -> cardView.setVisibility(view.VISIBLE));
