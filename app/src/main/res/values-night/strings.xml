@@ -10,14 +10,7 @@
     <string name="evening">evening</string>
     <string name="click_quot_create_tasks_quot_to_get_started">Click \"Create Tasks\" to get started!</string>
     <string name="dashboard">DASHBOARD</string>
-    <string name="add_note">add note</string>
     <string name="add_task">add task</string>
     <string name="view_report">view report</string>
     <string name="show_details">show details</string>
-    <string name="edit_note">EDIT NOTE</string>
-    <string name="title">Title</string>
-    <string name="description">Description</string>
-    <string name="delete">Delete</string>
-    <string name="note_updated_successfully">Note updated successfully!</string>
-    <string name="save">Save</string>
 </resources>

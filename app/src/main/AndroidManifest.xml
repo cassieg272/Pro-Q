@@ -43,9 +43,6 @@
             android:name=".AddTaskActivity"
             android:exported="false" />
         <activity
-            android:name=".AddNoteActivity"
-            android:exported="false" />
-        <activity
             android:name=".CaregiverMainActivity"
             android:exported="false" />
         <activity
@@ -56,12 +53,6 @@
             android:exported="false" />
         <activity
             android:name=".TaskDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".DeleteSuccessActivity"
-            android:exported="false" />
-        <activity
-            android:name=".EditNoteActivity"
             android:exported="false" />
 
         <meta-data
