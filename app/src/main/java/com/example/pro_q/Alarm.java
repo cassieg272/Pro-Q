@@ -23,7 +23,7 @@ public class Alarm {
     public void activateAlarm() {
         Intent intent = new Intent(context, ResetTasks.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context.getApplicationContext(), 0, intent, FLAG_IMMUTABLE);
-        Log.d(TAG, "Alarm: intent and pendingintent set");
+        Log.d(TAG, "Alarm: intent and pending intent set");
 
         // Create the alarm manager
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

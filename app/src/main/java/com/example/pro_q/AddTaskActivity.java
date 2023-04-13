@@ -32,6 +32,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.Source;
 
 import org.w3c.dom.Text;
 
@@ -84,19 +85,23 @@ public class AddTaskActivity extends AppCompatActivity {
         ArrayAdapter timeArrayAdapter = new ArrayAdapter(AddTaskActivity.this, R.layout.dropdown_item, timeArr);
         timeOfDay.setAdapter(timeArrayAdapter);
 
-//        //Attach adapters to AutoCompleteTextView create drop down list
-//        String[] splitedCatList = catList.split("\\s*,\\s*");
-//        Log.d("TAG", "onCreate: "+splitedCatList.length+" "+splitedCatList.toString());
-//        ArrayAdapter catArrayAdapter = new ArrayAdapter(ContactTaskDetailActivity.this, R.layout.dropdown_item, splitedCatList);
-//        category.setAdapter(catArrayAdapter);
-
+        //get category list associated with this client
+        clientDoc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                List<String> categoryList = (List<String>) documentSnapshot.get("category");
+                //attach the list to the category drop down list
+                ArrayAdapter categoryArrayAdapter = new ArrayAdapter(AddTaskActivity.this, R.layout.dropdown_item, categoryList);
+                category.setAdapter(categoryArrayAdapter);
+            }
+        });
 
         // Create Task Button - create task upon click
         create.setOnClickListener(view -> {
              newDesc = description.getText().toString();
              newTitle = title.getText().toString();
              newTime = timeOfDay.getText().toString();
-             newCategory = "category";//category.getText().toString();
+             newCategory = category.getText().toString();
 
             Log.d("TAG", "onCreate: "+newDesc+" "+newTime+" "+newTitle+" "+newCategory);
             //check if user left any field blank, if yes, display error message. If no, create task from input

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class ContactPersonClientList extends AppCompatActivity implements RecyclerViewInterface {
@@ -78,6 +80,10 @@ public class ContactPersonClientList extends AppCompatActivity implements Recycl
                                 String postalCode = addressMap.get("postalCode");
                                 String address = street + ", " + city + ", " + province + " " + postalCode;
 
+//                                List<String> categoryList = (List<String>) document1.get("category");
+//                                for (String cat: categoryList) {
+//                                    Log.d("TAG", "onCreate: "+cat);
+//                                }
                                 //create a clientModel object and add to clientModels array list
                                 clientModels.add(new ClientModel(address, id, fullName));
                             }
