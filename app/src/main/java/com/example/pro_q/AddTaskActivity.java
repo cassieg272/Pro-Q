@@ -80,19 +80,19 @@ public class AddTaskActivity extends AppCompatActivity {
         back = findViewById(R.id.goBackButton);
         create = findViewById(R.id.createBtn);
 
-        //set drop down list to select time
-        String[] timeArr = getResources().getStringArray(R.array.time);
-        ArrayAdapter timeArrayAdapter = new ArrayAdapter(AddTaskActivity.this, R.layout.dropdown_item, timeArr);
-        timeOfDay.setAdapter(timeArrayAdapter);
-
         //get category list associated with this client
         clientDoc.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 List<String> categoryList = (List<String>) documentSnapshot.get("category");
-                //attach the list to the category drop down list
+                List<String> timeList = (List<String>) documentSnapshot.get("timeOfDay");
+
+                //attach the list to the category and time drop down list
                 ArrayAdapter categoryArrayAdapter = new ArrayAdapter(AddTaskActivity.this, R.layout.dropdown_item, categoryList);
                 category.setAdapter(categoryArrayAdapter);
+
+                ArrayAdapter timeArrayAdapter = new ArrayAdapter(AddTaskActivity.this, R.layout.dropdown_item, timeList);
+                timeOfDay.setAdapter(timeArrayAdapter);
             }
         });
 
@@ -100,7 +100,7 @@ public class AddTaskActivity extends AppCompatActivity {
         create.setOnClickListener(view -> {
              newDesc = description.getText().toString();
              newTitle = title.getText().toString();
-             newTime = timeOfDay.getText().toString();
+             newTime = timeOfDay.getText().toString().toLowerCase();
              newCategory = category.getText().toString();
 
             Log.d("TAG", "onCreate: "+newDesc+" "+newTime+" "+newTitle+" "+newCategory);

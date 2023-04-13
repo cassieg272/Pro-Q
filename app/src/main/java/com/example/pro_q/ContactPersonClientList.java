@@ -80,10 +80,6 @@ public class ContactPersonClientList extends AppCompatActivity implements Recycl
                                 String postalCode = addressMap.get("postalCode");
                                 String address = street + ", " + city + ", " + province + " " + postalCode;
 
-//                                List<String> categoryList = (List<String>) document1.get("category");
-//                                for (String cat: categoryList) {
-//                                    Log.d("TAG", "onCreate: "+cat);
-//                                }
                                 //create a clientModel object and add to clientModels array list
                                 clientModels.add(new ClientModel(address, id, fullName));
                             }

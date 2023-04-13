@@ -137,6 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:ems="10"
+                android:hint="@string/descriptionHint"
                 android:inputType="textMultiLine"
                 android:textColor="@color/black"
                 android:textSize="20sp"

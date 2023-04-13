@@ -27,15 +27,4 @@
     <string name="client_gender">Client Gender</string>
     <string name="clientListTitle">List of Matched Clients</string>
     <string name="descriptionHint">Describe task as concise as possible</string>
-    <string-array name="category">
-        <item>Morning</item>
-        <item>Afternoon</item>
-        <item>Evening</item>
-    </string-array>
-    <string-array name="time">
-        <item>Morning</item>
-        <item>Afternoon</item>
-        <item>Evening</item>
-    </string-array>
-
 </resources>

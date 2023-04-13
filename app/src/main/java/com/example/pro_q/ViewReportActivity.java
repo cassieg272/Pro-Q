@@ -122,7 +122,7 @@ public class ViewReportActivity extends AppCompatActivity {
                     text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     String taskId = document.getId();
                     String reason = document.getString(KEY_REASON);
-                    text.setText(taskId + " " + reason);
+                    text.setText(taskId + " : " + reason);
                     layout.addView(text);
                 }
                 Log.d(TAG, "Error getting documents: ", task.getException());
