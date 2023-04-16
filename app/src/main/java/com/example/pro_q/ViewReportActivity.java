@@ -15,14 +15,12 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -44,7 +42,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class ViewReportActivity extends AppCompatActivity {
-    private Button back, saveReport, datePickerBtn, dateSelectBtn;
+    private Button back, saveReport, datePickerBtn;
     private static final String KEY_CAREGIVER_COMPLETE = "caregiverComplete";
     private static final String KEY_REASON = "reason";
     private DatePickerDialog datePickerDialog;
@@ -67,11 +65,9 @@ public class ViewReportActivity extends AppCompatActivity {
 
         completedLayout = findViewById(R.id.completedTasksLayout);
         incompleteLayout = findViewById(R.id.incompleteLayout);
-
         saveReport = findViewById(R.id.saveReportButton);
         back = findViewById(R.id.backButton);
         datePickerBtn = findViewById(R.id.datePicker);
-        dateSelectBtn = findViewById(R.id.dateSelectBtn);
 
         // Get client ID & currentDayDoc from previous activity
         String id = sharedPref.getString("clientId", "");
@@ -94,84 +90,34 @@ public class ViewReportActivity extends AppCompatActivity {
         getIncompleteTask(evening);
 
         Boolean fromCaregiverMainActivity = sharedPref.getBoolean("fromCaregiverMainActivity", true);
-        if (fromCaregiverMainActivity) {
-            dateSelectBtn.setVisibility(View.GONE);
-            saveReport.setVisibility(View.VISIBLE);
-            datePickerBtn.setVisibility(View.GONE);
-            careReportDay = clientDoc.collection("CareReport").document(finalDay);
+        datePickerBtn.setText(getTodayDate());
 
+        //do certain thing depending on if the account is caregiver or contact person
+        if (fromCaregiverMainActivity) {
+            careReportDay = clientDoc.collection("CareReport").document(finalDay);
         } else {
-            dateSelectBtn.setVisibility(View.VISIBLE);
             saveReport.setVisibility(View.GONE);
-            datePickerBtn.setVisibility(View.VISIBLE);
-            datePickerBtn.setText(getTodayDate());
         }
 
-        dateSelectBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                completedLayout.removeViews(1, completedLayout.getChildCount() - 1);
-                incompleteLayout.removeViews(1, incompleteLayout.getChildCount() - 1);
-
-                DateFormat originalFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH);
-                DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
-                DateFormat formatWeekDay = new SimpleDateFormat("EEEE");
-                String selectedDate = datePickerBtn.getText().toString();
-                Date date;
-                try {
-                    date = originalFormat.parse(selectedDate);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
-                String selectedDocId = targetFormat.format(date) + " (" + formatWeekDay.format(date) + ")";
-
-                clientDoc.collection("CareReport").document(selectedDocId).get()
-                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                DocumentSnapshot documentSnapshot = task.getResult();
-                                if (documentSnapshot.exists()) {
-                                    List<String> completedTasks = (List<String>) documentSnapshot.get("Completed");
-                                    Map<String, String> incompleteTasks = (Map<String, String>) documentSnapshot.get("Incomplete");
-
-                                    for (String tasks : completedTasks) {
-                                        TextView text = new TextView(ViewReportActivity.this);
-                                        text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-                                        text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                                        text.setText(tasks);
-                                        completedLayout.addView(text);
-                                    }
-                                    Set<String> incompleteKeySet = incompleteTasks.keySet();
-                                    for (String key : incompleteKeySet) {
-                                        String reasonVal = incompleteTasks.get(key);
-                                        TextView text = new TextView(ViewReportActivity.this);
-                                        text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-                                        text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                                        text.setText(key + " : " + reasonVal);
-                                        incompleteLayout.addView(text);
-                                    }
-
-                                } else {
-                                    Toast.makeText(ViewReportActivity.this, "No report for selected date", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-            }
-        });
+        //set up date picker
         datePickerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initDatePicker();
+                initDatePicker(fromCaregiverMainActivity);
                 datePickerDialog.show();
             }
         });
+
+        //what to do when save report button is clicked
         saveReport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //create array of completed tasks and map of incomplete task
                 Map<String, Object> taskReport = new HashMap<>();
                 taskReport.put("Completed", completedTasks);
                 taskReport.put("Incomplete", incompleteTasks);
                 careReportDay.set(taskReport).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    //what to do when successfully insert data to database
                     @Override
                     public void onSuccess(Void unused) {
                         Toast.makeText(ViewReportActivity.this, "Report Saved", Toast.LENGTH_SHORT).show();
@@ -193,6 +139,7 @@ public class ViewReportActivity extends AppCompatActivity {
         });
     }
 
+    //get today's date and format it a certain way
     private String getTodayDate() {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
@@ -202,10 +149,12 @@ public class ViewReportActivity extends AppCompatActivity {
         return makeDateString(day, month, year);
     }
 
+    //format the passed in date
     private String makeDateString(int day, int month, int year) {
         return getMonthFormat(month) + " " + day + ", " + year;
     }
 
+    //format month
     private String getMonthFormat(int month) {
         if (month == 1) return "JAN";
         if (month == 2) return "FEB";
@@ -224,13 +173,69 @@ public class ViewReportActivity extends AppCompatActivity {
         return "JAN";
     }
 
-    private void initDatePicker() {
+    //what to set up for date picker button
+    private void initDatePicker(Boolean fromCaregiverMainActivity) {
+        //when datepicker date is set
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
                 String date = makeDateString(day, month, year);
                 datePickerBtn.setText(date);
+
+                //if user selected the date of today, show save report button. otherwise, hide save report button
+                if(date.equals(getTodayDate())&& fromCaregiverMainActivity){
+                    saveReport.setVisibility(View.VISIBLE);
+                }else{
+                    saveReport.setVisibility(View.GONE);
+                }
+
+                //clear layout containing the completed and incomplete tasks, except the first child (the layout label)
+                completedLayout.removeViews(1, completedLayout.getChildCount() - 1);
+                incompleteLayout.removeViews(1, incompleteLayout.getChildCount() - 1);
+
+                //retrieve report data based on selected date
+                DateFormat originalFormat = new SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH);
+                DateFormat targetFormat = new SimpleDateFormat("yyyy-MM-dd");
+                DateFormat formatWeekDay = new SimpleDateFormat("EEEE");
+                Date dateObj;
+                try {
+                    dateObj = originalFormat.parse(date);
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
+                String selectedDocId = targetFormat.format(dateObj) + " (" + formatWeekDay.format(dateObj) + ")";
+
+                clientDoc.collection("CareReport").document(selectedDocId).get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                DocumentSnapshot documentSnapshot = task.getResult();
+                                if (documentSnapshot.exists()) {
+                                    //read array of completed tasks and map of incomplete tasks from database
+                                    List<String> completedTasks = (List<String>) documentSnapshot.get("Completed");
+                                    Map<String, String> incompleteTasks = (Map<String, String>) documentSnapshot.get("Incomplete");
+
+                                    //create text view for completed tasks
+                                    for (String tasks : completedTasks) {
+                                        createTaskTextView(tasks, completedLayout);
+                                    }
+
+                                    //create text view for incomplete tasks
+                                    Set<String> incompleteKeySet = incompleteTasks.keySet();
+                                    for (String key : incompleteKeySet) {
+                                        String reasonVal = incompleteTasks.get(key);
+                                        createTaskTextView(key + " : " + reasonVal, incompleteLayout);
+                                    }
+
+                                }
+                                //display message if there is no report for selected date
+                                else {
+                                    Toast.makeText(ViewReportActivity.this, "No report for selected date", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+
             }
         };
 
@@ -241,6 +246,7 @@ public class ViewReportActivity extends AppCompatActivity {
 
         int style = AlertDialog.THEME_HOLO_LIGHT;
 
+        //set initial value of datePickerDialog to today's date
         datePickerDialog = new DatePickerDialog(this, style, dateSetListener, year, month, day);
     }
 
@@ -248,12 +254,8 @@ public class ViewReportActivity extends AppCompatActivity {
         taskCollection.whereEqualTo(KEY_CAREGIVER_COMPLETE, "yes").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    TextView text = new TextView(ViewReportActivity.this);
-                    text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-                    text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    createTaskTextView(document.getId(), completedLayout);
                     completedTasks.add(document.getId());
-                    text.setText(document.getId());
-                    completedLayout.addView(text);
                 }
                 Log.d(TAG, "Error getting documents: ", task.getException());
             }
@@ -264,19 +266,25 @@ public class ViewReportActivity extends AppCompatActivity {
         taskCollection.whereEqualTo(KEY_CAREGIVER_COMPLETE, "no").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    TextView text = new TextView(ViewReportActivity.this);
-                    text.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-                    text.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     String taskId = document.getId();
                     String reason = document.getString(KEY_REASON);
-                    text.setText(taskId + " : " + reason);
                     incompleteTasks.put(taskId, reason);
-                    incompleteLayout.addView(text);
+
+                    createTaskTextView(taskId + " : " + reason, incompleteLayout);
                 }
                 Log.d(TAG, "Error getting documents: ", task.getException());
             }
         });
 
+    }
+
+    //create task text view
+    private void createTaskTextView(String text, LinearLayout layout){
+        TextView textView = new TextView(ViewReportActivity.this);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        textView.setText(text);
+        layout.addView(textView);
     }
 
 }

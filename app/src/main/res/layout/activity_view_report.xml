@@ -24,13 +24,6 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
             <Button
                 android:id="@+id/datePicker"
                 style="?android:spinnerStyle"
@@ -42,14 +35,6 @@
                 android:text="Current Date"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/dateSelectBtn"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content"
-                android:text="Select" />
-        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
