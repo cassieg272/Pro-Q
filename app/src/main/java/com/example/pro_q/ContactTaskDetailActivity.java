@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,6 +26,7 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private EditText description;
     private LinearLayout deleteConfirm;
+    private CardView cardViewDelete;
     private Button delete, update, back, confirmDelete, cancel;
     public static final String KEY_CATEGORY = "category";
     public static final String KEY_DESCRIPTION = "description";
@@ -53,8 +55,8 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
         title = findViewById(R.id.titleEdit);
         description = findViewById(R.id.descriptionEdit);
         timeOfDay = findViewById(R.id.timeValue);
-        deleteConfirm = findViewById(R.id.deleteConfirm);
-        deleteConfirm.setVisibility(View.GONE);
+        cardViewDelete = findViewById(R.id.cardviewDelete);
+        cardViewDelete.setVisibility(View.GONE);
 
         // The Buttons
         back = findViewById(R.id.goBackButton);
@@ -82,7 +84,7 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
         });
 
         // Delete Button - sets cardview to Visible
-        delete.setOnClickListener(view -> deleteConfirm.setVisibility(View.VISIBLE));
+        delete.setOnClickListener(view -> cardViewDelete.setVisibility(View.VISIBLE));
 
         // Confirm Delete Button - deletes the task from the database
         confirmDelete.setOnClickListener(view -> {
@@ -93,7 +95,7 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
         });
 
         // Cancel Button - sets cardview back to Invisible
-        cancel.setOnClickListener(view -> deleteConfirm.setVisibility(View.GONE));
+        cancel.setOnClickListener(view -> cardViewDelete.setVisibility(View.GONE));
 
         // Back Button - returns user to ContactMainActivity
         back.setOnClickListener(view -> {

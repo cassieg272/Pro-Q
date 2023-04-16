@@ -59,8 +59,8 @@ public class TaskDetailActivity extends AppCompatActivity {
         title = findViewById(R.id.titleFill);
         description = findViewById(R.id.descriptionFill);
         timeOfDay = findViewById(R.id.timeFill);
-        cardView = findViewById(R.id.cardview);
-        cardView.setVisibility(View.INVISIBLE);
+        cardView = findViewById(R.id.cardviewDelete);
+        cardView.setVisibility(View.GONE);
 
         // Get data from the newly created document reference
         task.get().addOnSuccessListener(documentSnapshot -> {

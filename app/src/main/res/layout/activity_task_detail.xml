@@ -111,11 +111,11 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardview"
+                android:id="@+id/cardviewDelete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:elevation="12dp"
-                android:visibility="invisible"
+                android:visibility="gone"
                 app:cardCornerRadius="8dp"
                 app:cardUseCompatPadding="true">
 
