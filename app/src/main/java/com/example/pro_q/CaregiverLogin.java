@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,11 +20,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 public class CaregiverLogin extends AppCompatActivity {
-    private TextInputEditText email;
-    private TextInputEditText password;
-    private CollectionReference paramedCollection;
-    private CollectionReference bayshoreCollection;
+    private TextInputEditText email, password;
+    private CollectionReference paramedCollection, bayshoreCollection;
     private FirebaseAuth mAuth;
+    TextView roleTextView;
     private SharedPreferences sharedPref ;
     private SharedPreferences.Editor editor ;
 
@@ -34,7 +34,7 @@ public class CaregiverLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
+        roleTextView = findViewById(R.id.roleTextView);
         email = findViewById(R.id.emailEditText);
         password = findViewById(R.id.passwordEditText);
         Button loginBtn = findViewById(R.id.loginBtn);
@@ -43,6 +43,7 @@ public class CaregiverLogin extends AppCompatActivity {
         paramedCollection = db.collection("/Paramed");
         mAuth = FirebaseAuth.getInstance();
 
+        roleTextView.setText("Caregiver");
         loginBtn.setOnClickListener(v -> {
             //Get the input text
             String emailValue = String.valueOf(email.getText());

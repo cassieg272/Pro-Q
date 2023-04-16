@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +32,7 @@ public class ContactPersonLogin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        TextView roleTextView = findViewById(R.id.roleTextView);
         email = findViewById(R.id.emailEditText);
         password = findViewById(R.id.passwordEditText);
         Button loginBtn = findViewById(R.id.loginBtn);
@@ -38,6 +40,7 @@ public class ContactPersonLogin extends AppCompatActivity {
         conPerCollection = db.collection("/ContactPerson");
         mAuth = FirebaseAuth.getInstance();
 
+        roleTextView.setText("Contact Person");
         loginBtn.setOnClickListener(v -> {
             //Get the input text
             String emailValue = String.valueOf(email.getText());
