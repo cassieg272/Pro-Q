@@ -101,6 +101,7 @@ public class CaregiverMainActivity extends AppCompatActivity {
                     careReportDay.set(new HashMap<>()).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
+                                    //reset tasks if create new document with current date
                                     resetTask(clientAfternoonTaskRef);
                                     resetTask(clientMorningTaskRef);
                                     resetTask(clientEveningTaskRef);
