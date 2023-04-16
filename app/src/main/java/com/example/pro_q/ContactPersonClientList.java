@@ -69,7 +69,7 @@ public class ContactPersonClientList extends AppCompatActivity implements Recycl
                         for (QueryDocumentSnapshot document1 : task1.getResult()) {
 
                             //get values in database of the matched clients
-                            String fullName = document1.get("firstName") + " " + (String) document1.get("lastName");
+                            String fullName = document1.get("firstName") + " " + document1.get("lastName");
 
                             //get values from address map field in Firestore and concatenate them to make a complete address
                             Map<String, String> addressMap = (Map<String, String>) document1.get("address");

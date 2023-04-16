@@ -113,7 +113,7 @@ public class Search extends AppCompatActivity implements RecyclerViewInterface{
                     String id = document.getId(); //get document ID aka client ID
 
                     //get values in database of the matched clients
-                    String fullName = (String) document.get("firstName")+ " "+(String) document.get("lastName");
+                    String fullName = document.get("firstName") + " "+ document.get("lastName");
 
                     //get values from address map field in Firestore and concatenate them to make a complete address
                     Map<String, String> addressMap = (Map<String, String>) document.get("address");

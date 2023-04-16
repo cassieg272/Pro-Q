@@ -35,10 +35,10 @@ public class TaskDetailActivity extends AppCompatActivity {
     public static final String KEY_CAREGIVER_COMPLETE = "caregiverComplete";
 
     // Connection to Firestore
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     // Collection Reference
-    private CollectionReference clientInfoRef = db.collection("Client");
+    private final CollectionReference clientInfoRef = db.collection("Client");
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -78,7 +78,7 @@ public class TaskDetailActivity extends AppCompatActivity {
         });
         // Find the Incomplete Button and set On Click to make the cardview visible
         incomplete = findViewById(R.id.deleteButton);
-        incomplete.setOnClickListener(view -> cardView.setVisibility(view.VISIBLE));
+        incomplete.setOnClickListener(view -> cardView.setVisibility(View.VISIBLE));
 
         // Find the Mark Incomplete Button
         markIncomplete = findViewById(R.id.markIncompleteButton);

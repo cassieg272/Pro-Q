@@ -30,9 +30,9 @@ public class ContactTaskDetailActivity extends AppCompatActivity {
     public static final String KEY_DESCRIPTION = "description";
 
     // Connection to Firestore
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private CollectionReference clientInfoRef = db.collection("Client");
+    private final CollectionReference clientInfoRef = db.collection("Client");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

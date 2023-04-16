@@ -97,7 +97,7 @@ public class ContactMainActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(ContactMainActivity.this, "No data exists", Toast.LENGTH_LONG).show();
             }
-        }).addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e.toString()));
+        }).addOnFailureListener(e -> Log.d(TAG, "onFailure: " + e));
 
         // BUTTON BAR
 
