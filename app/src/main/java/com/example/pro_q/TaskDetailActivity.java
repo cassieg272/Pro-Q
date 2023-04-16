@@ -22,7 +22,7 @@ public class TaskDetailActivity extends AppCompatActivity {
     private TextView category, description, title, timeOfDay;
     private CardView cardView;
     private EditText reason;
-    private Button incomplete, markIncomplete, markComplete;
+    private Button incomplete, markIncomplete, markComplete, returnBack;
 
     // Keys - Match the keys to the field value in the database
     public static final String KEY_CATEGORY = "category";
@@ -107,6 +107,12 @@ public class TaskDetailActivity extends AppCompatActivity {
             task.update(KEY_CAREGIVER_COMPLETE, "yes");
             task.update(KEY_REASON, "");
             Toast.makeText(TaskDetailActivity.this, "Task marked complete.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(TaskDetailActivity.this, CaregiverMainActivity.class);
+            startActivity(intent);
+        });
+
+        returnBack = findViewById(R.id.returnBackButton);
+        returnBack.setOnClickListener(view -> {
             Intent intent = new Intent(TaskDetailActivity.this, CaregiverMainActivity.class);
             startActivity(intent);
         });
